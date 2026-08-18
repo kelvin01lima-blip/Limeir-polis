@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Limeirópolis 2050</title>
+    <style>
+        :root {
+            --bg-dark: #030712;
+            --panel-dark: #0f172a;
+            --accent-orange: #f97316;
+            --accent-gold: #fbbf24;
+            --accent-blue: #0284c7;
+            --accent-red: #ef4444;
+            --text-light: #f8fafc;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text-light); display: flex; height: 100vh; overflow: hidden; }
+
+        /* PAINEL LATERAL (UI) */
+        #ui-panel {
+            width: 380px;
+            background: var(--panel-dark);
+            border-right: 2px solid var(--accent-orange);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: 5px 0 25px rgba(249, 115, 22, 0.2);
+            z-index: 10;
+        }
+
+        h1 { color: var(--accent-gold); font-size: 1.8rem; text-align: center; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 10px rgba(251, 191, 36, 0.5); }
+        .subtitle { text-align: center; color: var(--accent-blue); font-size: 0.9rem; margin-top: -10px; margin-bottom: 10px; }
+
+        .status-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--accent-blue);
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        .player-info { display: flex; justify-content: space-between; margin-bottom: 8px; font-weight: bold; }
+        .player-color { width: 15px; height: 15px; border-radius: 50%; display: inline-block; }
+
+        /* CONTROLES */
+        .controls { display: flex; flex-direction: column; gap: 10px; }
+        button {
+            background: linear-gradient(135deg, var(--accent-orange), #ea580c);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.2s;
+            box-shadow: 0 0 10px rgba(249, 115, 22, 0.4);
+        }
+        button:hover { transform: translateY(-2px); box-shadow: 0 0 15px rgba(249, 115, 22, 0.7); }
+        button:disabled { background: #475569; cursor: not-allowed; box-shadow: none; transform: none; }
+
+        #btn-pass { background: linear-gradient(135deg, var(--accent-blue), #0369a1); }
+
+        /* LOG DE EVENTOS */
+        #game-log {
+            flex-grow: 1;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #334155;
+            border-radius: 6px;
+            padding: 10px;
+            overflow-y: auto;
+            font-size: 0.85rem;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .log-entry { border-bottom: 1px solid #1e293b; padding-bottom: 4px; }
+        .log-highlight { color: var(--accent-gold); font-weight: bold; }
+
+        /* TABULEIRO Visual */
+        #board-container {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle, #0f172a 0%, #030712 100%);
+            padding: 20px;
+        }
+
+        #board {
+            width: 750px;
+            height: 750px;
+            display: grid;
+            grid-template-columns: repeat(11, 1fr);
+            grid-template-rows: repeat(11, 1fr);
+            gap: 2px;
+            background: var(--accent-blue);
+            border: 3px solid var(--accent-blue);
+            box-shadow: 0 0 30px rgba(2, 132, 199, 0.3);
+            position: relative;
+        }
+
+        .cell {
+            background: var(--panel-dark);
+            border: 1px solid #1e293b;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px;
+            font-size: 0.65rem;
+            text-align: center;
+            position: relative;
+            user-select: none;
+        }
+
+        .cell-header { width: 100%; height: 12px; margin-bottom: 2px; border-radius: 2px; }
+        .cell-name { font-weight: bold; line-height: 1.1; }
+        .cell-price { color: var(--accent-gold); margin-top: auto; }
+
+        /* Cores dos Grupos */
+        .grp-1 { background-color: #78350f; }
+        .grp-2 { background-color: #38bdf8; }
+        .grp-3 { background-color: #f43f5e; }
+        .grp-4 { background-color: #fb923c; }
+        .grp-5 { background-color: #ef4444; }
+        .grp-6 { background-color: #facc15; }
+        .grp-7 { background-color: #10b981; }
+        .grp-8 { background-color: #a855f7; }
+        .grp-service { background-color: #64748b; }
+
+        .center-board {
+            grid-column: 2 / 11;
+            grid-row: 2 / 11;
+            background: var(--bg-dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 2px dashed var(--accent-orange);
+            position: relative;
+        }
+
+        /* Peças dos Jogadores */
+        .tokens-container { display: flex; flex-wrap: wrap; gap: 2px; position: absolute; bottom: 2px; }
+        .token {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1px solid white;
+            box-shadow: 0 0 5px rgba(255,255,255,0.8);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PAINEL DE CONTROLE -->
+    <div id="ui-panel">
+        <h1>Limeirópolis</h1>
+        <div class="subtitle">Edição Cyberpunk 2050</div>
+
+        <div class="status-card">
+            <div class="player-info">
+                <span>Vez de: <span id="current-player-name" class="log-highlight">Jogador 1</span></span>
+                <div id="current-player-color" class="player-color"></div>
+            </div>
+            <div>Saldo: <span id="current-player-money" class="log-highlight">$1500</span></div>
+            <div>Passe de Ônibus: <span id="current-player-pass">Não possui</span></div>
+        </div>
+
+        <div class="controls">
+            <button id="btn-roll" onclick="rollDice()">Rolar Dados 🎲</button>
+            <button id="btn-pass" onclick="useBusPass()" disabled>Usar Passe de Ônibus 🚌</button>
+            <button id="btn-end-turn" onclick="endTurn()" disabled>Encerrar Turno ⏩</button>
+        </div>
+
+        <div id="game-log">
+            <div class="log-entry">Bem-vindo ao Limeirópolis 2050! Clique em "Rolar Dados" para iniciar.</div>
+        </div>
+    </div>
+
+    <!-- TABULEIRO DE JOGO -->
+    <div id="board-container">
+        <div id="board">
+            <div class="center-board">
+                <h2 style="color: var(--accent-orange); font-size: 2rem;">LIMEIRA 2050</h2>
+                <p style="color: var(--accent-blue);">Capital da Semijoia & Citros</p>
+                <div id="dice-display" style="font-size: 3rem; margin-top: 15px;">🎲 🎲</div>
+            </div>
+            <!-- As 40 casas do tabuleiro serão injetadas via JS -->
+        </div>
+    </div>
+
+    <script>
+        // Mapeamento Oficial das 40 Casas
+        const BOARD_DATA = [
+            { id: 0, name: "INÍCIO", type: "corner" },
+            { id: 1, name: "Degan", type: "prop", price: 60, group: "grp-1" },
+            { id: 2, name: "SORTE / REVÉS", type: "card" },
+            { id: 3, name: "Ernesto Kuhl", type: "prop", price: 80, group: "grp-1" },
+            { id: 4, name: "Imposto de Renda", type: "tax" },
+            { id: 5, name: "Águas de Limeira", type: "service", price: 150, group: "grp-service" },
+            { id: 6, name: "N. Sra. das Dores", type: "prop", price: 110, group: "grp-2" },
+            { id: 7, name: "SORTE / REVÉS", type: "card" },
+            { id: 8, name: "Chácara Antonieta", type: "prop", price: 130, group: "grp-2" },
+            { id: 9, name: "VISITA À PRISÃO", type: "corner" },
+            { id: 10, name: "Av. José Levy", type: "prop", price: 140, group: "grp-3" },
+            { id: 11, name: "Elektro", type: "service", price: 150, group: "grp-service" },
+            { id: 12, name: "Av. Fabrício Vampré", type: "prop", price: 140, group: "grp-3" },
+            { id: 13, name: "Av. Campinas", type: "prop", price: 160, group: "grp-3" },
+            { id: 14, name: "Pires", type: "prop", price: 180, group: "grp-4" },
+            { id: 15, name: "SORTE / REVÉS", type: "card" },
+            { id: 16, name: "Parronque", type: "prop", price: 180, group: "grp-4" },
+            { id: 17, name: "Loyola", type: "prop", price: 200, group: "grp-4" },
+            { id: 18, name: "Viação Limeirense", type: "service", price: 150, group: "grp-service" },
+            { id: 19, name: "PARADA LIVRE", type: "corner" },
+            { id: 20, name: "Rua Dr. Trajano", type: "prop", price: 220, group: "grp-5" },
+            { id: 21, name: "Rápido Sudeste", type: "service", price: 150, group: "grp-service" },
+            { id: 22, name: "Rua Carlos Gomes", type: "prop", price: 220, group: "grp-5" },
+            { id: 23, name: "Rua Boa Morte", type: "prop", price: 240, group: "grp-5" },
+            { id: 24, name: "Rua da Alegria", type: "prop", price: 340, group: "grp-6" },
+            { id: 25, name: "TERMINAL URBANO", type: "special" },
+            { id: 26, name: "Av. Laranjeiras", type: "prop", price: 360, group: "grp-6" },
+            { id: 27, name: "SORTE / REVÉS", type: "card" },
+            { id: 28, name: "Av. Costa e Silva", type: "prop", price: 380, group: "grp-6" },
+            { id: 29, name: "Manutenção Urbana", type: "tax" },
+            { id: 30, name: "VÁ PARA A PRISÃO", type: "corner" },
+            { id: 31, name: "Horto Florestal", type: "prop", price: 260, group: "grp-7" },
+            { id: 32, name: "Hípica", type: "prop", price: 260, group: "grp-7" },
+            { id: 33, name: "SORTE / REVÉS", type: "card" },
+            { id: 34, name: "Ponte do Esqueleto", type: "prop", price: 280, group: "grp-7" },
+            { id: 35, name: "SORTE / REVÉS", type: "card" },
+            { id: 36, name: "Prada", type: "prop", price: 400, group: "grp-8" },
+            { id: 37, name: "Taxa de Luxo", type: "tax" },
+            { id: 38, name: "Fazenda Itapema", type: "prop", price: 460, group: "grp-8" },
+            { id: 39, name: "SORTE / REVÉS", type: "card" }
+        ];
+
+        // Estado do Jogo
+        const players = [
+            { id: 1, name: "Jogador 1", color: "#f97316", money: 1500, pos: 0, hasPass: false, usedPass: false },
+            { id: 2, name: "Jogador 2", color: "#38bdf8", money: 1500, pos: 0, hasPass: false, usedPass: false }
+        ];
+        let currentPlayerIndex = 0;
+        let rolled = false;
+
+        // Posições no Grid CSS (11x11)
+        function getGridCoordinates(index) {
+            if (index >= 0 && index <= 10) return { col: 11 - index, row: 11 };
+            if (index >= 11 && index <= 20) return { col: 1, row: 11 - (index - 10) };
+            if (index >= 21 && index <= 30) return { col: index - 19, row: 1 };
+            if (index >= 31 && index <= 39) return { col: 11, row: index - 29 };
+        }
+
+        // Renderização do Tabuleiro
+        function createBoard() {
+            const boardEl = document.getElementById("board");
+            BOARD_DATA.forEach((data, index) => {
+                const cell = document.createElement("div");
+                cell.className = "cell";
+                cell.id = `cell-${index}`;
+
+                const coords = getGridCoordinates(index);
+                cell.style.gridColumn = coords.col;
+                cell.style.gridRow = coords.row;
+
+                let headerHTML = data.group ? `<div class="cell-header ${data.group}"></div>` : '';
+                let priceHTML = data.price ? `<div class="cell-price">$${data.price}</div>` : '';
+
+                cell.innerHTML = `
+                    ${headerHTML}
+                    <div class="cell-name">${data.name}</div>
+                    ${priceHTML}
+                    <div class="tokens-container" id="tokens-${index}"></div>
+                `;
+                boardEl.appendChild(cell);
+            });
+            updateTokens();
+        }
+
+        // Atualização Visual das Peças
+        function updateTokens() {
+            document.querySelectorAll('.tokens-container').forEach(el => el.innerHTML = '');
+            players.forEach(p => {
+                const container = document.getElementById(`tokens-${p.pos}`);
+                if (container) {
+                    const token = document.createElement('div');
+                    token.className = 'token';
+                    token.style.backgroundColor = p.color;
+                    container.appendChild(token);
+                }
+            });
+        }
+
+        function log(msg) {
+            const logEl = document.getElementById("game-log");
+            logEl.innerHTML += `<div class="log-entry">${msg}</div>`;
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+
+        function updateUI() {
+            const p = players[currentPlayerIndex];
+            document.getElementById("current-player-name").innerText = p.name;
+            document.getElementById("current-player-color").style.backgroundColor = p.color;
+            document.getElementById("current-player-money").innerText = `$${p.money}`;
+            document.getElementById("current-player-pass").innerText = p.hasPass ? "Disponível (1 uso)" : (p.usedPass ? "Já utilizado" : "Não possui");
+
+            document.getElementById("btn-roll").disabled = rolled;
+            document.getElementById("btn-end-turn").disabled = !rolled;
+            document.getElementById("btn-pass").disabled = !p.hasPass || rolled;
+        }
+
+        // Regra de Jogar os Dados
+        function rollDice() {
+            if (rolled) return;
+            const d1 = Math.floor(Math.random() * 6) + 1;
+            const d2 = Math.floor(Math.random() * 6) + 1;
+            const total = d1 + d2;
+
+            document.getElementById("dice-display").innerText = `🎲 ${d1} + ${d2} = ${total}`;
+            
+            const p = players[currentPlayerIndex];
+            const oldPos = p.pos;
+            p.pos = (p.pos + total) % 40;
+
+            // Salário por passar no início
+            if (p.pos < oldPos) {
+                p.money += 200;
+                log(`<span class="log-highlight">${p.name}</span> passou pelo Início e recebeu $200!`);
+            }
+
+            log(`<span class="log-highlight">${p.name}</span> tirou ${total} e foi para <b>${BOARD_DATA[p.pos].name}</b>.`);
+
+            // Checagem do Terminal Urbano (Passe de Ônibus)
+            if (p.pos === 25 && !p.usedPass) {
+                p.hasPass = true;
+                log(`🚌 <span class="log-highlight">${p.name}</span> caiu no Terminal Urbano e ganhou um Passe de Ônibus!`);
+            }
+
+            rolled = true;
+            updateTokens();
+            updateUI();
+        }
+
+        // Regra do Passe de Ônibus
+        function useBusPass() {
+            const p = players[currentPlayerIndex];
+            if (!p.hasPass || rolled) return;
+
+            // Escolher uma casa da mesma linha (aproximação de 10 casas)
+            const lineStart = Math.floor(p.pos / 10) * 10;
+            const target = prompt(`Escolha uma casa na mesma linha (${lineStart} a ${lineStart + 9}):`, p.pos);
+
+            if (target !== null && target >= lineStart && target <= lineStart + 9) {
+                p.pos = parseInt(target);
+                p.hasPass = false;
+                p.usedPass = true;
+                log(`🚌 <span class="log-highlight">${p.name}</span> usou o Passe de Ônibus e viajou para <b>${BOARD_DATA[p.pos].name}</b>!`);
+                updateTokens();
+                updateUI();
+            } else {
+                alert("Casa inválida! Escolha uma posição dentro do mesmo lado do tabuleiro.");
+            }
+        }
+
+        function endTurn() {
+            rolled = false;
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+            log(`--- Vez de <b>${players[currentPlayerIndex].name}</b> ---`);
+            updateUI();
+        }
+
+        // Iniciar
+        createBoard();
+        updateUI();
+    </script>
+</body>
+</html>
