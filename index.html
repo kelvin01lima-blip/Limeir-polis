@@ -25,9 +25,9 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
         body {
             background: linear-gradient(135deg, #e0f2fe 0%, #f1f5f9 50%, #cbd5e1 100%);
-            color: var(--text-dark); min-height: 100vh;
+            color: var(--text-dark); height: 100vh; width: 100vw;
             display: flex; justify-content: center; align-items: center;
-            padding: 8px; overflow: hidden;
+            padding: 10px; overflow: hidden;
         }
 
         /* EFEITO GIROFLEX DA POLÍCIA */
@@ -74,38 +74,37 @@
             cursor: pointer; box-shadow: 0 6px 20px rgba(255, 102, 0, 0.3); text-transform: uppercase;
         }
 
-        /* PAINEL LATERAL HUD */
+        /* PAINEL LATERAL E LAYOUT AJUSTADO */
         .main-wrapper {
-            display: grid; grid-template-columns: 320px 1fr;
+            display: grid; grid-template-columns: 310px 1fr;
             gap: 12px; width: 100%; max-width: 1750px; height: 98vh;
         }
 
         .sidebar {
             background: var(--panel-bg); backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 20px;
-            padding: 16px; box-shadow: var(--shadow-glass);
+            padding: 14px; box-shadow: var(--shadow-glass);
             display: flex; flex-direction: column; justify-content: space-between;
         }
 
-        .brand-header { text-align: center; border-bottom: 2px solid var(--primary-orange); padding-bottom: 8px; }
-        .brand-header h1 { font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 900; color: var(--primary-blue); }
+        .brand-header { text-align: center; border-bottom: 2px solid var(--primary-orange); padding-bottom: 6px; }
+        .brand-header h1 { font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: 900; color: var(--primary-blue); }
         .brand-header p { font-size: 10px; font-weight: 800; color: var(--primary-orange); text-transform: uppercase; letter-spacing: 1.5px; }
 
-        /* CRONÔMETRO */
-        .timer-hud { margin: 8px 0; background: #ffffff; border: 1px solid var(--primary-blue); border-radius: 12px; padding: 8px 12px; text-align: center; }
+        .timer-hud { margin: 6px 0; background: #ffffff; border: 1px solid var(--primary-blue); border-radius: 12px; padding: 6px 10px; text-align: center; }
         .timer-row { display: flex; justify-content: space-between; align-items: center; }
         .timer-title { font-size: 10px; font-weight: 800; color: var(--primary-blue); text-transform: uppercase; }
-        .timer-val { font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 900; color: var(--neon-green); }
+        .timer-val { font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 900; color: var(--neon-green); }
         .btn-pause { background: var(--primary-blue); color: #fff; border: none; border-radius: 6px; padding: 2px 8px; font-size: 10px; font-weight: 800; cursor: pointer; }
         .timer-bar-container { background: #e2e8f0; height: 6px; border-radius: 3px; overflow: hidden; margin-top: 4px; }
         .timer-bar { background: var(--neon-green); height: 100%; width: 100%; transition: width 1s linear; }
 
-        .players-list { margin: 6px 0; display: flex; flex-direction: column; gap: 6px; max-height: 250px; overflow-y: auto; }
-        .player-box { background: #ffffff; border: 2px solid #cbd5e1; border-radius: 12px; padding: 8px 10px; display: flex; flex-direction: column; gap: 4px; transition: all 0.3s; }
+        .players-list { margin: 4px 0; display: flex; flex-direction: column; gap: 6px; max-height: 240px; overflow-y: auto; }
+        .player-box { background: #ffffff; border: 2px solid #cbd5e1; border-radius: 12px; padding: 8px; display: flex; flex-direction: column; gap: 4px; transition: all 0.3s; }
         .player-box.active { border-color: var(--primary-orange); box-shadow: 0 0 15px rgba(255, 102, 0, 0.2); background: #fff7ed; }
         .player-row-top { display: flex; justify-content: space-between; align-items: center; }
-        .player-info-name { font-weight: 800; font-size: 13px; display: flex; align-items: center; gap: 6px; }
-        .player-info-money { font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 900; color: var(--neon-green); }
+        .player-info-name { font-weight: 800; font-size: 12px; display: flex; align-items: center; gap: 6px; }
+        .player-info-money { font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 900; color: var(--neon-green); }
 
         .btn-view-props {
             background: rgba(2, 132, 199, 0.1); border: 1px solid var(--primary-blue);
@@ -123,20 +122,20 @@
         .btn-orange { background: linear-gradient(135deg, var(--primary-orange), #ea580c); }
         .btn-rules { background: #ffffff; color: var(--primary-blue); border: 2px solid var(--primary-blue); }
 
-        .log-terminal { background: #0f172a; color: #38bdf8; font-family: monospace; font-size: 10px; padding: 8px; border-radius: 10px; height: 85px; overflow-y: auto; }
+        .log-terminal { background: #0f172a; color: #38bdf8; font-family: monospace; font-size: 10px; padding: 8px; border-radius: 10px; height: 80px; overflow-y: auto; }
 
-        /* TABULEIRO 100% VISÍVEL (SEM CORTES) */
+        /* TABULEIRO ENQUADRADO PERFEITO SEM CORTES NA PARTE INFERIOR */
         .board-stage {
             display: flex; justify-content: center; align-items: center;
-            width: 100%; height: 100%; padding: 10px;
+            width: 100%; height: 100%; height: calc(100vh - 20px);
         }
 
         .board-viewport {
-            background: #ffffff; border: 3px solid var(--primary-blue); border-radius: 16px; padding: 6px;
+            background: #ffffff; border: 3px solid var(--primary-blue); border-radius: 16px; padding: 4px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             display: grid; grid-template-columns: repeat(11, 1fr); grid-template-rows: repeat(11, 1fr);
             gap: 2px; position: relative;
-            width: 100%; max-width: 760px; aspect-ratio: 1 / 1;
+            height: 98%; aspect-ratio: 1 / 1; max-width: calc(100vh - 30px);
         }
 
         .tile {
@@ -149,55 +148,54 @@
         .tile.owned { border: 2px solid var(--primary-orange) !important; background: #fffdfa; }
 
         .tile-color-bar { height: 4px; border-radius: 2px; margin-bottom: 2px; width: 100%; }
-        .tile-title { font-size: 6.5px; font-weight: 800; line-height: 1; color: var(--text-dark); text-transform: uppercase; word-break: break-word; }
-        .tile-price { font-size: 6.5px; font-weight: 800; color: var(--primary-blue); margin-top: auto; text-align: right; }
+        .tile-title { font-size: 6px; font-weight: 800; line-height: 1; color: var(--text-dark); text-transform: uppercase; word-break: break-word; }
+        .tile-price { font-size: 6px; font-weight: 800; color: var(--primary-blue); margin-top: auto; text-align: right; }
         .owner-badge { position: absolute; top: 1px; right: 1px; font-size: 8px; }
 
         .tile-corner {
             background: linear-gradient(135deg, #f8fafc, #e2e8f0); border: 1.5px solid var(--primary-blue);
             text-align: center; justify-content: center; align-items: center;
-            font-weight: 900; font-size: 7.5px; color: var(--primary-blue);
+            font-weight: 900; font-size: 7px; color: var(--primary-blue);
         }
 
-        /* CASAS E HOTÉIS EM ALTO RELEVO 3D */
-        .buildings-container {
-            position: absolute; top: 1px; left: 1px; display: flex; gap: 1px; z-index: 4;
-        }
+        /* CONSTRUÇÕES EM ALTO RELEVO */
+        .buildings-container { position: absolute; top: 1px; left: 1px; display: flex; gap: 1px; z-index: 4; }
         .building-house { font-size: 9px; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3)); }
         .building-hotel { font-size: 11px; filter: drop-shadow(0 2px 3px rgba(239, 68, 68, 0.5)); }
 
-        /* PEÕES 3D EM ALTO RELEVO COM BASE FÍSICA */
-        .pawn-container { position: absolute; bottom: 2px; left: 2px; display: flex; flex-wrap: wrap; gap: 1px; z-index: 10; }
-        .pawn-3d {
-            font-size: 18px; line-height: 1;
-            display: inline-block;
-            filter: drop-shadow(0 4px 4px rgba(0,0,0,0.35));
-            transform: translateY(-2px) scale(1.1);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* PEÕES 3D REALISTAS COM BASE DE PLÁSTICO CIRCULAR */
+        .pawn-container { position: absolute; bottom: 2px; left: 2px; display: flex; flex-wrap: wrap; gap: 2px; z-index: 10; }
+        .pawn-3d-base {
+            width: 20px; height: 20px; border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ffffff 0%, #cbd5e1 70%, #64748b 100%);
+            border: 1.5px solid var(--primary-blue);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3), inset 0 -2px 4px rgba(0,0,0,0.2);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; transform: scale(1.1); transition: all 0.3s ease;
         }
 
-        /* CENTRO LIMPO */
+        /* CENTRO LIMPO DO TABULEIRO */
         .board-center-area {
             grid-column: 2 / 11; grid-row: 2 / 11;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(240, 244, 249, 0.98));
             border-radius: 12px; border: 2px dashed rgba(2, 132, 199, 0.3);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 12px; text-align: center; position: relative; overflow: hidden;
+            padding: 10px; text-align: center; position: relative; overflow: hidden;
         }
 
-        .city-logo-center { font-family: 'Orbitron', sans-serif; font-size: 32px; font-weight: 900; color: var(--primary-blue); }
-        .city-sub-center { font-size: 11px; font-weight: 800; color: var(--primary-orange); text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 15px; }
+        .city-logo-center { font-family: 'Orbitron', sans-serif; font-size: 28px; font-weight: 900; color: var(--primary-blue); }
+        .city-sub-center { font-size: 10px; font-weight: 800; color: var(--primary-orange); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
 
-        .dice-wrapper { display: flex; gap: 12px; margin-bottom: 12px; }
+        .dice-wrapper { display: flex; gap: 10px; margin-bottom: 10px; }
         .dice-box {
-            width: 52px; height: 52px; background: #ffffff;
-            border: 2px solid var(--primary-blue); border-radius: 12px;
-            font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 900;
+            width: 48px; height: 48px; background: #ffffff;
+            border: 2px solid var(--primary-blue); border-radius: 10px;
+            font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: 900;
             color: var(--text-dark); display: flex; align-items: center; justify-content: center;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
         }
 
-        /* MODAIS COM BOTÃO "X" DE FECHAMENTO */
+        /* MODAIS COM BOTÃO "X" */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(8px); z-index: 250;
@@ -205,7 +203,7 @@
         }
         .modal-content {
             background: #ffffff; border: 2px solid var(--primary-blue); border-radius: 20px;
-            width: 90%; max-width: 500px; padding: 22px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            width: 90%; max-width: 480px; padding: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
             animation: popIn 0.25s ease; max-height: 90vh; overflow-y: auto; position: relative;
         }
         @keyframes popIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -220,24 +218,39 @@
         }
         .btn-close-x:hover { background: #ef4444; color: #fff; transform: scale(1.1); }
 
-        .title-deed-card {
-            background: #ffffff; color: #000; border-radius: 12px; padding: 15px; border: 3px solid #000;
-            font-family: 'Plus Jakarta Sans', sans-serif; margin-bottom: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        /* ANIMAÇÃO 3D DO BARALHO SORTE OU REVÉS */
+        .card-shuffle-wrapper {
+            perspective: 800px; display: flex; justify-content: center; margin: 15px 0;
         }
-        .deed-header { text-align: center; padding: 10px; border: 2px solid #000; margin-bottom: 10px; border-radius: 4px; }
-        .deed-header-title { font-family: 'Orbitron', sans-serif; font-size: 15px; font-weight: 900; text-transform: uppercase; }
-        .deed-header-type { font-size: 10px; font-weight: 800; letter-spacing: 1px; }
+        .card-3d-animated {
+            width: 180px; height: 250px; background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+            border: 3px solid #fff; border-radius: 14px; color: #fff;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 12px; text-align: center; box-shadow: 0 10px 25px rgba(109, 40, 217, 0.4);
+            animation: flipCard 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes flipCard {
+            0% { transform: rotateY(180deg) scale(0.5); opacity: 0; }
+            100% { transform: rotateY(0deg) scale(1); opacity: 1; } }
 
-        .deed-table { width: 100%; font-size: 11px; border-collapse: collapse; margin-bottom: 10px; }
-        .deed-table td { padding: 4px 0; border-bottom: 1px dashed #ccc; font-weight: 700; }
+        .title-deed-card {
+            background: #ffffff; color: #000; border-radius: 12px; padding: 12px; border: 3px solid #000;
+            font-family: 'Plus Jakarta Sans', sans-serif; margin-bottom: 10px; box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+        .deed-header { text-align: center; padding: 8px; border: 2px solid #000; margin-bottom: 8px; border-radius: 4px; }
+        .deed-header-title { font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 900; text-transform: uppercase; }
+        .deed-header-type { font-size: 9px; font-weight: 800; letter-spacing: 1px; }
+
+        .deed-table { width: 100%; font-size: 10px; border-collapse: collapse; margin-bottom: 8px; }
+        .deed-table td { padding: 3px 0; border-bottom: 1px dashed #ccc; font-weight: 700; }
         .deed-table td:last-child { text-align: right; font-weight: 900; }
 
-        .deed-footer { text-align: center; font-size: 10px; font-weight: 800; border-top: 2px solid #000; padding-top: 6px; }
+        .deed-footer { text-align: center; font-size: 9px; font-weight: 800; border-top: 2px solid #000; padding-top: 4px; }
 
-        .props-gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 12px; }
+        .props-gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
 
         .modal-actions { display: flex; gap: 8px; margin-top: 10px; }
-        .btn-modal { flex: 1; padding: 12px; border-radius: 10px; border: none; font-weight: 800; font-size: 11px; cursor: pointer; text-transform: uppercase; }
+        .btn-modal { flex: 1; padding: 10px; border-radius: 10px; border: none; font-weight: 800; font-size: 11px; cursor: pointer; text-transform: uppercase; }
         .btn-buy { background: var(--neon-green); color: #fff; font-weight: 900; }
         .btn-pass { background: #e2e8f0; color: var(--text-dark); }
         .btn-offer { background: var(--primary-orange); color: #fff; }
@@ -299,7 +312,7 @@
         </div>
     </div>
 
-    <!-- TABULEIRO COMPLETO ENQUADRADO -->
+    <!-- TABULEIRO ENQUADRADO TOTALMENTE VISÍVEL -->
     <div class="board-stage">
         <div class="board-viewport" id="board">
             <div class="board-center-area">
@@ -311,19 +324,26 @@
                     <div class="dice-box" id="d2">1</div>
                 </div>
                 
-                <div id="turn-status" style="font-weight: 800; color: var(--primary-blue); font-size: 14px;">Aguardando jogada...</div>
+                <div id="turn-status" style="font-weight: 800; color: var(--primary-blue); font-size: 13px;">Aguardando jogada...</div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- MODAL EVENTO FLUTUANTE DA RODADA -->
-<div class="modal-overlay" id="modal-evento">
-    <div class="modal-content">
-        <button class="btn-close-x" onclick="fecharModalEvento()">✖</button>
-        <div style="color: var(--primary-blue); font-family:'Orbitron',sans-serif; font-size:18px; font-weight:900;" id="ev-title">EVENTO DA RODADA</div>
-        <div style="font-size: 13px; line-height: 1.5; color: var(--text-dark); margin: 15px 0;" id="ev-desc">Descrição</div>
-        <button class="btn-modal btn-buy" style="width: 100%;" onclick="fecharModalEvento()">Continuar Jogo</button>
+<!-- MODAL ANIMAÇÃO BARALHO SORTE OU REVÉS -->
+<div class="modal-overlay" id="modal-sorte-reves">
+    <div class="modal-content" style="text-align: center;">
+        <button class="btn-close-x" onclick="fecharModalSorteReves()">✖</button>
+        <div style="color: var(--primary-blue); font-family:'Orbitron',sans-serif; font-size:16px; font-weight:900;" id="sr-title">🎴 SORTE OU REVÉS</div>
+        
+        <div class="card-shuffle-wrapper">
+            <div class="card-3d-animated" id="sr-card-box">
+                <div style="font-size: 24px; margin-bottom: 8px;" id="sr-icon">🎴</div>
+                <div style="font-size: 11px; font-weight: 800; line-height: 1.4;" id="sr-desc">Embaralhando...</div>
+            </div>
+        </div>
+
+        <button class="btn-modal btn-buy" style="width: 100%;" onclick="fecharModalSorteReves()">Entendido</button>
     </div>
 </div>
 
@@ -340,7 +360,17 @@
     </div>
 </div>
 
-<!-- MODAL CARTÕES DE IMÓVEIS E OFERTAS -->
+<!-- MODAL EVENTO FLUTUANTE DA RODADA -->
+<div class="modal-overlay" id="modal-evento">
+    <div class="modal-content">
+        <button class="btn-close-x" onclick="fecharModalEvento()">✖</button>
+        <div style="color: var(--primary-blue); font-family:'Orbitron',sans-serif; font-size:18px; font-weight:900;" id="ev-title">EVENTO DA RODADA</div>
+        <div style="font-size: 12px; line-height: 1.5; color: var(--text-dark); margin: 12px 0;" id="ev-desc">Descrição</div>
+        <button class="btn-modal btn-buy" style="width: 100%;" onclick="fecharModalEvento()">Continuar Jogo</button>
+    </div>
+</div>
+
+<!-- MODAL CARTÕES DE IMÓVEIS -->
 <div class="modal-overlay" id="modal-minhas-props">
     <div class="modal-content">
         <button class="btn-close-x" onclick="fecharModalProps()">✖</button>
@@ -349,12 +379,12 @@
     </div>
 </div>
 
-<!-- MODAL OFERTA DE COMPRA ENTRE JOGADORES -->
+<!-- MODAL OFERTA DE COMPRA -->
 <div class="modal-overlay" id="modal-oferta">
     <div class="modal-content">
         <button class="btn-close-x" onclick="fecharModalOferta()">✖</button>
         <div style="color: var(--primary-orange); font-family:'Orbitron',sans-serif; font-size:16px; font-weight:900;">💰 FAZER OFERTA DE COMPRA</div>
-        <div style="font-size: 12px; color: var(--text-muted); margin: 8px 0;" id="oferta-prop-nome">Propriedade</div>
+        <div style="font-size: 11px; color: var(--text-muted); margin: 8px 0;" id="oferta-prop-nome">Propriedade</div>
         
         <label style="font-size: 11px; font-weight: 800;">Valor da Proposta ($):</label>
         <input type="number" id="oferta-valor" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid var(--card-border); font-weight: 700; margin: 4px 0 12px 0;">
@@ -371,13 +401,13 @@
     <div class="modal-content">
         <button class="btn-close-x" onclick="fecharRegras()">✖</button>
         <div style="color: var(--primary-blue); font-family:'Orbitron',sans-serif; font-size:18px; font-weight:900; margin-bottom:10px;">📜 REGRAS DE LIMEIRÓPOLIS</div>
-        <div style="font-size: 12px; line-height: 1.5; color: var(--text-dark);">
+        <div style="font-size: 11px; line-height: 1.5; color: var(--text-dark);">
             <p>1. <strong>Dois Dados:</strong> A soma dos dois dados movimenta seu peão pelo tabuleiro.</p>
-            <p>2. <strong>Construção 3D:</strong> Monte casas 🏠 e hotéis 🏨 em alto relevo para aumentar o aluguel.</p>
-            <p>3. <strong>Oferta de Compra:</strong> Faça ofertas em dinheiro em qualquer carta de outro jogador para tentar comprá-la!</p>
-            <p>4. <strong>Botão X:</strong> Feche rapidamente qualquer janela clicando no 'X'.</p>
+            <p>2. <strong>Cartas Especiais:</strong> Elektro, Águas de Limeira e Transportes são serviços de utilidade pública com regras específicas de taxa.</p>
+            <p>3. <strong>Sorte ou Revés:</strong> Ao parar na casa, o baralho é embaralhado em 3D e aplica a penalidade/recompensa.</p>
+            <p>4. <strong>Construção 3D:</strong> Monte casas 🏠 e hotéis 🏨 em alto relevo para aumentar o aluguel.</p>
         </div>
-        <button class="btn-modal btn-pass" style="width: 100%; margin-top:15px; background: var(--primary-blue); color: #fff; font-weight:900;" onclick="fecharRegras()">Voltar ao Jogo</button>
+        <button class="btn-modal btn-pass" style="width: 100%; margin-top:12px; background: var(--primary-blue); color: #fff; font-weight:900;" onclick="fecharRegras()">Voltar ao Jogo</button>
     </div>
 </div>
 
@@ -446,32 +476,32 @@
         { id: 2, nome: "SORTE OU REVÉS", preco: 0, cor: "#8b5cf6", tipo: "carta" },
         { id: 3, nome: "Ernesto Kuhl", preco: 80, cor: "#8b4513", tipo: "prop", t: 4, c: 8, c1: 20, c2: 40, c3: 120, c4: 200, h: 300, custoConst: 50 },
         { id: 4, nome: "Taxa da Prefeitura", preco: 0, cor: "#64748b", tipo: "imposto" },
-        { id: 5, nome: "Águas de Limeira", preco: 150, cor: "#0284c7", tipo: "servico" },
+        { id: 5, nome: "Águas de Limeira 💧", preco: 150, cor: "#0284c7", tipo: "servico" },
         { id: 6, nome: "Nossa Senhora das Dores", preco: 110, cor: "#38bdf8", tipo: "prop", t: 10, c: 20, c1: 50, c2: 120, c3: 320, c4: 480, h: 630, custoConst: 50 },
         { id: 7, nome: "SORTE OU REVÉS", preco: 0, cor: "#8b5cf6", tipo: "carta" },
         { id: 8, nome: "Chácara Antonieta", preco: 130, cor: "#38bdf8", tipo: "prop", t: 12, c: 24, c1: 60, c2: 140, c3: 350, c4: 500, h: 680, custoConst: 50 },
         { id: 9, nome: "VISITA À PRISÃO", preco: 0, cor: "#ef4444", tipo: "canto" },
 
         { id: 10, nome: "Av. Maj. José Levy Sobrinho", preco: 140, cor: "#ec4899", tipo: "prop", t: 16, c: 32, c1: 80, c2: 220, c3: 600, c4: 800, h: 1000, custoConst: 100 },
-        { id: 11, nome: "Elektro", preco: 150, cor: "#0284c7", tipo: "servico" },
+        { id: 11, nome: "Elektro ⚡", preco: 150, cor: "#0284c7", tipo: "servico" },
         { id: 12, nome: "Av. Fabrício Vampré", preco: 140, cor: "#ec4899", tipo: "prop", t: 16, c: 32, c1: 80, c2: 220, c3: 600, c4: 800, h: 1000, custoConst: 100 },
         { id: 13, nome: "Av. Campinas", preco: 160, cor: "#ec4899", tipo: "prop", t: 20, c: 40, c1: 100, c2: 300, c3: 750, c4: 950, h: 1150, custoConst: 100 },
         { id: 14, nome: "Pires", preco: 180, cor: "#ff6600", tipo: "prop", t: 14, c: 28, c1: 70, c2: 200, c3: 550, c4: 750, h: 950, custoConst: 100 },
         { id: 15, nome: "SORTE OU REVÉS", preco: 0, cor: "#8b5cf6", tipo: "carta" },
         { id: 16, nome: "Parronque", preco: 180, cor: "#ff6600", tipo: "prop", t: 14, c: 28, c1: 70, c2: 200, c3: 550, c4: 750, h: 950, custoConst: 100 },
         { id: 17, nome: "Loyola", preco: 200, cor: "#ff6600", tipo: "prop", t: 16, c: 32, c1: 80, c2: 220, c3: 600, c4: 800, h: 1000, custoConst: 100 },
-        { id: 18, nome: "Viação Limeirense", preco: 150, cor: "#0284c7", tipo: "servico" },
+        { id: 18, nome: "Viação Limeirense 🚌", preco: 150, cor: "#0284c7", tipo: "servico" },
         { id: 19, nome: "PARADA LIVRE / Praça Toledo", preco: 0, cor: "#10b981", tipo: "canto" },
 
         { id: 20, nome: "Rua Dr. Trajano de Barros", preco: 220, cor: "#ef4444", tipo: "prop", t: 18, c: 36, c1: 90, c2: 250, c3: 700, c4: 875, h: 1050, custoConst: 150 },
-        { id: 21, nome: "Rápido Sudeste", preco: 150, cor: "#0284c7", tipo: "servico" },
+        { id: 21, nome: "Rápido Sudeste 🚍", preco: 150, cor: "#0284c7", tipo: "servico" },
         { id: 22, nome: "Rua Carlos Gomes", preco: 220, cor: "#ef4444", tipo: "prop", t: 18, c: 36, c1: 90, c2: 250, c3: 700, c4: 875, h: 1050, custoConst: 150 },
         { id: 23, nome: "Rua Boa Morte", preco: 240, cor: "#ef4444", tipo: "prop", t: 20, c: 40, c1: 100, c2: 300, c3: 750, c4: 925, h: 1100, custoConst: 150 },
         { id: 24, nome: "Rua da Alegria", preco: 340, cor: "#eab308", tipo: "prop", t: 30, c: 60, c1: 160, c2: 480, c3: 1050, c4: 1250, h: 1500, custoConst: 200 },
         { id: 25, nome: "TERMINAL URBANO (Passe)", preco: 0, cor: "#0284c7", tipo: "especial" },
         { id: 26, nome: "Av. Laranjeiras", preco: 360, cor: "#eab308", tipo: "prop", t: 32, c: 64, c1: 170, c2: 500, c3: 1100, c4: 1300, h: 1550, custoConst: 200 },
         { id: 27, nome: "SORTE OU REVÉS", preco: 0, cor: "#8b5cf6", tipo: "carta" },
-        { id: 28, nome: "Av. Marechal Costa e Silva", preco: 380, cor: "#eab308", tipo: "prop", t: 35, c: 70, c1: 180, c2: 520, c3: 1150, c4: 1350, h: 1600, custoConst: 200 },
+        { id: 28, nome: "Av. Costa e Silva (Semijoias 💎)", preco: 380, cor: "#eab308", tipo: "prop", t: 35, c: 70, c1: 180, c2: 520, c3: 1150, c4: 1350, h: 1600, custoConst: 200 },
         { id: 29, nome: "Taxa de Manutenção Urbana", preco: 0, cor: "#64748b", tipo: "imposto" },
 
         { id: 30, nome: "VÁ PARA A PRISÃO", preco: 0, cor: "#ef4444", tipo: "canto" },
@@ -490,7 +520,7 @@
     let jogadores = [];
     let turno = 0;
     let donos = {};
-    let construcoes = {}; // Guarda número de casas (1-4) ou hotel (5)
+    let construcoes = {};
     let casaAtualModal = null;
     let ofertaCasaAtual = null;
     let tempoRestante = 90;
@@ -640,8 +670,8 @@
         jogadores.forEach((p) => {
             const box = document.getElementById(`pawn-box-${p.pos}`);
             if (box) {
-                const pawn = document.createElement('span');
-                pawn.className = 'pawn-3d';
+                const pawn = document.createElement('div');
+                pawn.className = 'pawn-3d-base';
                 pawn.innerText = p.peao;
                 box.appendChild(pawn);
             }
@@ -704,6 +734,18 @@
         setTimeout(() => { document.body.classList.remove('police-alert'); }, 2000);
     }
 
+    function abrirModalSorteReves(carta) {
+        document.getElementById('sr-title').innerText = `🎴 ${carta.tipo.toUpperCase()}`;
+        document.getElementById('sr-desc').innerText = carta.desc;
+        document.getElementById('sr-icon').innerText = carta.tipo === 'Sorte' ? '🎉' : '⚠️';
+        document.getElementById('modal-sorte-reves').style.display = 'flex';
+    }
+
+    function fecharModalSorteReves() {
+        document.getElementById('modal-sorte-reves').style.display = 'none';
+        trocarTurno();
+    }
+
     function exibirModalEvento(titulo, texto) {
         document.getElementById('ev-title').innerText = titulo;
         document.getElementById('ev-desc').innerText = texto;
@@ -736,7 +778,7 @@
             const carta = cartasSorteReves[Math.floor(Math.random() * cartasSorteReves.length)];
             jAtual.dinheiro += carta.valor;
             if (carta.valor > 0) tocarSom('moeda');
-            exibirModalEvento(`🎴 CARTA: ${carta.tipo.toUpperCase()}`, carta.desc);
+            abrirModalSorteReves(carta);
         } else if (casa.tipo === 'servico') {
             const donoId = donos[casa.id];
             if (!donoId) {
@@ -748,7 +790,7 @@
                 jAtual.dinheiro -= valorAluguel;
                 jogadores.find(x => x.id === donoId).dinheiro += valorAluguel;
                 tocarSom('moeda');
-                exibirModalEvento('⚡ ALUGUEL DE SERVIÇO', `${jAtual.nome} pagou $${valorAluguel} (${mult}x o valor dos dados) para ${jogadores.find(x => x.id === donoId).nome}.`);
+                exibirModalEvento('⚡ TAXA DE SERVIÇO PÚBLICO', `${jAtual.nome} pagou $${valorAluguel} (${mult}x os dados) para ${jogadores.find(x => x.id === donoId).nome}.`);
             } else {
                 trocarTurno();
             }
@@ -763,7 +805,6 @@
                 tocarSom('moeda');
                 exibirModalEvento('💸 ALUGUEL DE PROPRIEDADE', `${jAtual.nome} pagou $${valorAluguel} de aluguel para ${jogadores.find(x => x.id === donoId).nome}.`);
             } else {
-                // Parou na própria propriedade -> Opção de construir
                 abrirModalCompra(casa);
             }
         } else {
@@ -787,7 +828,7 @@
         if (!donoId) {
             document.getElementById('btn-modal-buy').style.display = 'inline-block';
             document.getElementById('btn-modal-build').style.display = 'none';
-        } else if (donoId === jAtual.id) {
+        } else if (donoId === jAtual.id && casa.tipo === 'prop') {
             document.getElementById('btn-modal-buy').style.display = 'none';
             document.getElementById('btn-modal-build').style.display = 'inline-block';
         } else {
@@ -822,24 +863,41 @@
 
     function renderizarEscrituraHTML(elementId, casa) {
         const container = document.getElementById(elementId);
-        container.innerHTML = `
-            <div class="title-deed-card">
-                <div class="deed-header" style="background: ${casa.cor}; color: #fff;">
-                    <div class="deed-header-type">TÍTULO DE PROPRIEDADE</div>
-                    <div class="deed-header-title">${casa.nome}</div>
+        
+        if (casa.tipo === 'servico') {
+            container.innerHTML = `
+                <div class="title-deed-card" style="border-color: var(--primary-blue);">
+                    <div class="deed-header" style="background: var(--primary-blue); color: #fff;">
+                        <div class="deed-header-type">CONCESSIONÁRIA DE SERVIÇO PÚBLICO</div>
+                        <div class="deed-header-title">${casa.nome}</div>
+                    </div>
+                    <div style="font-size: 11px; font-weight: 700; line-height: 1.5; text-align: center; margin: 10px 0;">
+                        Se o jogador possuir 1 Concessionária, a taxa será <strong>4 vezes</strong> o valor dos dados.<br><br>
+                        Se possuir 2 ou mais, a taxa será <strong>10x a 20x</strong> o valor dos dados tirados!
+                    </div>
+                    <div class="deed-footer">Preço de Concessão: $${casa.preco}</div>
                 </div>
-                <table class="deed-table">
-                    <tr><td>ALUGUEL • Terreno Simples</td><td>$${casa.t || 10}</td></tr>
-                    <tr><td>Com Conjunto Completo do Grupo</td><td>$${casa.c || 20}</td></tr>
-                    <tr><td>Com 1 Casa 🏠</td><td>$${casa.c1 || 50}</td></tr>
-                    <tr><td>Com 2 Casas 🏠🏠</td><td>$${casa.c2 || 150}</td></tr>
-                    <tr><td>Com 3 Casas 🏠🏠🏠</td><td>$${casa.c3 || 450}</td></tr>
-                    <tr><td>Com 4 Casas 🏠🏠🏠🏠</td><td>$${casa.c4 || 600}</td></tr>
-                    <tr><td>Com HOTEL 🏨</td><td>$${casa.h || 800}</td></tr>
-                </table>
-                <div class="deed-footer">Preço de Compra: $${casa.preco} | Custo da Casa/Hotel: $${casa.custoConst || 100}</div>
-            </div>
-        `;
+            `;
+        } else {
+            container.innerHTML = `
+                <div class="title-deed-card">
+                    <div class="deed-header" style="background: ${casa.cor}; color: #fff;">
+                        <div class="deed-header-type">TÍTULO DE PROPRIEDADE</div>
+                        <div class="deed-header-title">${casa.nome}</div>
+                    </div>
+                    <table class="deed-table">
+                        <tr><td>ALUGUEL • Terreno Simples</td><td>$${casa.t || 10}</td></tr>
+                        <tr><td>Com Conjunto Completo do Grupo</td><td>$${casa.c || 20}</td></tr>
+                        <tr><td>Com 1 Casa 🏠</td><td>$${casa.c1 || 50}</td></tr>
+                        <tr><td>Com 2 Casas 🏠🏠</td><td>$${casa.c2 || 150}</td></tr>
+                        <tr><td>Com 3 Casas 🏠🏠🏠</td><td>$${casa.c3 || 450}</td></tr>
+                        <tr><td>Com 4 Casas 🏠🏠🏠🏠</td><td>$${casa.c4 || 600}</td></tr>
+                        <tr><td>Com HOTEL 🏨</td><td>$${casa.h || 800}</td></tr>
+                    </table>
+                    <div class="deed-footer">Preço de Compra: $${casa.preco} | Custo da Casa/Hotel: $${casa.custoConst || 100}</div>
+                </div>
+            `;
+        }
     }
 
     function confirmarCompra() {
@@ -865,7 +923,6 @@
         trocarTurno();
     }
 
-    // ABRIR PROPRIEDADES E OFERTA DE COMPRA
     function abrirMinhasProps(playerIdx) {
         const player = jogadores.find(x => x.id === playerIdx);
         document.getElementById('props-player-title').innerText = `Imóveis de ${player.peao} ${player.nome}`;
@@ -884,7 +941,7 @@
                             <div class="deed-header-title" style="font-size:11px;">${c.nome}</div>
                         </div>
                         <div style="font-size:9px; font-weight:800; text-align:center; margin-top:4px; color:#000;">
-                            Aluguel: $${calcularAluguelAtual(c)} | Valor: $${c.preco}
+                            Aluguel/Taxa: $${calcularAluguelAtual(c)} | Valor: $${c.preco}
                         </div>
                         ${player.id !== jogadores[turno].id ? 
                             `<button class="btn-modal btn-offer" style="width:100%; margin-top:4px; font-size:9px; padding:4px;" onclick="abrirModalOferta(${c.id})">💰 Fazer Oferta de Compra</button>` 
