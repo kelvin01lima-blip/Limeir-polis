@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Limeirópolis - Banco Imobiliário Clean 3D</title>
+    <title>Limeirópolis - Banco Imobiliário</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,15 +11,12 @@
 
     <style>
         :root {
-            --bg-light: #f0f4f9;
-            --panel-bg: rgba(255, 255, 255, 0.92);
+            --panel-bg: rgba(255, 255, 255, 0.94);
             --card-border: rgba(2, 132, 199, 0.3);
             --primary-blue: #0284c7;
             --primary-orange: #ff6600;
             --neon-green: #10b981;
-            --neon-pink: #ec4899;
-            --neon-purple: #8b5cf6;
-            --neon-yellow: #eab308;
+            --neon-red: #ef4444;
             --text-dark: #0f172a;
             --text-muted: #64748b;
             --shadow-glass: 0 15px 35px rgba(2, 132, 199, 0.12);
@@ -28,14 +25,18 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
         body {
             background: linear-gradient(135deg, #e0f2fe 0%, #f1f5f9 50%, #e2e8f0 100%);
-            color: var(--text-dark);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px;
-            overflow: hidden;
+            color: var(--text-dark); min-height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            padding: 5px; overflow: hidden;
         }
+
+        /* EFEITO GIROFLEX DA POLÍCIA */
+        @keyframes giroflex {
+            0% { background-color: rgba(239, 68, 68, 0.4); }
+            50% { background-color: rgba(2, 132, 199, 0.4); }
+            100% { background-color: rgba(239, 68, 68, 0.4); }
+        }
+        body.police-alert { animation: giroflex 0.25s infinite; }
 
         /* OVERLAY SETUP INICIAL */
         .setup-overlay {
@@ -44,7 +45,7 @@
             z-index: 300; display: flex; justify-content: center; align-items: center;
         }
         .setup-card {
-            background: rgba(255, 255, 255, 0.96); border: 2px solid var(--primary-blue);
+            background: rgba(255, 255, 255, 0.98); border: 2px solid var(--primary-blue);
             border-radius: 24px; width: 90%; max-width: 650px; padding: 30px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15); text-align: center;
         }
@@ -64,8 +65,7 @@
         }
         .p-input-card { background: #f8fafc; border: 1px solid var(--card-border); border-radius: 12px; padding: 10px; text-align: left; }
         .p-input-card label { font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
-        .p-input-card input { width: 100%; padding: 8px; border-radius: 8px; border: 1px solid var(--card-border); background: #ffffff; color: var(--text-dark); font-weight: 700; margin: 2px 0 6px 0; outline: none; }
-        .p-input-card select { width: 100%; padding: 8px; border-radius: 8px; border: 1px solid var(--card-border); background: #ffffff; color: var(--text-dark); font-weight: 700; }
+        .p-input-card input, .p-input-card select { width: 100%; padding: 8px; border-radius: 8px; border: 1px solid var(--card-border); background: #ffffff; color: var(--text-dark); font-weight: 700; margin-top: 2px; }
 
         .btn-start-game {
             background: linear-gradient(135deg, var(--primary-orange), #ea580c);
@@ -73,101 +73,95 @@
             font-family: 'Orbitron', sans-serif; font-size: 15px; font-weight: 900;
             cursor: pointer; box-shadow: 0 6px 20px rgba(255, 102, 0, 0.3); text-transform: uppercase; transition: all 0.2s;
         }
-        .btn-start-game:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255, 102, 0, 0.4); }
 
         /* PAINEL LATERAL HUD */
         .main-wrapper {
-            display: grid; grid-template-columns: 340px 1fr;
-            gap: 15px; width: 100%; max-width: 1720px; height: 96vh;
+            display: grid; grid-template-columns: 320px 1fr;
+            gap: 12px; width: 100%; max-width: 1750px; height: 98vh;
         }
 
         .sidebar {
             background: var(--panel-bg); backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 20px;
-            padding: 18px; box-shadow: var(--shadow-glass);
+            padding: 16px; box-shadow: var(--shadow-glass);
             display: flex; flex-direction: column; justify-content: space-between;
         }
 
-        .brand-header { text-align: center; border-bottom: 2px solid var(--primary-orange); padding-bottom: 10px; }
-        .brand-header h1 { font-family: 'Orbitron', sans-serif; font-size: 26px; font-weight: 900; color: var(--primary-blue); }
+        .brand-header { text-align: center; border-bottom: 2px solid var(--primary-orange); padding-bottom: 8px; }
+        .brand-header h1 { font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 900; color: var(--primary-blue); }
         .brand-header p { font-size: 10px; font-weight: 800; color: var(--primary-orange); text-transform: uppercase; letter-spacing: 1.5px; }
 
-        /* CRONÔMETRO NEON DE 1 MINUTO (60s) */
+        /* CRONÔMETRO DE TURNO (1M 30S) + PAUSA */
         .timer-hud {
-            margin: 10px 0; background: #ffffff; border: 1px solid var(--primary-blue);
+            margin: 8px 0; background: #ffffff; border: 1px solid var(--primary-blue);
             border-radius: 12px; padding: 8px 12px; text-align: center;
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08);
         }
+        .timer-row { display: flex; justify-content: space-between; align-align: center; }
         .timer-title { font-size: 10px; font-weight: 800; color: var(--primary-blue); text-transform: uppercase; }
-        .timer-val { font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: 900; color: var(--neon-green); }
+        .timer-val { font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 900; color: var(--neon-green); }
+        .btn-pause { background: var(--primary-blue); color: #fff; border: none; border-radius: 6px; padding: 2px 8px; font-size: 10px; font-weight: 800; cursor: pointer; }
         .timer-bar-container { background: #e2e8f0; height: 6px; border-radius: 3px; overflow: hidden; margin-top: 4px; }
         .timer-bar { background: var(--neon-green); height: 100%; width: 100%; transition: width 1s linear; }
 
-        .players-list { margin: 8px 0; display: flex; flex-direction: column; gap: 8px; max-height: 280px; overflow-y: auto; }
+        .players-list { margin: 6px 0; display: flex; flex-direction: column; gap: 6px; max-height: 260px; overflow-y: auto; }
         .player-box {
             background: #ffffff; border: 2px solid #cbd5e1;
-            border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px;
-            transition: all 0.3s;
+            border-radius: 12px; padding: 8px 10px; display: flex; flex-direction: column; gap: 4px; transition: all 0.3s;
         }
         .player-box.active { border-color: var(--primary-orange); box-shadow: 0 0 15px rgba(255, 102, 0, 0.2); background: #fff7ed; }
         .player-row-top { display: flex; justify-content: space-between; align-items: center; }
-        .player-info-name { font-weight: 800; font-size: 14px; display: flex; align-items: center; gap: 6px; }
-        .player-info-money { font-family: 'Orbitron', sans-serif; font-size: 15px; font-weight: 900; color: var(--neon-green); }
+        .player-info-name { font-weight: 800; font-size: 13px; display: flex; align-items: center; gap: 6px; }
+        .player-info-money { font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 900; color: var(--neon-green); }
 
         .btn-view-props {
-            background: linear-gradient(135deg, rgba(2, 132, 199, 0.1), rgba(2, 132, 199, 0.2));
-            border: 1px solid var(--primary-blue); border-radius: 8px;
-            font-size: 11px; font-weight: 800; color: var(--primary-blue);
-            padding: 7px; cursor: pointer; text-align: center; transition: all 0.2s;
-            display: flex; align-items: center; justify-content: center; gap: 6px;
+            background: rgba(2, 132, 199, 0.1); border: 1px solid var(--primary-blue);
+            border-radius: 8px; font-size: 10px; font-weight: 800; color: var(--primary-blue);
+            padding: 5px; cursor: pointer; text-align: center; transition: all 0.2s;
         }
-        .btn-view-props:hover { background: var(--primary-blue); color: #fff; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25); }
+        .btn-view-props:hover { background: var(--primary-blue); color: #fff; }
 
         .btn-action {
             background: linear-gradient(135deg, var(--primary-blue), #0369a1);
-            color: #fff; border: none; padding: 14px; border-radius: 12px;
-            font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 13px; cursor: pointer; width: 100%; margin-bottom: 6px;
+            color: #fff; border: none; padding: 12px; border-radius: 12px;
+            font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 12px; cursor: pointer; width: 100%; margin-bottom: 6px;
             box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25); text-transform: uppercase; transition: all 0.2s;
         }
-        .btn-action:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(2, 132, 199, 0.35); }
-        .btn-orange { background: linear-gradient(135deg, var(--primary-orange), #ea580c); box-shadow: 0 4px 12px rgba(255, 102, 0, 0.25); }
+        .btn-orange { background: linear-gradient(135deg, var(--primary-orange), #ea580c); }
         .btn-rules { background: #ffffff; color: var(--primary-blue); border: 2px solid var(--primary-blue); }
 
         .log-terminal {
             background: #0f172a; color: #38bdf8; font-family: monospace;
-            font-size: 10px; padding: 8px; border-radius: 10px; height: 95px;
+            font-size: 10px; padding: 8px; border-radius: 10px; height: 90px;
             overflow-y: auto; border: 1px solid #334155;
         }
 
-        /* TABULEIRO 3D EM PERSPECTIVA SUAVE E CLARA */
+        /* PALCO ISOMÉTRICO COM ENCAIXE TOTAL DAS 40 CASAS */
         .board-stage {
-            perspective: 1400px;
-            display: flex; justify-content: center; align-items: center;
+            perspective: 1200px; display: flex; justify-content: center; align-items: center;
             width: 100%; height: 100%; overflow: hidden;
         }
 
         .board-viewport-3d {
             background: var(--panel-bg); backdrop-filter: blur(12px);
-            border: 2px solid var(--primary-blue); border-radius: 20px; padding: 8px;
-            box-shadow: 0 20px 50px rgba(2, 132, 199, 0.15);
+            border: 2px solid var(--primary-blue); border-radius: 20px; padding: 6px;
+            box-shadow: 0 15px 40px rgba(2, 132, 199, 0.15);
             display: grid; grid-template-columns: repeat(11, 1fr); grid-template-rows: repeat(11, 1fr);
-            gap: 3px; position: relative; width: 860px; height: 860px;
-            transform: rotateX(18deg) scale(0.94);
-            transition: transform 0.5s ease;
+            gap: 2px; position: relative; width: 780px; height: 780px;
+            transform: rotateX(12deg) scale(0.96); transition: transform 0.3s ease;
         }
 
         .tile {
             background: #ffffff; border: 1px solid #cbd5e1;
-            border-radius: 4px; padding: 3px; display: flex; flex-direction: column;
+            border-radius: 4px; padding: 2px; display: flex; flex-direction: column;
             justify-content: space-between; position: relative; cursor: pointer;
             user-select: none; transition: all 0.2s;
         }
-        .tile:hover { transform: translateZ(12px) scale(1.08); z-index: 20; border-color: var(--primary-blue); box-shadow: 0 8px 20px rgba(2, 132, 199, 0.2); }
+        .tile:hover { transform: translateZ(10px) scale(1.08); z-index: 20; border-color: var(--primary-blue); box-shadow: 0 8px 20px rgba(2, 132, 199, 0.2); }
         .tile.owned { border: 2px solid var(--primary-orange) !important; background: #fffdfa; }
 
-        .tile-color-bar { height: 5px; border-radius: 2px; margin-bottom: 2px; width: 100%; }
-        .tile-title { font-size: 7.5px; font-weight: 800; line-height: 1; color: var(--text-dark); text-transform: uppercase; }
-        .tile-price { font-size: 7.5px; font-weight: 800; color: var(--primary-blue); margin-top: auto; text-align: right; }
+        .tile-color-bar { height: 4px; border-radius: 2px; margin-bottom: 2px; width: 100%; }
+        .tile-title { font-size: 7px; font-weight: 800; line-height: 1; color: var(--text-dark); text-transform: uppercase; }
+        .tile-price { font-size: 7px; font-weight: 800; color: var(--primary-blue); margin-top: auto; text-align: right; }
         .owner-badge { position: absolute; top: 1px; right: 1px; font-size: 8px; }
 
         .tile-corner {
@@ -176,22 +170,24 @@
             font-weight: 900; font-size: 8px; color: var(--primary-blue);
         }
 
-        .pawn-container { position: absolute; bottom: 2px; left: 2px; display: flex; flex-wrap: wrap; gap: 1px; z-index: 5; }
-        .pawn { font-size: 13px; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3)); }
+        /* PEÕES 3D NÍTIDOS E AUMENTADOS */
+        .pawn-container { position: absolute; bottom: 2px; left: 2px; display: flex; flex-wrap: wrap; gap: 1px; z-index: 10; }
+        .pawn {
+            font-size: 18px; line-height: 1;
+            filter: drop-shadow(0 3px 5px rgba(0,0,0,0.4));
+            transform: translateZ(15px); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
 
-        /* CENTRO PARALLAX COM ELEMENTOS DE LIMEIRA */
+        /* CENTRO LIMPO MODERNO COM ÍCONE DE LIMEIRA */
         .board-center-area {
             grid-column: 2 / 11; grid-row: 2 / 11;
-            background: linear-gradient(rgba(255, 255, 255, 0.88), rgba(240, 244, 249, 0.92)),
-                        url('https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1000&q=80');
-            background-size: cover; background-position: center;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 244, 249, 0.98));
             border-radius: 14px; border: 2px dashed rgba(2, 132, 199, 0.3);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             padding: 15px; text-align: center; position: relative; overflow: hidden;
-            box-shadow: inset 0 0 30px rgba(2, 132, 199, 0.1);
         }
 
-        .city-logo-center { font-family: 'Orbitron', sans-serif; font-size: 36px; font-weight: 900; color: var(--primary-blue); text-shadow: 0 4px 15px rgba(2, 132, 199, 0.2); }
+        .city-logo-center { font-family: 'Orbitron', sans-serif; font-size: 36px; font-weight: 900; color: var(--primary-blue); text-shadow: 0 4px 15px rgba(2, 132, 199, 0.15); }
         .city-sub-center { font-size: 12px; font-weight: 800; color: var(--primary-orange); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 20px; }
 
         .dice-wrapper { display: flex; gap: 15px; margin-bottom: 15px; }
@@ -203,7 +199,7 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
         }
 
-        /* MODAIS E CARTAS ESTILO ESCRITURA REAL */
+        /* MODAIS E CARTAS ESTILO BANCO IMOBILIÁRIO REAL */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(8px); z-index: 250;
@@ -211,14 +207,14 @@
         }
         .modal-content {
             background: #ffffff; border: 2px solid var(--primary-blue); border-radius: 20px;
-            width: 90%; max-width: 500px; padding: 22px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            animation: popIn 0.25s ease; max-height: 88vh; overflow-y: auto;
+            width: 90%; max-width: 520px; padding: 22px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            animation: popIn 0.25s ease; max-height: 90vh; overflow-y: auto;
         }
         @keyframes popIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         .title-deed-card {
             background: #ffffff; color: #000; border-radius: 12px; padding: 15px; border: 3px solid #000;
-            font-family: 'Plus Jakarta Sans', sans-serif; margin-bottom: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            font-family: 'Plus Jakarta Sans', sans-serif; margin-bottom: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
         .deed-header { text-align: center; padding: 10px; border: 2px solid #000; margin-bottom: 10px; border-radius: 4px; }
         .deed-header-title { font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 900; text-transform: uppercase; }
@@ -232,10 +228,15 @@
 
         .props-gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 12px; }
 
-        .modal-actions { display: flex; gap: 8px; }
-        .btn-modal { flex: 1; padding: 12px; border-radius: 10px; border: none; font-weight: 800; font-size: 12px; cursor: pointer; text-transform: uppercase; }
+        /* PAINEL DE NEGOCIAÇÃO / QUITAÇÃO DE DÍVIDAS */
+        .trade-box { background: #f8fafc; border: 1px solid var(--card-border); border-radius: 10px; padding: 10px; margin-top: 10px; }
+        .trade-title { font-size: 11px; font-weight: 800; color: var(--primary-blue); text-transform: uppercase; margin-bottom: 6px; }
+
+        .modal-actions { display: flex; gap: 8px; margin-top: 10px; }
+        .btn-modal { flex: 1; padding: 12px; border-radius: 10px; border: none; font-weight: 800; font-size: 11px; cursor: pointer; text-transform: uppercase; }
         .btn-buy { background: var(--neon-green); color: #fff; font-weight: 900; }
         .btn-pass { background: #e2e8f0; color: var(--text-dark); }
+        .btn-sell { background: #ef4444; color: #fff; }
     </style>
 </head>
 <body>
@@ -270,10 +271,13 @@
                 <p>Capital da Semijoia & Citros</p>
             </div>
 
-            <!-- CRONÔMETRO DE TURNO (1 MINUTO / 60s) -->
+            <!-- CRONÔMETRO DE TURNO DE 1MIN E MEIO (90S) + BOTAO PAUSA -->
             <div class="timer-hud">
-                <div class="timer-title">Tempo Restante do Turno</div>
-                <div class="timer-val" id="timer-sec">60s</div>
+                <div class="timer-row">
+                    <span class="timer-title">Tempo do Turno</span>
+                    <button class="btn-pause" id="btn-pause-timer" onclick="togglePausaTimer()">⏸️ Pausar</button>
+                </div>
+                <div class="timer-val" id="timer-sec">90s</div>
                 <div class="timer-bar-container"><div class="timer-bar" id="timer-bar"></div></div>
             </div>
 
@@ -286,7 +290,7 @@
         <div>
             <div style="font-size: 10px; font-weight: 800; color: var(--text-muted); margin-bottom: 4px;">ACOMPANHAMENTO</div>
             <div class="log-terminal" id="log-text">
-                > Sistema pronto.<br>> Role os dados para avançar.
+                > Sistema pronto.<br>> Role os 2 dados para avançar.
             </div>
         </div>
     </div>
@@ -309,13 +313,19 @@
     </div>
 </div>
 
-<!-- MODAL DE COMPRA / ESCRITURA COMPLETA -->
+<!-- MODAL MENSAGEM / EVENTO FLUTUANTE DA RODADA -->
+<div class="modal-overlay" id="modal-evento">
+    <div class="modal-content">
+        <div style="color: var(--primary-blue); font-family:'Orbitron',sans-serif; font-size:18px; font-weight:900;" id="ev-title">EVENTO DA RODADA</div>
+        <div style="font-size: 13px; line-height: 1.5; color: var(--text-dark); margin: 15px 0;" id="ev-desc">Descrição do Acontecimento</div>
+        <button class="btn-modal btn-buy" style="width: 100%;" onclick="fecharModalEvento()">Continuar Jogo</button>
+    </div>
+</div>
+
+<!-- MODAL COMPRA / ESCRITURA COMPLETA -->
 <div class="modal-overlay" id="modal-compra">
     <div class="modal-content">
-        <div id="deed-container">
-            <!-- Gerado via JS com a Tabela Mestre Oficial de Aluguéis -->
-        </div>
-
+        <div id="deed-container"></div>
         <div class="modal-actions" id="m-buttons">
             <button class="btn-modal btn-buy" onclick="confirmarCompra()">Comprar Propriedade</button>
             <button class="btn-modal btn-pass" onclick="fecharModalCompra()">Passar Turno</button>
@@ -323,11 +333,20 @@
     </div>
 </div>
 
-<!-- MODAL MINHAS PROPRIEDADES / GALERIA DE ESCRITURAS -->
+<!-- MODAL MINHAS PROPRIEDADES / GERENCIADOR & QUITAÇÃO DE DÍVIDAS -->
 <div class="modal-overlay" id="modal-minhas-props">
     <div class="modal-content">
-        <div class="modal-title" id="props-player-title" style="color: var(--primary-blue); font-family:'Orbitron',sans-serif; font-size:18px; font-weight:900;">Propriedades</div>
+        <div class="modal-title" id="props-player-title" style="color: var(--primary-blue); font-family:'Orbitron',sans-serif; font-size:18px; font-weight:900;">Cartões de Imóveis</div>
+        
         <div class="props-gallery-grid" id="props-gallery-container"></div>
+
+        <div class="trade-box" id="trade-section" style="display:none;">
+            <div class="trade-title">🤝 Quitar Dívidas / Repassar até 3 Imóveis</div>
+            <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 6px;">Selecione o jogador destino e os imóveis que deseja repassar:</div>
+            <select id="trade-target-player" style="width: 100%; padding: 6px; border-radius: 6px; border: 1px solid var(--card-border); font-weight: 700; margin-bottom: 8px;"></select>
+            <button class="btn-modal btn-buy" style="width: 100%; font-size: 10px;" onclick="executarTransferenciaPropriedades()">Confirmar Repasse de Imóveis</button>
+        </div>
+
         <button class="btn-modal btn-pass" style="width: 100%; margin-top: 15px; background: var(--primary-blue); color: #fff; font-weight:900;" onclick="fecharModalProps()">Fechar Galeria</button>
     </div>
 </div>
@@ -337,9 +356,10 @@
     <div class="modal-content">
         <div style="color: var(--primary-blue); font-family:'Orbitron',sans-serif; font-size:18px; font-weight:900; margin-bottom:10px;">📜 REGRAS DE LIMEIRÓPOLIS</div>
         <div style="font-size: 12px; line-height: 1.5; color: var(--text-dark);">
-            <p>1. <strong>40 Casas e Tabela Mestre:</strong> Os valores de aluguel evoluem com o número de casas e hotéis.</p>
-            <p>2. <strong>Companhias de Serviço:</strong> Multiplicam o valor dos dados tirados (4x, 10x, 15x ou 20x).</p>
-            <p>3. <strong>Cronômetro:</strong> Você tem exatamente 1 minuto (60 segundos) por turno.</p>
+            <p>1. <strong>Dois Dados Somados:</strong> Os 2 dados rolam juntos e determinam quantos passos o peão avança.</p>
+            <p>2. <strong>Quitação de Dívida:</strong> Você pode transferir 1, 2 ou até 3 imóveis diretamente para outro jogador para amortizar aluguéis!</p>
+            <p>3. <strong>Venda ao Banco:</strong> É possível vender cartões de volta ao banco por 80% do valor de compra.</p>
+            <p>4. <strong>Cronômetro:</strong> Tempo ajustado para 1 minuto e meio (90s) com botão de pausa.</p>
         </div>
         <button class="btn-modal btn-pass" style="width: 100%; margin-top:15px; background: var(--primary-blue); color: #fff; font-weight:900;" onclick="fecharRegras()">Voltar ao Jogo</button>
     </div>
@@ -455,8 +475,10 @@
     let turno = 0;
     let donos = {};
     let casaAtualModal = null;
-    let tempoRestante = 60;
+    let tempoRestante = 90;
     let timerInterval = null;
+    let timerPausado = false;
+    let imoveisSelecionadosTroca = [];
 
     function definirQtdJogadores(qtd) {
         qtdJogadores = qtd;
@@ -502,25 +524,34 @@
 
     function iniciarTimerTurno() {
         clearInterval(timerInterval);
-        tempoRestante = 60;
+        tempoRestante = 90;
+        timerPausado = false;
+        document.getElementById('btn-pause-timer').innerText = '⏸️ Pausar';
         atualizarBarraTimer();
 
         timerInterval = setInterval(() => {
-            tempoRestante--;
-            atualizarBarraTimer();
-            if (tempoRestante <= 0) {
-                log(`> ⏳ Tempo esgotado para o ${jogadores[turno].nome}. Troca de turno!`);
-                trocarTurno();
+            if (!timerPausado) {
+                tempoRestante--;
+                atualizarBarraTimer();
+                if (tempoRestante <= 0) {
+                    log(`> ⏳ Tempo esgotado para o ${jogadores[turno].nome}. Troca de turno!`);
+                    trocarTurno();
+                }
             }
         }, 1000);
     }
 
+    function togglePausaTimer() {
+        timerPausado = !timerPausado;
+        document.getElementById('btn-pause-timer').innerText = timerPausado ? '▶️ Retomar' : '⏸️ Pausar';
+    }
+
     function atualizarBarraTimer() {
         document.getElementById('timer-sec').innerText = `${tempoRestante}s`;
-        const pct = (tempoRestante / 60) * 100;
+        const pct = (tempoRestante / 90) * 100;
         const bar = document.getElementById('timer-bar');
         bar.style.width = `${pct}%`;
-        bar.style.background = tempoRestante < 15 ? '#ef4444' : '#10b981';
+        bar.style.background = tempoRestante < 20 ? '#ef4444' : '#10b981';
     }
 
     function renderizarSidebarJogadores() {
@@ -597,6 +628,7 @@
         });
     }
 
+    // ROLAGEM DE DADOS SOMADOS E INDEPENDENTES
     function jogarDados() {
         document.getElementById('btn-roll').disabled = true;
         tocarSom('dado');
@@ -609,7 +641,7 @@
         const passos = d1 + d2;
         const jAtual = jogadores[turno];
         
-        log(`> ${jAtual.peao} ${jAtual.nome} tirou ${d1} e ${d2} (Total: ${passos}).`);
+        log(`> ${jAtual.peao} ${jAtual.nome} tirou [${d1}] e [${d2}] = Total de ${passos} casas.`);
 
         let passosRestantes = passos;
         const interval = setInterval(() => {
@@ -631,6 +663,22 @@
         }, 150);
     }
 
+    function dispararGiroflexPolicia() {
+        document.body.classList.add('police-alert');
+        setTimeout(() => { document.body.classList.remove('police-alert'); }, 2000);
+    }
+
+    function exibirModalEvento(titulo, texto) {
+        document.getElementById('ev-title').innerText = titulo;
+        document.getElementById('ev-desc').innerText = texto;
+        document.getElementById('modal-evento').style.display = 'flex';
+    }
+
+    function fecharModalEvento() {
+        document.getElementById('modal-evento').style.display = 'none';
+        trocarTurno();
+    }
+
     function avaliarCasaAtual(somaDados) {
         const jAtual = jogadores[turno];
         const casa = casas[jAtual.pos];
@@ -641,8 +689,7 @@
             const carta = cartasSorteReves[Math.floor(Math.random() * cartasSorteReves.length)];
             jAtual.dinheiro += carta.valor;
             if (carta.valor > 0) tocarSom('moeda');
-            log(`> 🎴 [${carta.tipo.toUpperCase()}] ${carta.desc}`);
-            trocarTurno();
+            exibirModalEvento(`🎴 CARTA: ${carta.tipo.toUpperCase()}`, carta.desc);
         } else if (casa.tipo === 'servico') {
             const donoId = donos[casa.id];
             if (!donoId) {
@@ -654,8 +701,7 @@
                 jAtual.dinheiro -= valorAluguel;
                 jogadores.find(x => x.id === donoId).dinheiro += valorAluguel;
                 tocarSom('moeda');
-                log(`> ⚡ ALUGUEL! ${jAtual.nome} pagou $${valorAluguel} (${mult}x dados).`);
-                trocarTurno();
+                exibirModalEvento('⚡ ALUGUEL DE SERVIÇO', `${jAtual.nome} pagou $${valorAluguel} (${mult}x o valor dos dados) para ${jogadores.find(x => x.id === donoId).nome}.`);
             } else {
                 trocarTurno();
             }
@@ -668,18 +714,19 @@
                 jAtual.dinheiro -= valorAluguel;
                 jogadores.find(x => x.id === donoId).dinheiro += valorAluguel;
                 tocarSom('moeda');
-                log(`> 💸 ALUGUEL! ${jAtual.nome} pagou $${valorAluguel} para ${jogadores.find(x => x.id === donoId).nome}.`);
-                trocarTurno();
+                exibirModalEvento('💸 ALUGUEL DE PROPRIEDADE', `${jAtual.nome} pagou $${valorAluguel} de aluguel para ${jogadores.find(x => x.id === donoId).nome}.`);
             } else {
                 trocarTurno();
             }
         } else {
             if (casa.nome.includes("PRISÃO")) {
                 jAtual.pos = 9;
-                log(`> ${jAtual.nome} foi enviado para a Prisão!`);
+                dispararGiroflexPolicia();
+                exibirModalEvento('🚨 PRISÃO!', `${jAtual.nome} foi detido na Lauro Corrêa e enviado diretamente para a Prisão!`);
                 atualizarPeoes();
+            } else {
+                trocarTurno();
             }
-            trocarTurno();
         }
     }
 
@@ -707,14 +754,13 @@
                     <tr><td>Com 4 Casas</td><td>$${casa.c4 || 600}</td></tr>
                     <tr><td>Com HOTEL</td><td>$${casa.h || 800}</td></tr>
                 </table>
-                <div class="deed-footer">Custo de Compra do Imóvel: $${casa.preco}</div>
+                <div class="deed-footer">Preço de Compra do Imóvel: $${casa.preco}</div>
             </div>
         `;
     }
 
     function confirmarCompra() {
         const jAtual = jogadores[turno];
-        
         if (jAtual.dinheiro >= casaAtualModal.preco) {
             jAtual.dinheiro -= casaAtualModal.preco;
             donos[casaAtualModal.id] = jAtual.id;
@@ -727,7 +773,7 @@
             log(`> 🏢 COMPRA! ${jAtual.nome} adquiriu ${casaAtualModal.nome} por $${casaAtualModal.preco}!`);
             fecharModalCompra();
         } else {
-            alert("Saldo insuficiente!");
+            alert("Saldo insuficiente para realizar esta compra!");
         }
     }
 
@@ -736,41 +782,108 @@
         trocarTurno();
     }
 
+    // GERENCIADOR DE CARTÕES E NEGOCIAÇÃO DE DÍVIDAS
     function abrirMinhasProps(playerIdx) {
         const player = jogadores.find(x => x.id === playerIdx);
-        document.getElementById('props-player-title').innerText = `Cartões de Imóveis de ${player.peao} ${player.nome}`;
+        document.getElementById('props-player-title').innerText = `Imóveis de ${player.peao} ${player.nome}`;
         
         const container = document.getElementById('props-gallery-container');
         container.innerHTML = '';
+        imoveisSelecionadosTroca = [];
 
         let comprouAlgo = false;
         casas.forEach(c => {
             if (donos[c.id] === player.id) {
                 comprouAlgo = true;
                 const cardDiv = document.createElement('div');
-                renderizarEscrituraHTMLDiv(cardDiv, c);
+                cardDiv.innerHTML = `
+                    <div class="title-deed-card" style="margin-bottom:0; cursor:pointer;" id="prop-select-${c.id}" onclick="toggleSelecaoTroca(${c.id})">
+                        <div class="deed-header" style="background: ${c.cor}; color: #fff; padding:4px;">
+                            <div class="deed-header-title" style="font-size:11px;">${c.nome}</div>
+                        </div>
+                        <div style="font-size:9px; font-weight:800; text-align:center; margin-top:4px; color:#000;">
+                            Aluguel: $${c.t || 10} | Valor: $${c.preco}
+                        </div>
+                        <button class="btn-modal btn-sell" style="width:100%; margin-top:4px; font-size:9px; padding:4px;" onclick="venderAoBanco(${c.id}, ${player.id})">Vender ao Banco (80%)</button>
+                    </div>
+                `;
                 container.appendChild(cardDiv);
             }
         });
 
-        if (!comprouAlgo) {
+        const tradeSection = document.getElementById('trade-section');
+        if (comprouAlgo) {
+            tradeSection.style.display = 'block';
+            const selectTarget = document.getElementById('trade-target-player');
+            selectTarget.innerHTML = '';
+            jogadores.filter(x => x.id !== player.id).forEach(pOther => {
+                selectTarget.innerHTML += `<option value="${pOther.id}">${pOther.peao} ${pOther.nome}</option>`;
+            });
+        } else {
+            tradeSection.style.display = 'none';
             container.innerHTML = `<div style="grid-column: span 2; font-size: 11px; color: var(--text-muted); text-align:center; padding: 15px;">Nenhum imóvel comprado ainda.</div>`;
         }
 
         document.getElementById('modal-minhas-props').style.display = 'flex';
     }
 
-    function renderizarEscrituraHTMLDiv(el, casa) {
-        el.innerHTML = `
-            <div class="title-deed-card" style="margin-bottom:0;">
-                <div class="deed-header" style="background: ${casa.cor}; color: #fff; padding:4px;">
-                    <div class="deed-header-title" style="font-size:12px;">${casa.nome}</div>
-                </div>
-                <div style="font-size:10px; font-weight:800; text-align:center; margin-top:5px; color:#000;">
-                    Aluguel Terreno: $${casa.t || 10} | Hotel: $${casa.h || 800}
-                </div>
-            </div>
-        `;
+    function toggleSelecaoTroca(casaId) {
+        const idx = imoveisSelecionadosTroca.indexOf(casaId);
+        const el = document.getElementById(`prop-select-${casaId}`);
+        
+        if (idx > -1) {
+            imoveisSelecionadosTroca.splice(idx, 1);
+            if (el) el.style.border = "3px solid #000";
+        } else {
+            if (imoveisSelecionadosTroca.length < 3) {
+                imoveisSelecionadosTroca.push(casaId);
+                if (el) el.style.border = "3px solid var(--primary-orange)";
+            } else {
+                alert("Você só pode transferir no máximo 3 imóveis por negociação!");
+            }
+        }
+    }
+
+    function executarTransferenciaPropriedades() {
+        if (imoveisSelecionadosTroca.length === 0) {
+            alert("Selecione pelo menos 1 imóvel clicando na carta para transferir!");
+            return;
+        }
+
+        const targetId = parseInt(document.getElementById('trade-target-player').value);
+        const targetPlayer = jogadores.find(x => x.id === targetId);
+
+        imoveisSelecionadosTroca.forEach(casaId => {
+            donos[casaId] = targetId;
+            const tileEl = document.getElementById(`tile-${casaId}`);
+            if (tileEl) {
+                tileEl.querySelector('.owner-badge').innerText = targetPlayer.peao;
+            }
+        });
+
+        tocarSom('moeda');
+        log(`> 🤝 REPASSE! ${imoveisSelecionadosTroca.length} imóvel(is) repassado(s) para ${targetPlayer.nome}.`);
+        fecharModalProps();
+    }
+
+    function venderAoBanco(casaId, playerIdx) {
+        const casa = casas[casaId];
+        const valorVenda = Math.floor(casa.preco * 0.8);
+        const player = jogadores.find(x => x.id === playerIdx);
+
+        player.dinheiro += valorVenda;
+        delete donos[casaId];
+
+        const tileEl = document.getElementById(`tile-${casaId}`);
+        if (tileEl) {
+            tileEl.classList.remove('owned');
+            const badge = tileEl.querySelector('.owner-badge');
+            if (badge) badge.remove();
+        }
+
+        tocarSom('moeda');
+        log(`> 🏦 VENDA AO BANCO! ${player.nome} vendeu ${casa.nome} por $${valorVenda}.`);
+        abrirMinhasProps(playerIdx);
     }
 
     function fecharModalProps() { document.getElementById('modal-minhas-props').style.display = 'none'; }
