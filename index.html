@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Limeirópolis - Banco Imobiliário</title>
+    <title>Limeirópolis - Banco Imobiliário Clean 3D</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,24 +11,24 @@
 
     <style>
         :root {
-            --bg-dark: #050814;
-            --panel-bg: rgba(10, 15, 30, 0.88);
-            --card-border: #0284c7;
-            --neon-blue: #00f0ff;
-            --neon-orange: #ff6600;
+            --bg-light: #f0f4f9;
+            --panel-bg: rgba(255, 255, 255, 0.92);
+            --card-border: rgba(2, 132, 199, 0.3);
+            --primary-blue: #0284c7;
+            --primary-orange: #ff6600;
             --neon-green: #10b981;
-            --neon-pink: #ff007f;
+            --neon-pink: #ec4899;
             --neon-purple: #8b5cf6;
             --neon-yellow: #eab308;
-            --text-light: #f1f5f9;
-            --text-muted: #94a3b8;
-            --shadow-neon: 0 0 20px rgba(0, 240, 255, 0.25);
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --shadow-glass: 0 15px 35px rgba(2, 132, 199, 0.12);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
         body {
-            background: radial-gradient(circle at center, #0f172a 0%, #030712 100%);
-            color: var(--text-light);
+            background: linear-gradient(135deg, #e0f2fe 0%, #f1f5f9 50%, #e2e8f0 100%);
+            color: var(--text-dark);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -40,186 +40,192 @@
         /* OVERLAY SETUP INICIAL */
         .setup-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(3, 7, 18, 0.92); backdrop-filter: blur(12px);
+            background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(10px);
             z-index: 300; display: flex; justify-content: center; align-items: center;
         }
         .setup-card {
-            background: rgba(15, 23, 42, 0.95); border: 2px solid var(--neon-blue);
+            background: rgba(255, 255, 255, 0.96); border: 2px solid var(--primary-blue);
             border-radius: 24px; width: 90%; max-width: 650px; padding: 30px;
-            box-shadow: 0 0 40px rgba(0, 240, 255, 0.3); text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15); text-align: center;
         }
-        .setup-title { font-family: 'Orbitron', sans-serif; font-size: 34px; font-weight: 900; color: var(--neon-blue); text-shadow: 0 0 15px var(--neon-blue); }
-        .setup-sub { font-size: 13px; font-weight: 800; color: var(--neon-orange); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+        .setup-title { font-family: 'Orbitron', sans-serif; font-size: 34px; font-weight: 900; color: var(--primary-blue); }
+        .setup-sub { font-size: 13px; font-weight: 800; color: var(--primary-orange); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
 
         .player-count-selector { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
         .btn-count {
             width: 45px; height: 45px; border-radius: 12px; border: 2px solid var(--card-border);
-            background: #0f172a; color: #fff; font-size: 18px; font-weight: 800; cursor: pointer; transition: all 0.2s;
+            background: #ffffff; color: var(--text-dark); font-size: 18px; font-weight: 800; cursor: pointer; transition: all 0.2s;
         }
-        .btn-count.active { background: var(--neon-blue); color: #000; border-color: var(--neon-blue); box-shadow: 0 0 15px var(--neon-blue); transform: scale(1.1); }
+        .btn-count.active { background: var(--primary-blue); color: #fff; border-color: var(--primary-blue); box-shadow: 0 4px 15px rgba(2, 132, 199, 0.3); transform: scale(1.1); }
 
         .players-inputs-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 12px; max-height: 260px; overflow-y: auto; margin-bottom: 20px; padding: 5px;
         }
-        .p-input-card { background: #090d16; border: 1px solid rgba(0,240,255,0.3); border-radius: 12px; padding: 10px; text-align: left; }
+        .p-input-card { background: #f8fafc; border: 1px solid var(--card-border); border-radius: 12px; padding: 10px; text-align: left; }
         .p-input-card label { font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
-        .p-input-card input { width: 100%; padding: 8px; border-radius: 8px; border: 1px solid var(--card-border); background: #030712; color: #fff; font-weight: 700; margin: 2px 0 6px 0; outline: none; }
-        .p-input-card select { width: 100%; padding: 8px; border-radius: 8px; border: 1px solid var(--card-border); background: #030712; color: #fff; font-weight: 700; }
+        .p-input-card input { width: 100%; padding: 8px; border-radius: 8px; border: 1px solid var(--card-border); background: #ffffff; color: var(--text-dark); font-weight: 700; margin: 2px 0 6px 0; outline: none; }
+        .p-input-card select { width: 100%; padding: 8px; border-radius: 8px; border: 1px solid var(--card-border); background: #ffffff; color: var(--text-dark); font-weight: 700; }
 
         .btn-start-game {
-            background: linear-gradient(135deg, var(--neon-orange), #ea580c);
+            background: linear-gradient(135deg, var(--primary-orange), #ea580c);
             color: #fff; border: none; padding: 14px 35px; border-radius: 14px;
             font-family: 'Orbitron', sans-serif; font-size: 15px; font-weight: 900;
-            cursor: pointer; box-shadow: 0 0 20px rgba(255, 102, 0, 0.4); text-transform: uppercase;
+            cursor: pointer; box-shadow: 0 6px 20px rgba(255, 102, 0, 0.3); text-transform: uppercase; transition: all 0.2s;
         }
+        .btn-start-game:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255, 102, 0, 0.4); }
 
-        /* LAYOUT PRINCIPAL HUD FLUTUANTE */
+        /* PAINEL LATERAL HUD */
         .main-wrapper {
             display: grid; grid-template-columns: 340px 1fr;
-            gap: 15px; width: 100%; max-width: 1700px; height: 96vh;
+            gap: 15px; width: 100%; max-width: 1720px; height: 96vh;
         }
 
         .sidebar {
             background: var(--panel-bg); backdrop-filter: blur(16px);
-            border: 1px solid rgba(0, 240, 255, 0.3); border-radius: 20px;
-            padding: 18px; box-shadow: var(--shadow-neon);
+            border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 20px;
+            padding: 18px; box-shadow: var(--shadow-glass);
             display: flex; flex-direction: column; justify-content: space-between;
         }
 
-        .brand-header { text-align: center; border-bottom: 2px solid var(--neon-orange); padding-bottom: 10px; }
-        .brand-header h1 { font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 900; color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); }
-        .brand-header p { font-size: 10px; font-weight: 800; color: var(--neon-orange); text-transform: uppercase; letter-spacing: 1.5px; }
+        .brand-header { text-align: center; border-bottom: 2px solid var(--primary-orange); padding-bottom: 10px; }
+        .brand-header h1 { font-family: 'Orbitron', sans-serif; font-size: 26px; font-weight: 900; color: var(--primary-blue); }
+        .brand-header p { font-size: 10px; font-weight: 800; color: var(--primary-orange); text-transform: uppercase; letter-spacing: 1.5px; }
 
-        /* CRONÔMETRO NEON DE TURNO */
+        /* CRONÔMETRO NEON DE 1 MINUTO (60s) */
         .timer-hud {
-            margin: 10px 0; background: rgba(0, 240, 255, 0.05); border: 1px solid var(--neon-blue);
-            border-radius: 10px; padding: 8px; text-align: center;
+            margin: 10px 0; background: #ffffff; border: 1px solid var(--primary-blue);
+            border-radius: 12px; padding: 8px 12px; text-align: center;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.08);
         }
-        .timer-title { font-size: 10px; font-weight: 800; color: var(--neon-blue); text-transform: uppercase; }
-        .timer-val { font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 900; color: var(--neon-green); }
-        .timer-bar-container { background: #030712; height: 6px; border-radius: 3px; overflow: hidden; margin-top: 4px; }
+        .timer-title { font-size: 10px; font-weight: 800; color: var(--primary-blue); text-transform: uppercase; }
+        .timer-val { font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: 900; color: var(--neon-green); }
+        .timer-bar-container { background: #e2e8f0; height: 6px; border-radius: 3px; overflow: hidden; margin-top: 4px; }
         .timer-bar { background: var(--neon-green); height: 100%; width: 100%; transition: width 1s linear; }
 
         .players-list { margin: 8px 0; display: flex; flex-direction: column; gap: 8px; max-height: 280px; overflow-y: auto; }
         .player-box {
-            background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px; padding: 8px 10px; display: flex; flex-direction: column; gap: 4px;
+            background: #ffffff; border: 2px solid #cbd5e1;
+            border-radius: 12px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px;
             transition: all 0.3s;
         }
-        .player-box.active { border-color: var(--neon-orange); box-shadow: 0 0 15px rgba(255, 102, 0, 0.3); background: rgba(255, 102, 0, 0.1); }
+        .player-box.active { border-color: var(--primary-orange); box-shadow: 0 0 15px rgba(255, 102, 0, 0.2); background: #fff7ed; }
         .player-row-top { display: flex; justify-content: space-between; align-items: center; }
-        .player-info-name { font-weight: 800; font-size: 13px; display: flex; align-items: center; gap: 5px; }
-        .player-info-money { font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 900; color: var(--neon-green); text-shadow: 0 0 8px var(--neon-green); }
+        .player-info-name { font-weight: 800; font-size: 14px; display: flex; align-items: center; gap: 6px; }
+        .player-info-money { font-family: 'Orbitron', sans-serif; font-size: 15px; font-weight: 900; color: var(--neon-green); }
 
         .btn-view-props {
-            background: rgba(0, 240, 255, 0.1); border: 1px solid var(--neon-blue);
-            border-radius: 6px; font-size: 10px; font-weight: 800; color: var(--neon-blue);
-            padding: 5px; cursor: pointer; text-align: center; transition: all 0.2s;
+            background: linear-gradient(135deg, rgba(2, 132, 199, 0.1), rgba(2, 132, 199, 0.2));
+            border: 1px solid var(--primary-blue); border-radius: 8px;
+            font-size: 11px; font-weight: 800; color: var(--primary-blue);
+            padding: 7px; cursor: pointer; text-align: center; transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
         }
-        .btn-view-props:hover { background: var(--neon-blue); color: #000; box-shadow: 0 0 10px var(--neon-blue); }
+        .btn-view-props:hover { background: var(--primary-blue); color: #fff; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25); }
 
         .btn-action {
-            background: linear-gradient(135deg, var(--neon-blue), #0284c7);
-            color: #000; border: none; padding: 12px; border-radius: 10px;
-            font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 12px; cursor: pointer; width: 100%; margin-bottom: 6px;
-            box-shadow: 0 0 12px rgba(0, 240, 255, 0.3); text-transform: uppercase; transition: all 0.2s;
+            background: linear-gradient(135deg, var(--primary-blue), #0369a1);
+            color: #fff; border: none; padding: 14px; border-radius: 12px;
+            font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 13px; cursor: pointer; width: 100%; margin-bottom: 6px;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25); text-transform: uppercase; transition: all 0.2s;
         }
-        .btn-action:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(0, 240, 255, 0.5); }
-        .btn-orange { background: linear-gradient(135deg, var(--neon-orange), #ea580c); color: #fff; box-shadow: 0 0 12px rgba(255, 102, 0, 0.3); }
-        .btn-rules { background: transparent; color: var(--neon-blue); border: 1px solid var(--neon-blue); }
+        .btn-action:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(2, 132, 199, 0.35); }
+        .btn-orange { background: linear-gradient(135deg, var(--primary-orange), #ea580c); box-shadow: 0 4px 12px rgba(255, 102, 0, 0.25); }
+        .btn-rules { background: #ffffff; color: var(--primary-blue); border: 2px solid var(--primary-blue); }
 
         .log-terminal {
-            background: #030712; color: #38bdf8; font-family: monospace;
-            font-size: 10px; padding: 8px; border-radius: 8px; height: 90px;
-            overflow-y: auto; border: 1px solid rgba(0, 240, 255, 0.2);
+            background: #0f172a; color: #38bdf8; font-family: monospace;
+            font-size: 10px; padding: 8px; border-radius: 10px; height: 95px;
+            overflow-y: auto; border: 1px solid #334155;
         }
 
-        /* PALCO 3D DO TABULEIRO ISOMÉTRICO */
+        /* TABULEIRO 3D EM PERSPECTIVA SUAVE E CLARA */
         .board-stage {
-            perspective: 1200px;
+            perspective: 1400px;
             display: flex; justify-content: center; align-items: center;
             width: 100%; height: 100%; overflow: hidden;
         }
 
         .board-viewport-3d {
-            background: var(--panel-bg);
-            border: 2px solid var(--neon-blue); border-radius: 20px; padding: 8px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 30px rgba(0, 240, 255, 0.2);
+            background: var(--panel-bg); backdrop-filter: blur(12px);
+            border: 2px solid var(--primary-blue); border-radius: 20px; padding: 8px;
+            box-shadow: 0 20px 50px rgba(2, 132, 199, 0.15);
             display: grid; grid-template-columns: repeat(11, 1fr); grid-template-rows: repeat(11, 1fr);
-            gap: 3px; position: relative; width: 880px; height: 880px;
-            transform: rotateX(25deg) rotateZ(0deg) scale(0.92);
+            gap: 3px; position: relative; width: 860px; height: 860px;
+            transform: rotateX(18deg) scale(0.94);
             transition: transform 0.5s ease;
         }
 
         .tile {
-            background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255,255,255,0.1);
+            background: #ffffff; border: 1px solid #cbd5e1;
             border-radius: 4px; padding: 3px; display: flex; flex-direction: column;
             justify-content: space-between; position: relative; cursor: pointer;
             user-select: none; transition: all 0.2s;
         }
-        .tile:hover { transform: translateZ(10px) scale(1.08); z-index: 20; border-color: var(--neon-blue); box-shadow: 0 0 15px var(--neon-blue); }
-        .tile.owned { border: 2px solid var(--neon-orange) !important; background: rgba(255, 102, 0, 0.15); }
+        .tile:hover { transform: translateZ(12px) scale(1.08); z-index: 20; border-color: var(--primary-blue); box-shadow: 0 8px 20px rgba(2, 132, 199, 0.2); }
+        .tile.owned { border: 2px solid var(--primary-orange) !important; background: #fffdfa; }
 
         .tile-color-bar { height: 5px; border-radius: 2px; margin-bottom: 2px; width: 100%; }
-        .tile-title { font-size: 7.5px; font-weight: 800; line-height: 1; color: var(--text-light); text-transform: uppercase; }
-        .tile-price { font-size: 7.5px; font-weight: 800; color: var(--neon-green); margin-top: auto; text-align: right; }
+        .tile-title { font-size: 7.5px; font-weight: 800; line-height: 1; color: var(--text-dark); text-transform: uppercase; }
+        .tile-price { font-size: 7.5px; font-weight: 800; color: var(--primary-blue); margin-top: auto; text-align: right; }
         .owner-badge { position: absolute; top: 1px; right: 1px; font-size: 8px; }
 
         .tile-corner {
-            background: linear-gradient(135deg, #090d16, #1e293b); border: 1.5px solid var(--neon-blue);
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0); border: 1.5px solid var(--primary-blue);
             text-align: center; justify-content: center; align-items: center;
-            font-weight: 900; font-size: 8px; color: var(--neon-blue); text-shadow: 0 0 5px var(--neon-blue);
+            font-weight: 900; font-size: 8px; color: var(--primary-blue);
         }
 
         .pawn-container { position: absolute; bottom: 2px; left: 2px; display: flex; flex-wrap: wrap; gap: 1px; z-index: 5; }
-        .pawn { font-size: 13px; filter: drop-shadow(0 0 5px var(--neon-blue)); }
+        .pawn { font-size: 13px; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3)); }
 
-        /* CENTRO DO TABULEIRO */
+        /* CENTRO PARALLAX COM ELEMENTOS DE LIMEIRA */
         .board-center-area {
             grid-column: 2 / 11; grid-row: 2 / 11;
-            background: radial-gradient(circle at center, rgba(15, 23, 42, 0.95) 0%, rgba(3, 7, 18, 0.98) 100%);
-            border-radius: 12px; border: 1px dashed rgba(0, 240, 255, 0.3);
+            background: linear-gradient(rgba(255, 255, 255, 0.88), rgba(240, 244, 249, 0.92)),
+                        url('https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1000&q=80');
+            background-size: cover; background-position: center;
+            border-radius: 14px; border: 2px dashed rgba(2, 132, 199, 0.3);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             padding: 15px; text-align: center; position: relative; overflow: hidden;
+            box-shadow: inset 0 0 30px rgba(2, 132, 199, 0.1);
         }
 
-        .city-logo-center { font-family: 'Orbitron', sans-serif; font-size: 34px; font-weight: 900; color: var(--neon-blue); text-shadow: 0 0 15px var(--neon-blue); }
-        .city-sub-center { font-size: 11px; font-weight: 800; color: var(--neon-orange); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; }
+        .city-logo-center { font-family: 'Orbitron', sans-serif; font-size: 36px; font-weight: 900; color: var(--primary-blue); text-shadow: 0 4px 15px rgba(2, 132, 199, 0.2); }
+        .city-sub-center { font-size: 12px; font-weight: 800; color: var(--primary-orange); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 20px; }
 
-        .dice-wrapper { display: flex; gap: 12px; margin-bottom: 12px; }
+        .dice-wrapper { display: flex; gap: 15px; margin-bottom: 15px; }
         .dice-box {
-            width: 52px; height: 52px; background: #090d16;
-            border: 2px solid var(--neon-blue); border-radius: 10px;
-            font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 900;
-            color: #fff; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+            width: 55px; height: 55px; background: #ffffff;
+            border: 2px solid var(--primary-blue); border-radius: 12px;
+            font-family: 'Orbitron', sans-serif; font-size: 26px; font-weight: 900;
+            color: var(--text-dark); display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
         }
 
-        /* MODAIS E CARTAS ESTILO ESCRITURA MONOPOLY REAL */
+        /* MODAIS E CARTAS ESTILO ESCRITURA REAL */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(8px); z-index: 250;
+            background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(8px); z-index: 250;
             justify-content: center; align-items: center;
         }
         .modal-content {
-            background: #0f172a; border: 2px solid var(--neon-blue); border-radius: 20px;
-            width: 90%; max-width: 520px; padding: 20px; box-shadow: 0 0 30px rgba(0,240,255,0.3);
+            background: #ffffff; border: 2px solid var(--primary-blue); border-radius: 20px;
+            width: 90%; max-width: 500px; padding: 22px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
             animation: popIn 0.25s ease; max-height: 88vh; overflow-y: auto;
         }
         @keyframes popIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-        /* ESCRITURA DO IMÓVEL CLÁSSICA COMPLETA */
         .title-deed-card {
             background: #ffffff; color: #000; border-radius: 12px; padding: 15px; border: 3px solid #000;
-            font-family: 'Plus Jakarta Sans', sans-serif; margin-bottom: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            font-family: 'Plus Jakarta Sans', sans-serif; margin-bottom: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.12);
         }
         .deed-header { text-align: center; padding: 10px; border: 2px solid #000; margin-bottom: 10px; border-radius: 4px; }
         .deed-header-title { font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 900; text-transform: uppercase; }
         .deed-header-type { font-size: 10px; font-weight: 800; letter-spacing: 1px; }
 
         .deed-table { width: 100%; font-size: 11px; border-collapse: collapse; margin-bottom: 10px; }
-        .deed-table td { padding: 3px 0; border-bottom: 1px dashed #ccc; font-weight: 700; }
+        .deed-table td { padding: 4px 0; border-bottom: 1px dashed #ccc; font-weight: 700; }
         .deed-table td:last-child { text-align: right; font-weight: 900; }
 
         .deed-footer { text-align: center; font-size: 10px; font-weight: 800; border-top: 2px solid #000; padding-top: 6px; }
@@ -228,8 +234,8 @@
 
         .modal-actions { display: flex; gap: 8px; }
         .btn-modal { flex: 1; padding: 12px; border-radius: 10px; border: none; font-weight: 800; font-size: 12px; cursor: pointer; text-transform: uppercase; }
-        .btn-buy { background: var(--neon-green); color: #000; font-weight: 900; }
-        .btn-pass { background: rgba(255,255,255,0.1); color: #fff; }
+        .btn-buy { background: var(--neon-green); color: #fff; font-weight: 900; }
+        .btn-pass { background: #e2e8f0; color: var(--text-dark); }
     </style>
 </head>
 <body>
@@ -238,7 +244,7 @@
 <div class="setup-overlay" id="setup-screen">
     <div class="setup-card">
         <div class="setup-title">LIMEIRÓPOLIS</div>
-        <div class="setup-sub">Edição 40 Casas</div>
+        <div class="setup-sub">Edição 40 Casas • Banco Imobiliário</div>
 
         <div style="font-weight: 800; font-size: 11px; color: var(--text-muted); margin-bottom: 6px;">QUANTIDADE DE JOGADORES (2 A 6):</div>
         <div class="player-count-selector">
@@ -251,7 +257,7 @@
 
         <div class="players-inputs-grid" id="setup-inputs-container"></div>
 
-        <button class="btn-start-game" onclick="iniciarJogo()">🚀 Entrar em Limeirópolis</button>
+        <button class="btn-start-game" onclick="iniciarJogo()">🚀 Entrar no Jogo</button>
     </div>
 </div>
 
@@ -264,10 +270,10 @@
                 <p>Capital da Semijoia & Citros</p>
             </div>
 
-            <!-- CRONÔMETRO NEON DO TURNO -->
+            <!-- CRONÔMETRO DE TURNO (1 MINUTO / 60s) -->
             <div class="timer-hud">
                 <div class="timer-title">Tempo Restante do Turno</div>
-                <div class="timer-val" id="timer-sec">30s</div>
+                <div class="timer-val" id="timer-sec">60s</div>
                 <div class="timer-bar-container"><div class="timer-bar" id="timer-bar"></div></div>
             </div>
 
@@ -278,9 +284,9 @@
         </div>
 
         <div>
-            <div style="font-size: 10px; font-weight: 800; color: var(--text-muted); margin-bottom: 4px;">TERMINAL FEED DE EVENTOS</div>
+            <div style="font-size: 10px; font-weight: 800; color: var(--text-muted); margin-bottom: 4px;">ACOMPANHAMENTO</div>
             <div class="log-terminal" id="log-text">
-                > Sistema carregado com sucesso.<br>> Aguardando rolar dados...
+                > Sistema pronto.<br>> Role os dados para avançar.
             </div>
         </div>
     </div>
@@ -297,13 +303,13 @@
                     <div class="dice-box" id="d2">1</div>
                 </div>
                 
-                <div id="turn-status" style="font-weight: 800; color: var(--neon-blue); font-size: 13px;">Aguardando jogada...</div>
+                <div id="turn-status" style="font-weight: 800; color: var(--primary-blue); font-size: 14px;">Aguardando jogada...</div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- MODAL DE COMPRA / ESCRITURA COMPLETA DO IMÓVEL -->
+<!-- MODAL DE COMPRA / ESCRITURA COMPLETA -->
 <div class="modal-overlay" id="modal-compra">
     <div class="modal-content">
         <div id="deed-container">
@@ -320,22 +326,22 @@
 <!-- MODAL MINHAS PROPRIEDADES / GALERIA DE ESCRITURAS -->
 <div class="modal-overlay" id="modal-minhas-props">
     <div class="modal-content">
-        <div class="modal-title" id="props-player-title" style="color: var(--neon-blue); font-family:'Orbitron',sans-serif; font-size:18px; font-weight:900;">Propriedades</div>
+        <div class="modal-title" id="props-player-title" style="color: var(--primary-blue); font-family:'Orbitron',sans-serif; font-size:18px; font-weight:900;">Propriedades</div>
         <div class="props-gallery-grid" id="props-gallery-container"></div>
-        <button class="btn-modal btn-pass" style="width: 100%; margin-top: 15px; background: var(--neon-blue); color: #000; font-weight:900;" onclick="fecharModalProps()">Fechar Galeria</button>
+        <button class="btn-modal btn-pass" style="width: 100%; margin-top: 15px; background: var(--primary-blue); color: #fff; font-weight:900;" onclick="fecharModalProps()">Fechar Galeria</button>
     </div>
 </div>
 
 <!-- MODAL REGRAS -->
 <div class="modal-overlay" id="modal-regras">
     <div class="modal-content">
-        <div style="color: var(--neon-blue); font-family:'Orbitron',sans-serif; font-size:18px; font-weight:900; margin-bottom:10px;">📜 REGRAS DE LIMEIRÓPOLIS</div>
-        <div style="font-size: 12px; line-height: 1.5; color: var(--text-light);">
-            <p>1. <strong>40 Casas e Tabela Mestre:</strong> Aluguéis evoluem de acordo com terrenos, conjuntos completos, casas e hotéis.</p>
-            <p>2. <strong>Companhias de Serviço:</strong> Multiplicam o valor dos dados tirados (4x, 10x, 15x ou 20x) dependendo de quantas companhias você possui!</p>
-            <p>3. <strong>Cronômetro Neon:</strong> Você tem 30 segundos para completar seu turno.</p>
+        <div style="color: var(--primary-blue); font-family:'Orbitron',sans-serif; font-size:18px; font-weight:900; margin-bottom:10px;">📜 REGRAS DE LIMEIRÓPOLIS</div>
+        <div style="font-size: 12px; line-height: 1.5; color: var(--text-dark);">
+            <p>1. <strong>40 Casas e Tabela Mestre:</strong> Os valores de aluguel evoluem com o número de casas e hotéis.</p>
+            <p>2. <strong>Companhias de Serviço:</strong> Multiplicam o valor dos dados tirados (4x, 10x, 15x ou 20x).</p>
+            <p>3. <strong>Cronômetro:</strong> Você tem exatamente 1 minuto (60 segundos) por turno.</p>
         </div>
-        <button class="btn-modal btn-pass" style="width: 100%; margin-top:15px; background: var(--neon-blue); color: #000; font-weight:900;" onclick="fecharRegras()">Voltar ao Jogo</button>
+        <button class="btn-modal btn-pass" style="width: 100%; margin-top:15px; background: var(--primary-blue); color: #fff; font-weight:900;" onclick="fecharRegras()">Voltar ao Jogo</button>
     </div>
 </div>
 
@@ -449,7 +455,7 @@
     let turno = 0;
     let donos = {};
     let casaAtualModal = null;
-    let tempoRestante = 30;
+    let tempoRestante = 60;
     let timerInterval = null;
 
     function definirQtdJogadores(qtd) {
@@ -496,7 +502,7 @@
 
     function iniciarTimerTurno() {
         clearInterval(timerInterval);
-        tempoRestante = 30;
+        tempoRestante = 60;
         atualizarBarraTimer();
 
         timerInterval = setInterval(() => {
@@ -511,10 +517,10 @@
 
     function atualizarBarraTimer() {
         document.getElementById('timer-sec').innerText = `${tempoRestante}s`;
-        const pct = (tempoRestante / 30) * 100;
+        const pct = (tempoRestante / 60) * 100;
         const bar = document.getElementById('timer-bar');
         bar.style.width = `${pct}%`;
-        bar.style.background = tempoRestante < 10 ? '#ef4444' : '#10b981';
+        bar.style.background = tempoRestante < 15 ? '#ef4444' : '#10b981';
     }
 
     function renderizarSidebarJogadores() {
@@ -528,7 +534,7 @@
                         <div class="player-info-name"><span>${p.peao}</span> <span>${p.nome}</span></div>
                         <div class="player-info-money" id="pmoney-${idx}">$ ${p.dinheiro}</div>
                     </div>
-                    <button class="btn-view-props" onclick="abrirMinhasProps(${p.id})">📂 Minhas Propriedades</button>
+                    <button class="btn-view-props" onclick="abrirMinhasProps(${p.id})">💎 Cartões de Imóveis</button>
                 </div>
             `;
         });
@@ -721,7 +727,7 @@
             log(`> 🏢 COMPRA! ${jAtual.nome} adquiriu ${casaAtualModal.nome} por $${casaAtualModal.preco}!`);
             fecharModalCompra();
         } else {
-            alert("Saldo digital insuficiente!");
+            alert("Saldo insuficiente!");
         }
     }
 
@@ -732,7 +738,7 @@
 
     function abrirMinhasProps(playerIdx) {
         const player = jogadores.find(x => x.id === playerIdx);
-        document.getElementById('props-player-title').innerText = `Escrituras de ${player.peao} ${player.nome}`;
+        document.getElementById('props-player-title').innerText = `Cartões de Imóveis de ${player.peao} ${player.nome}`;
         
         const container = document.getElementById('props-gallery-container');
         container.innerHTML = '';
@@ -748,7 +754,7 @@
         });
 
         if (!comprouAlgo) {
-            container.innerHTML = `<div style="grid-column: span 2; font-size: 11px; color: var(--text-muted); text-align:center; padding: 15px;">Nenhuma escritura comprada.</div>`;
+            container.innerHTML = `<div style="grid-column: span 2; font-size: 11px; color: var(--text-muted); text-align:center; padding: 15px;">Nenhum imóvel comprado ainda.</div>`;
         }
 
         document.getElementById('modal-minhas-props').style.display = 'flex';
