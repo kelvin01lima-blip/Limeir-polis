@@ -11,7 +11,7 @@
 
     <style>
         :root {
-            --panel-bg: rgba(255, 255, 255, 0.94);
+            --panel-bg: rgba(255, 255, 255, 0.95);
             --card-border: rgba(2, 132, 199, 0.3);
             --primary-blue: #0284c7;
             --primary-orange: #ff6600;
@@ -19,24 +19,24 @@
             --neon-red: #ef4444;
             --text-dark: #0f172a;
             --text-muted: #64748b;
-            --shadow-glass: 0 15px 35px rgba(2, 132, 199, 0.12);
+            --shadow-glass: 0 10px 30px rgba(2, 132, 199, 0.12);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
         body {
-            background: linear-gradient(135deg, #e0f2fe 0%, #f1f5f9 50%, #e2e8f0 100%);
+            background: linear-gradient(135deg, #e0f2fe 0%, #f1f5f9 50%, #cbd5e1 100%);
             color: var(--text-dark); min-height: 100vh;
             display: flex; justify-content: center; align-items: center;
-            padding: 5px; overflow: hidden;
+            padding: 8px; overflow: hidden;
         }
 
         /* EFEITO GIROFLEX DA POLÍCIA */
         @keyframes giroflex {
-            0% { background-color: rgba(239, 68, 68, 0.4); }
-            50% { background-color: rgba(2, 132, 199, 0.4); }
-            100% { background-color: rgba(239, 68, 68, 0.4); }
+            0% { background-color: rgba(239, 68, 68, 0.3); }
+            50% { background-color: rgba(2, 132, 199, 0.3); }
+            100% { background-color: rgba(239, 68, 68, 0.3); }
         }
-        body.police-alert { animation: giroflex 0.25s infinite; }
+        body.police-alert { animation: giroflex 0.2s infinite; }
 
         /* OVERLAY SETUP INICIAL */
         .setup-overlay {
@@ -45,7 +45,7 @@
             z-index: 300; display: flex; justify-content: center; align-items: center;
         }
         .setup-card {
-            background: rgba(255, 255, 255, 0.98); border: 2px solid var(--primary-blue);
+            background: #ffffff; border: 2px solid var(--primary-blue);
             border-radius: 24px; width: 90%; max-width: 650px; padding: 30px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15); text-align: center;
         }
@@ -57,7 +57,7 @@
             width: 45px; height: 45px; border-radius: 12px; border: 2px solid var(--card-border);
             background: #ffffff; color: var(--text-dark); font-size: 18px; font-weight: 800; cursor: pointer; transition: all 0.2s;
         }
-        .btn-count.active { background: var(--primary-blue); color: #fff; border-color: var(--primary-blue); box-shadow: 0 4px 15px rgba(2, 132, 199, 0.3); transform: scale(1.1); }
+        .btn-count.active { background: var(--primary-blue); color: #fff; border-color: var(--primary-blue); transform: scale(1.1); }
 
         .players-inputs-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -71,7 +71,7 @@
             background: linear-gradient(135deg, var(--primary-orange), #ea580c);
             color: #fff; border: none; padding: 14px 35px; border-radius: 14px;
             font-family: 'Orbitron', sans-serif; font-size: 15px; font-weight: 900;
-            cursor: pointer; box-shadow: 0 6px 20px rgba(255, 102, 0, 0.3); text-transform: uppercase; transition: all 0.2s;
+            cursor: pointer; box-shadow: 0 6px 20px rgba(255, 102, 0, 0.3); text-transform: uppercase;
         }
 
         /* PAINEL LATERAL HUD */
@@ -91,23 +91,17 @@
         .brand-header h1 { font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 900; color: var(--primary-blue); }
         .brand-header p { font-size: 10px; font-weight: 800; color: var(--primary-orange); text-transform: uppercase; letter-spacing: 1.5px; }
 
-        /* CRONÔMETRO DE TURNO (1M 30S) + PAUSA */
-        .timer-hud {
-            margin: 8px 0; background: #ffffff; border: 1px solid var(--primary-blue);
-            border-radius: 12px; padding: 8px 12px; text-align: center;
-        }
-        .timer-row { display: flex; justify-content: space-between; align-align: center; }
+        /* CRONÔMETRO */
+        .timer-hud { margin: 8px 0; background: #ffffff; border: 1px solid var(--primary-blue); border-radius: 12px; padding: 8px 12px; text-align: center; }
+        .timer-row { display: flex; justify-content: space-between; align-items: center; }
         .timer-title { font-size: 10px; font-weight: 800; color: var(--primary-blue); text-transform: uppercase; }
         .timer-val { font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 900; color: var(--neon-green); }
         .btn-pause { background: var(--primary-blue); color: #fff; border: none; border-radius: 6px; padding: 2px 8px; font-size: 10px; font-weight: 800; cursor: pointer; }
         .timer-bar-container { background: #e2e8f0; height: 6px; border-radius: 3px; overflow: hidden; margin-top: 4px; }
         .timer-bar { background: var(--neon-green); height: 100%; width: 100%; transition: width 1s linear; }
 
-        .players-list { margin: 6px 0; display: flex; flex-direction: column; gap: 6px; max-height: 260px; overflow-y: auto; }
-        .player-box {
-            background: #ffffff; border: 2px solid #cbd5e1;
-            border-radius: 12px; padding: 8px 10px; display: flex; flex-direction: column; gap: 4px; transition: all 0.3s;
-        }
+        .players-list { margin: 6px 0; display: flex; flex-direction: column; gap: 6px; max-height: 250px; overflow-y: auto; }
+        .player-box { background: #ffffff; border: 2px solid #cbd5e1; border-radius: 12px; padding: 8px 10px; display: flex; flex-direction: column; gap: 4px; transition: all 0.3s; }
         .player-box.active { border-color: var(--primary-orange); box-shadow: 0 0 15px rgba(255, 102, 0, 0.2); background: #fff7ed; }
         .player-row-top { display: flex; justify-content: space-between; align-items: center; }
         .player-info-name { font-weight: 800; font-size: 13px; display: flex; align-items: center; gap: 6px; }
@@ -116,7 +110,7 @@
         .btn-view-props {
             background: rgba(2, 132, 199, 0.1); border: 1px solid var(--primary-blue);
             border-radius: 8px; font-size: 10px; font-weight: 800; color: var(--primary-blue);
-            padding: 5px; cursor: pointer; text-align: center; transition: all 0.2s;
+            padding: 5px; cursor: pointer; text-align: center;
         }
         .btn-view-props:hover { background: var(--primary-blue); color: #fff; }
 
@@ -124,82 +118,86 @@
             background: linear-gradient(135deg, var(--primary-blue), #0369a1);
             color: #fff; border: none; padding: 12px; border-radius: 12px;
             font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 12px; cursor: pointer; width: 100%; margin-bottom: 6px;
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25); text-transform: uppercase; transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25); text-transform: uppercase;
         }
         .btn-orange { background: linear-gradient(135deg, var(--primary-orange), #ea580c); }
         .btn-rules { background: #ffffff; color: var(--primary-blue); border: 2px solid var(--primary-blue); }
 
-        .log-terminal {
-            background: #0f172a; color: #38bdf8; font-family: monospace;
-            font-size: 10px; padding: 8px; border-radius: 10px; height: 90px;
-            overflow-y: auto; border: 1px solid #334155;
-        }
+        .log-terminal { background: #0f172a; color: #38bdf8; font-family: monospace; font-size: 10px; padding: 8px; border-radius: 10px; height: 85px; overflow-y: auto; }
 
-        /* PALCO ISOMÉTRICO COM ENCAIXE TOTAL DAS 40 CASAS */
+        /* TABULEIRO 100% VISÍVEL (SEM CORTES) */
         .board-stage {
-            perspective: 1200px; display: flex; justify-content: center; align-items: center;
-            width: 100%; height: 100%; overflow: hidden;
+            display: flex; justify-content: center; align-items: center;
+            width: 100%; height: 100%; padding: 10px;
         }
 
-        .board-viewport-3d {
-            background: var(--panel-bg); backdrop-filter: blur(12px);
-            border: 2px solid var(--primary-blue); border-radius: 20px; padding: 6px;
-            box-shadow: 0 15px 40px rgba(2, 132, 199, 0.15);
+        .board-viewport {
+            background: #ffffff; border: 3px solid var(--primary-blue); border-radius: 16px; padding: 6px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             display: grid; grid-template-columns: repeat(11, 1fr); grid-template-rows: repeat(11, 1fr);
-            gap: 2px; position: relative; width: 780px; height: 780px;
-            transform: rotateX(12deg) scale(0.96); transition: transform 0.3s ease;
+            gap: 2px; position: relative;
+            width: 100%; max-width: 760px; aspect-ratio: 1 / 1;
         }
 
         .tile {
             background: #ffffff; border: 1px solid #cbd5e1;
-            border-radius: 4px; padding: 2px; display: flex; flex-direction: column;
+            border-radius: 3px; padding: 2px; display: flex; flex-direction: column;
             justify-content: space-between; position: relative; cursor: pointer;
-            user-select: none; transition: all 0.2s;
+            user-select: none; transition: transform 0.15s;
         }
-        .tile:hover { transform: translateZ(10px) scale(1.08); z-index: 20; border-color: var(--primary-blue); box-shadow: 0 8px 20px rgba(2, 132, 199, 0.2); }
+        .tile:hover { transform: scale(1.06); z-index: 20; border-color: var(--primary-blue); box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2); }
         .tile.owned { border: 2px solid var(--primary-orange) !important; background: #fffdfa; }
 
         .tile-color-bar { height: 4px; border-radius: 2px; margin-bottom: 2px; width: 100%; }
-        .tile-title { font-size: 7px; font-weight: 800; line-height: 1; color: var(--text-dark); text-transform: uppercase; }
-        .tile-price { font-size: 7px; font-weight: 800; color: var(--primary-blue); margin-top: auto; text-align: right; }
+        .tile-title { font-size: 6.5px; font-weight: 800; line-height: 1; color: var(--text-dark); text-transform: uppercase; word-break: break-word; }
+        .tile-price { font-size: 6.5px; font-weight: 800; color: var(--primary-blue); margin-top: auto; text-align: right; }
         .owner-badge { position: absolute; top: 1px; right: 1px; font-size: 8px; }
 
         .tile-corner {
             background: linear-gradient(135deg, #f8fafc, #e2e8f0); border: 1.5px solid var(--primary-blue);
             text-align: center; justify-content: center; align-items: center;
-            font-weight: 900; font-size: 8px; color: var(--primary-blue);
+            font-weight: 900; font-size: 7.5px; color: var(--primary-blue);
         }
 
-        /* PEÕES 3D NÍTIDOS E AUMENTADOS */
+        /* CASAS E HOTÉIS EM ALTO RELEVO 3D */
+        .buildings-container {
+            position: absolute; top: 1px; left: 1px; display: flex; gap: 1px; z-index: 4;
+        }
+        .building-house { font-size: 9px; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3)); }
+        .building-hotel { font-size: 11px; filter: drop-shadow(0 2px 3px rgba(239, 68, 68, 0.5)); }
+
+        /* PEÕES 3D EM ALTO RELEVO COM BASE FÍSICA */
         .pawn-container { position: absolute; bottom: 2px; left: 2px; display: flex; flex-wrap: wrap; gap: 1px; z-index: 10; }
-        .pawn {
+        .pawn-3d {
             font-size: 18px; line-height: 1;
-            filter: drop-shadow(0 3px 5px rgba(0,0,0,0.4));
-            transform: translateZ(15px); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-block;
+            filter: drop-shadow(0 4px 4px rgba(0,0,0,0.35));
+            transform: translateY(-2px) scale(1.1);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* CENTRO LIMPO MODERNO COM ÍCONE DE LIMEIRA */
+        /* CENTRO LIMPO */
         .board-center-area {
             grid-column: 2 / 11; grid-row: 2 / 11;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 244, 249, 0.98));
-            border-radius: 14px; border: 2px dashed rgba(2, 132, 199, 0.3);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(240, 244, 249, 0.98));
+            border-radius: 12px; border: 2px dashed rgba(2, 132, 199, 0.3);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 15px; text-align: center; position: relative; overflow: hidden;
+            padding: 12px; text-align: center; position: relative; overflow: hidden;
         }
 
-        .city-logo-center { font-family: 'Orbitron', sans-serif; font-size: 36px; font-weight: 900; color: var(--primary-blue); text-shadow: 0 4px 15px rgba(2, 132, 199, 0.15); }
-        .city-sub-center { font-size: 12px; font-weight: 800; color: var(--primary-orange); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 20px; }
+        .city-logo-center { font-family: 'Orbitron', sans-serif; font-size: 32px; font-weight: 900; color: var(--primary-blue); }
+        .city-sub-center { font-size: 11px; font-weight: 800; color: var(--primary-orange); text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 15px; }
 
-        .dice-wrapper { display: flex; gap: 15px; margin-bottom: 15px; }
+        .dice-wrapper { display: flex; gap: 12px; margin-bottom: 12px; }
         .dice-box {
-            width: 55px; height: 55px; background: #ffffff;
+            width: 52px; height: 52px; background: #ffffff;
             border: 2px solid var(--primary-blue); border-radius: 12px;
-            font-family: 'Orbitron', sans-serif; font-size: 26px; font-weight: 900;
+            font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 900;
             color: var(--text-dark); display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
         }
 
-        /* MODAIS E CARTAS ESTILO BANCO IMOBILIÁRIO REAL */
+        /* MODAIS COM BOTÃO "X" DE FECHAMENTO */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(8px); z-index: 250;
@@ -207,17 +205,27 @@
         }
         .modal-content {
             background: #ffffff; border: 2px solid var(--primary-blue); border-radius: 20px;
-            width: 90%; max-width: 520px; padding: 22px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            animation: popIn 0.25s ease; max-height: 90vh; overflow-y: auto;
+            width: 90%; max-width: 500px; padding: 22px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            animation: popIn 0.25s ease; max-height: 90vh; overflow-y: auto; position: relative;
         }
         @keyframes popIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .btn-close-x {
+            position: absolute; top: 12px; right: 15px;
+            background: #e2e8f0; color: var(--text-dark); border: none;
+            width: 30px; height: 30px; border-radius: 50%;
+            font-weight: 900; font-size: 16px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s; z-index: 20;
+        }
+        .btn-close-x:hover { background: #ef4444; color: #fff; transform: scale(1.1); }
 
         .title-deed-card {
             background: #ffffff; color: #000; border-radius: 12px; padding: 15px; border: 3px solid #000;
             font-family: 'Plus Jakarta Sans', sans-serif; margin-bottom: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
         .deed-header { text-align: center; padding: 10px; border: 2px solid #000; margin-bottom: 10px; border-radius: 4px; }
-        .deed-header-title { font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 900; text-transform: uppercase; }
+        .deed-header-title { font-family: 'Orbitron', sans-serif; font-size: 15px; font-weight: 900; text-transform: uppercase; }
         .deed-header-type { font-size: 10px; font-weight: 800; letter-spacing: 1px; }
 
         .deed-table { width: 100%; font-size: 11px; border-collapse: collapse; margin-bottom: 10px; }
@@ -228,15 +236,11 @@
 
         .props-gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 12px; }
 
-        /* PAINEL DE NEGOCIAÇÃO / QUITAÇÃO DE DÍVIDAS */
-        .trade-box { background: #f8fafc; border: 1px solid var(--card-border); border-radius: 10px; padding: 10px; margin-top: 10px; }
-        .trade-title { font-size: 11px; font-weight: 800; color: var(--primary-blue); text-transform: uppercase; margin-bottom: 6px; }
-
         .modal-actions { display: flex; gap: 8px; margin-top: 10px; }
         .btn-modal { flex: 1; padding: 12px; border-radius: 10px; border: none; font-weight: 800; font-size: 11px; cursor: pointer; text-transform: uppercase; }
         .btn-buy { background: var(--neon-green); color: #fff; font-weight: 900; }
         .btn-pass { background: #e2e8f0; color: var(--text-dark); }
-        .btn-sell { background: #ef4444; color: #fff; }
+        .btn-offer { background: var(--primary-orange); color: #fff; }
     </style>
 </head>
 <body>
@@ -271,7 +275,7 @@
                 <p>Capital da Semijoia & Citros</p>
             </div>
 
-            <!-- CRONÔMETRO DE TURNO DE 1MIN E MEIO (90S) + BOTAO PAUSA -->
+            <!-- CRONÔMETRO -->
             <div class="timer-hud">
                 <div class="timer-row">
                     <span class="timer-title">Tempo do Turno</span>
@@ -295,9 +299,9 @@
         </div>
     </div>
 
-    <!-- PALCO ISOMÉTRICO 3D -->
+    <!-- TABULEIRO COMPLETO ENQUADRADO -->
     <div class="board-stage">
-        <div class="board-viewport-3d" id="board">
+        <div class="board-viewport" id="board">
             <div class="board-center-area">
                 <div class="city-logo-center">LIMEIRÓPOLIS</div>
                 <div class="city-sub-center">Capital da Semijoia & Citros</div>
@@ -313,53 +317,65 @@
     </div>
 </div>
 
-<!-- MODAL MENSAGEM / EVENTO FLUTUANTE DA RODADA -->
+<!-- MODAL EVENTO FLUTUANTE DA RODADA -->
 <div class="modal-overlay" id="modal-evento">
     <div class="modal-content">
+        <button class="btn-close-x" onclick="fecharModalEvento()">✖</button>
         <div style="color: var(--primary-blue); font-family:'Orbitron',sans-serif; font-size:18px; font-weight:900;" id="ev-title">EVENTO DA RODADA</div>
-        <div style="font-size: 13px; line-height: 1.5; color: var(--text-dark); margin: 15px 0;" id="ev-desc">Descrição do Acontecimento</div>
+        <div style="font-size: 13px; line-height: 1.5; color: var(--text-dark); margin: 15px 0;" id="ev-desc">Descrição</div>
         <button class="btn-modal btn-buy" style="width: 100%;" onclick="fecharModalEvento()">Continuar Jogo</button>
     </div>
 </div>
 
-<!-- MODAL COMPRA / ESCRITURA COMPLETA -->
+<!-- MODAL COMPRA E CONSTRUÇÃO -->
 <div class="modal-overlay" id="modal-compra">
     <div class="modal-content">
+        <button class="btn-close-x" onclick="fecharModalCompra()">✖</button>
         <div id="deed-container"></div>
         <div class="modal-actions" id="m-buttons">
-            <button class="btn-modal btn-buy" onclick="confirmarCompra()">Comprar Propriedade</button>
-            <button class="btn-modal btn-pass" onclick="fecharModalCompra()">Passar Turno</button>
+            <button class="btn-modal btn-buy" id="btn-modal-buy" onclick="confirmarCompra()">Comprar Propriedade</button>
+            <button class="btn-modal btn-offer" id="btn-modal-build" style="display:none;" onclick="construirImovel()">🏠 Construir Casa/Hotel</button>
+            <button class="btn-modal btn-pass" onclick="fecharModalCompra()">Fechar</button>
         </div>
     </div>
 </div>
 
-<!-- MODAL MINHAS PROPRIEDADES / GERENCIADOR & QUITAÇÃO DE DÍVIDAS -->
+<!-- MODAL CARTÕES DE IMÓVEIS E OFERTAS -->
 <div class="modal-overlay" id="modal-minhas-props">
     <div class="modal-content">
+        <button class="btn-close-x" onclick="fecharModalProps()">✖</button>
         <div class="modal-title" id="props-player-title" style="color: var(--primary-blue); font-family:'Orbitron',sans-serif; font-size:18px; font-weight:900;">Cartões de Imóveis</div>
-        
         <div class="props-gallery-grid" id="props-gallery-container"></div>
+    </div>
+</div>
 
-        <div class="trade-box" id="trade-section" style="display:none;">
-            <div class="trade-title">🤝 Quitar Dívidas / Repassar até 3 Imóveis</div>
-            <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 6px;">Selecione o jogador destino e os imóveis que deseja repassar:</div>
-            <select id="trade-target-player" style="width: 100%; padding: 6px; border-radius: 6px; border: 1px solid var(--card-border); font-weight: 700; margin-bottom: 8px;"></select>
-            <button class="btn-modal btn-buy" style="width: 100%; font-size: 10px;" onclick="executarTransferenciaPropriedades()">Confirmar Repasse de Imóveis</button>
+<!-- MODAL OFERTA DE COMPRA ENTRE JOGADORES -->
+<div class="modal-overlay" id="modal-oferta">
+    <div class="modal-content">
+        <button class="btn-close-x" onclick="fecharModalOferta()">✖</button>
+        <div style="color: var(--primary-orange); font-family:'Orbitron',sans-serif; font-size:16px; font-weight:900;">💰 FAZER OFERTA DE COMPRA</div>
+        <div style="font-size: 12px; color: var(--text-muted); margin: 8px 0;" id="oferta-prop-nome">Propriedade</div>
+        
+        <label style="font-size: 11px; font-weight: 800;">Valor da Proposta ($):</label>
+        <input type="number" id="oferta-valor" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid var(--card-border); font-weight: 700; margin: 4px 0 12px 0;">
+
+        <div class="modal-actions">
+            <button class="btn-modal btn-buy" onclick="enviarPropostaCompra()">Enviar Proposta</button>
+            <button class="btn-modal btn-pass" onclick="fecharModalOferta()">Cancelar</button>
         </div>
-
-        <button class="btn-modal btn-pass" style="width: 100%; margin-top: 15px; background: var(--primary-blue); color: #fff; font-weight:900;" onclick="fecharModalProps()">Fechar Galeria</button>
     </div>
 </div>
 
 <!-- MODAL REGRAS -->
 <div class="modal-overlay" id="modal-regras">
     <div class="modal-content">
+        <button class="btn-close-x" onclick="fecharRegras()">✖</button>
         <div style="color: var(--primary-blue); font-family:'Orbitron',sans-serif; font-size:18px; font-weight:900; margin-bottom:10px;">📜 REGRAS DE LIMEIRÓPOLIS</div>
         <div style="font-size: 12px; line-height: 1.5; color: var(--text-dark);">
-            <p>1. <strong>Dois Dados Somados:</strong> Os 2 dados rolam juntos e determinam quantos passos o peão avança.</p>
-            <p>2. <strong>Quitação de Dívida:</strong> Você pode transferir 1, 2 ou até 3 imóveis diretamente para outro jogador para amortizar aluguéis!</p>
-            <p>3. <strong>Venda ao Banco:</strong> É possível vender cartões de volta ao banco por 80% do valor de compra.</p>
-            <p>4. <strong>Cronômetro:</strong> Tempo ajustado para 1 minuto e meio (90s) com botão de pausa.</p>
+            <p>1. <strong>Dois Dados:</strong> A soma dos dois dados movimenta seu peão pelo tabuleiro.</p>
+            <p>2. <strong>Construção 3D:</strong> Monte casas 🏠 e hotéis 🏨 em alto relevo para aumentar o aluguel.</p>
+            <p>3. <strong>Oferta de Compra:</strong> Faça ofertas em dinheiro em qualquer carta de outro jogador para tentar comprá-la!</p>
+            <p>4. <strong>Botão X:</strong> Feche rapidamente qualquer janela clicando no 'X'.</p>
         </div>
         <button class="btn-modal btn-pass" style="width: 100%; margin-top:15px; background: var(--primary-blue); color: #fff; font-weight:900;" onclick="fecharRegras()">Voltar ao Jogo</button>
     </div>
@@ -426,47 +442,47 @@
 
     const casas = [
         { id: 0, nome: "INÍCIO / Recepção", preco: 0, cor: "#10b981", tipo: "canto" },
-        { id: 1, nome: "Degan", preco: 60, cor: "#8b4513", tipo: "prop", t: 2, c: 4, c1: 10, c2: 30, c3: 90, c4: 160, h: 250 },
+        { id: 1, nome: "Degan", preco: 60, cor: "#8b4513", tipo: "prop", t: 2, c: 4, c1: 10, c2: 30, c3: 90, c4: 160, h: 250, custoConst: 50 },
         { id: 2, nome: "SORTE OU REVÉS", preco: 0, cor: "#8b5cf6", tipo: "carta" },
-        { id: 3, nome: "Ernesto Kuhl", preco: 80, cor: "#8b4513", tipo: "prop", t: 4, c: 8, c1: 20, c2: 40, c3: 120, c4: 200, h: 300 },
+        { id: 3, nome: "Ernesto Kuhl", preco: 80, cor: "#8b4513", tipo: "prop", t: 4, c: 8, c1: 20, c2: 40, c3: 120, c4: 200, h: 300, custoConst: 50 },
         { id: 4, nome: "Taxa da Prefeitura", preco: 0, cor: "#64748b", tipo: "imposto" },
         { id: 5, nome: "Águas de Limeira", preco: 150, cor: "#0284c7", tipo: "servico" },
-        { id: 6, nome: "Nossa Senhora das Dores", preco: 110, cor: "#38bdf8", tipo: "prop", t: 10, c: 20, c1: 50, c2: 120, c3: 320, c4: 480, h: 630 },
+        { id: 6, nome: "Nossa Senhora das Dores", preco: 110, cor: "#38bdf8", tipo: "prop", t: 10, c: 20, c1: 50, c2: 120, c3: 320, c4: 480, h: 630, custoConst: 50 },
         { id: 7, nome: "SORTE OU REVÉS", preco: 0, cor: "#8b5cf6", tipo: "carta" },
-        { id: 8, nome: "Chácara Antonieta", preco: 130, cor: "#38bdf8", tipo: "prop", t: 12, c: 24, c1: 60, c2: 140, c3: 350, c4: 500, h: 680 },
+        { id: 8, nome: "Chácara Antonieta", preco: 130, cor: "#38bdf8", tipo: "prop", t: 12, c: 24, c1: 60, c2: 140, c3: 350, c4: 500, h: 680, custoConst: 50 },
         { id: 9, nome: "VISITA À PRISÃO", preco: 0, cor: "#ef4444", tipo: "canto" },
 
-        { id: 10, nome: "Av. Maj. José Levy Sobrinho", preco: 140, cor: "#ec4899", tipo: "prop", t: 16, c: 32, c1: 80, c2: 220, c3: 600, c4: 800, h: 1000 },
+        { id: 10, nome: "Av. Maj. José Levy Sobrinho", preco: 140, cor: "#ec4899", tipo: "prop", t: 16, c: 32, c1: 80, c2: 220, c3: 600, c4: 800, h: 1000, custoConst: 100 },
         { id: 11, nome: "Elektro", preco: 150, cor: "#0284c7", tipo: "servico" },
-        { id: 12, nome: "Av. Fabrício Vampré", preco: 140, cor: "#ec4899", tipo: "prop", t: 16, c: 32, c1: 80, c2: 220, c3: 600, c4: 800, h: 1000 },
-        { id: 13, nome: "Av. Campinas", preco: 160, cor: "#ec4899", tipo: "prop", t: 20, c: 40, c1: 100, c2: 300, c3: 750, c4: 950, h: 1150 },
-        { id: 14, nome: "Pires", preco: 180, cor: "#ff6600", tipo: "prop", t: 14, c: 28, c1: 70, c2: 200, c3: 550, c4: 750, h: 950 },
+        { id: 12, nome: "Av. Fabrício Vampré", preco: 140, cor: "#ec4899", tipo: "prop", t: 16, c: 32, c1: 80, c2: 220, c3: 600, c4: 800, h: 1000, custoConst: 100 },
+        { id: 13, nome: "Av. Campinas", preco: 160, cor: "#ec4899", tipo: "prop", t: 20, c: 40, c1: 100, c2: 300, c3: 750, c4: 950, h: 1150, custoConst: 100 },
+        { id: 14, nome: "Pires", preco: 180, cor: "#ff6600", tipo: "prop", t: 14, c: 28, c1: 70, c2: 200, c3: 550, c4: 750, h: 950, custoConst: 100 },
         { id: 15, nome: "SORTE OU REVÉS", preco: 0, cor: "#8b5cf6", tipo: "carta" },
-        { id: 16, nome: "Parronque", preco: 180, cor: "#ff6600", tipo: "prop", t: 14, c: 28, c1: 70, c2: 200, c3: 550, c4: 750, h: 950 },
-        { id: 17, nome: "Loyola", preco: 200, cor: "#ff6600", tipo: "prop", t: 16, c: 32, c1: 80, c2: 220, c3: 600, c4: 800, h: 1000 },
+        { id: 16, nome: "Parronque", preco: 180, cor: "#ff6600", tipo: "prop", t: 14, c: 28, c1: 70, c2: 200, c3: 550, c4: 750, h: 950, custoConst: 100 },
+        { id: 17, nome: "Loyola", preco: 200, cor: "#ff6600", tipo: "prop", t: 16, c: 32, c1: 80, c2: 220, c3: 600, c4: 800, h: 1000, custoConst: 100 },
         { id: 18, nome: "Viação Limeirense", preco: 150, cor: "#0284c7", tipo: "servico" },
         { id: 19, nome: "PARADA LIVRE / Praça Toledo", preco: 0, cor: "#10b981", tipo: "canto" },
 
-        { id: 20, nome: "Rua Dr. Trajano de Barros", preco: 220, cor: "#ef4444", tipo: "prop", t: 18, c: 36, c1: 90, c2: 250, c3: 700, c4: 875, h: 1050 },
+        { id: 20, nome: "Rua Dr. Trajano de Barros", preco: 220, cor: "#ef4444", tipo: "prop", t: 18, c: 36, c1: 90, c2: 250, c3: 700, c4: 875, h: 1050, custoConst: 150 },
         { id: 21, nome: "Rápido Sudeste", preco: 150, cor: "#0284c7", tipo: "servico" },
-        { id: 22, nome: "Rua Carlos Gomes", preco: 220, cor: "#ef4444", tipo: "prop", t: 18, c: 36, c1: 90, c2: 250, c3: 700, c4: 875, h: 1050 },
-        { id: 23, nome: "Rua Boa Morte", preco: 240, cor: "#ef4444", tipo: "prop", t: 20, c: 40, c1: 100, c2: 300, c3: 750, c4: 925, h: 1100 },
-        { id: 24, nome: "Rua da Alegria", preco: 340, cor: "#eab308", tipo: "prop", t: 30, c: 60, c1: 160, c2: 480, c3: 1050, c4: 1250, h: 1500 },
+        { id: 22, nome: "Rua Carlos Gomes", preco: 220, cor: "#ef4444", tipo: "prop", t: 18, c: 36, c1: 90, c2: 250, c3: 700, c4: 875, h: 1050, custoConst: 150 },
+        { id: 23, nome: "Rua Boa Morte", preco: 240, cor: "#ef4444", tipo: "prop", t: 20, c: 40, c1: 100, c2: 300, c3: 750, c4: 925, h: 1100, custoConst: 150 },
+        { id: 24, nome: "Rua da Alegria", preco: 340, cor: "#eab308", tipo: "prop", t: 30, c: 60, c1: 160, c2: 480, c3: 1050, c4: 1250, h: 1500, custoConst: 200 },
         { id: 25, nome: "TERMINAL URBANO (Passe)", preco: 0, cor: "#0284c7", tipo: "especial" },
-        { id: 26, nome: "Av. Laranjeiras", preco: 360, cor: "#eab308", tipo: "prop", t: 32, c: 64, c1: 170, c2: 500, c3: 1100, c4: 1300, h: 1550 },
+        { id: 26, nome: "Av. Laranjeiras", preco: 360, cor: "#eab308", tipo: "prop", t: 32, c: 64, c1: 170, c2: 500, c3: 1100, c4: 1300, h: 1550, custoConst: 200 },
         { id: 27, nome: "SORTE OU REVÉS", preco: 0, cor: "#8b5cf6", tipo: "carta" },
-        { id: 28, nome: "Av. Marechal Costa e Silva", preco: 380, cor: "#eab308", tipo: "prop", t: 35, c: 70, c1: 180, c2: 520, c3: 1150, c4: 1350, h: 1600 },
+        { id: 28, nome: "Av. Marechal Costa e Silva", preco: 380, cor: "#eab308", tipo: "prop", t: 35, c: 70, c1: 180, c2: 520, c3: 1150, c4: 1350, h: 1600, custoConst: 200 },
         { id: 29, nome: "Taxa de Manutenção Urbana", preco: 0, cor: "#64748b", tipo: "imposto" },
 
         { id: 30, nome: "VÁ PARA A PRISÃO", preco: 0, cor: "#ef4444", tipo: "canto" },
-        { id: 31, nome: "Horto Florestal", preco: 260, cor: "#10b981", tipo: "prop", t: 22, c: 44, c1: 110, c2: 330, c3: 800, c4: 975, h: 1150 },
-        { id: 32, nome: "Hípica", preco: 260, cor: "#10b981", tipo: "prop", t: 22, c: 44, c1: 110, c2: 330, c3: 800, c4: 975, h: 1150 },
+        { id: 31, nome: "Horto Florestal", preco: 260, cor: "#10b981", tipo: "prop", t: 22, c: 44, c1: 110, c2: 330, c3: 800, c4: 975, h: 1150, custoConst: 150 },
+        { id: 32, nome: "Hípica", preco: 260, cor: "#10b981", tipo: "prop", t: 22, c: 44, c1: 110, c2: 330, c3: 800, c4: 975, h: 1150, custoConst: 150 },
         { id: 33, nome: "SORTE OU REVÉS", preco: 0, cor: "#8b5cf6", tipo: "carta" },
-        { id: 34, nome: "Ponte do Esqueleto", preco: 280, cor: "#10b981", tipo: "prop", t: 24, c: 48, c1: 120, c2: 360, c3: 850, c4: 1025, h: 1200 },
+        { id: 34, nome: "Ponte do Esqueleto", preco: 280, cor: "#10b981", tipo: "prop", t: 24, c: 48, c1: 120, c2: 360, c3: 850, c4: 1025, h: 1200, custoConst: 150 },
         { id: 35, nome: "SORTE OU REVÉS", preco: 0, cor: "#8b5cf6", tipo: "carta" },
-        { id: 36, nome: "Prada", preco: 400, cor: "#a855f7", tipo: "prop", t: 45, c: 90, c1: 210, c2: 600, c3: 1300, c4: 1550, h: 1850 },
+        { id: 36, nome: "Prada", preco: 400, cor: "#a855f7", tipo: "prop", t: 45, c: 90, c1: 210, c2: 600, c3: 1300, c4: 1550, h: 1850, custoConst: 220 },
         { id: 37, nome: "Taxa de Luxo / Joias", preco: 0, cor: "#64748b", tipo: "imposto" },
-        { id: 38, nome: "Fazenda Itapema", preco: 460, cor: "#a855f7", tipo: "prop", t: 65, c: 130, c1: 260, c2: 750, c3: 1700, c4: 2050, h: 2400 },
+        { id: 38, nome: "Fazenda Itapema", preco: 460, cor: "#a855f7", tipo: "prop", t: 65, c: 130, c1: 260, c2: 750, c3: 1700, c4: 2050, h: 2400, custoConst: 220 },
         { id: 39, nome: "SORTE OU REVÉS", preco: 0, cor: "#8b5cf6", tipo: "carta" }
     ];
 
@@ -474,11 +490,12 @@
     let jogadores = [];
     let turno = 0;
     let donos = {};
+    let construcoes = {}; // Guarda número de casas (1-4) ou hotel (5)
     let casaAtualModal = null;
+    let ofertaCasaAtual = null;
     let tempoRestante = 90;
     let timerInterval = null;
     let timerPausado = false;
-    let imoveisSelecionadosTroca = [];
 
     function definirQtdJogadores(qtd) {
         qtdJogadores = qtd;
@@ -598,6 +615,11 @@
                 tile.innerHTML = `<div style="font-weight:900;">${casa.nome}</div>`;
             }
 
+            const bContainer = document.createElement('div');
+            bContainer.className = 'buildings-container';
+            bContainer.id = `build-box-${index}`;
+            tile.appendChild(bContainer);
+
             const pContainer = document.createElement('div');
             pContainer.className = 'pawn-container';
             pContainer.id = `pawn-box-${index}`;
@@ -619,7 +641,7 @@
             const box = document.getElementById(`pawn-box-${p.pos}`);
             if (box) {
                 const pawn = document.createElement('span');
-                pawn.className = 'pawn';
+                pawn.className = 'pawn-3d';
                 pawn.innerText = p.peao;
                 box.appendChild(pawn);
             }
@@ -628,7 +650,21 @@
         });
     }
 
-    // ROLAGEM DE DADOS SOMADOS E INDEPENDENTES
+    function atualizarConstrucoesUI(casaId) {
+        const box = document.getElementById(`build-box-${casaId}`);
+        if (!box) return;
+        box.innerHTML = '';
+        
+        const nivel = construcoes[casaId] || 0;
+        if (nivel >= 1 && nivel <= 4) {
+            for (let i = 0; i < nivel; i++) {
+                box.innerHTML += `<span class="building-house">🏠</span>`;
+            }
+        } else if (nivel === 5) {
+            box.innerHTML = `<span class="building-hotel">🏨</span>`;
+        }
+    }
+
     function jogarDados() {
         document.getElementById('btn-roll').disabled = true;
         tocarSom('dado');
@@ -641,7 +677,7 @@
         const passos = d1 + d2;
         const jAtual = jogadores[turno];
         
-        log(`> ${jAtual.peao} ${jAtual.nome} tirou [${d1}] e [${d2}] = Total de ${passos} casas.`);
+        log(`> ${jAtual.peao} ${jAtual.nome} tirou [${d1}] + [${d2}] = Total de ${passos} passos.`);
 
         let passosRestantes = passos;
         const interval = setInterval(() => {
@@ -679,6 +715,17 @@
         trocarTurno();
     }
 
+    function calcularAluguelAtual(casa) {
+        const nivel = construcoes[casa.id] || 0;
+        if (nivel === 0) return casa.t;
+        if (nivel === 1) return casa.c1;
+        if (nivel === 2) return casa.c2;
+        if (nivel === 3) return casa.c3;
+        if (nivel === 4) return casa.c4;
+        if (nivel === 5) return casa.h;
+        return casa.t;
+    }
+
     function avaliarCasaAtual(somaDados) {
         const jAtual = jogadores[turno];
         const casa = casas[jAtual.pos];
@@ -710,19 +757,20 @@
             if (!donoId) {
                 abrirModalCompra(casa);
             } else if (donoId !== jAtual.id) {
-                let valorAluguel = casa.t;
+                let valorAluguel = calcularAluguelAtual(casa);
                 jAtual.dinheiro -= valorAluguel;
                 jogadores.find(x => x.id === donoId).dinheiro += valorAluguel;
                 tocarSom('moeda');
                 exibirModalEvento('💸 ALUGUEL DE PROPRIEDADE', `${jAtual.nome} pagou $${valorAluguel} de aluguel para ${jogadores.find(x => x.id === donoId).nome}.`);
             } else {
-                trocarTurno();
+                // Parou na própria propriedade -> Opção de construir
+                abrirModalCompra(casa);
             }
         } else {
             if (casa.nome.includes("PRISÃO")) {
                 jAtual.pos = 9;
                 dispararGiroflexPolicia();
-                exibirModalEvento('🚨 PRISÃO!', `${jAtual.nome} foi detido na Lauro Corrêa e enviado diretamente para a Prisão!`);
+                exibirModalEvento('🚨 PRISÃO!', `${jAtual.nome} foi detido na Lauro Corrêa e enviado para a Prisão!`);
                 atualizarPeoes();
             } else {
                 trocarTurno();
@@ -733,8 +781,43 @@
     function abrirModalCompra(casa) {
         casaAtualModal = casa;
         renderizarEscrituraHTML('deed-container', casa);
-        document.getElementById('m-buttons').style.display = 'flex';
+        const donoId = donos[casa.id];
+        const jAtual = jogadores[turno];
+
+        if (!donoId) {
+            document.getElementById('btn-modal-buy').style.display = 'inline-block';
+            document.getElementById('btn-modal-build').style.display = 'none';
+        } else if (donoId === jAtual.id) {
+            document.getElementById('btn-modal-buy').style.display = 'none';
+            document.getElementById('btn-modal-build').style.display = 'inline-block';
+        } else {
+            document.getElementById('btn-modal-buy').style.display = 'none';
+            document.getElementById('btn-modal-build').style.display = 'none';
+        }
+
         document.getElementById('modal-compra').style.display = 'flex';
+    }
+
+    function construirImovel() {
+        const jAtual = jogadores[turno];
+        const casa = casaAtualModal;
+        const nivelAtual = construcoes[casa.id] || 0;
+
+        if (nivelAtual >= 5) {
+            alert("Esta propriedade já possui o número máximo de melhorias (Hotel 🏨)!");
+            return;
+        }
+
+        if (jAtual.dinheiro >= casa.custoConst) {
+            jAtual.dinheiro -= casa.custoConst;
+            construcoes[casa.id] = nivelAtual + 1;
+            atualizarConstrucoesUI(casa.id);
+            tocarSom('moeda');
+            log(`> 🏠 CONSTRUÇÃO! ${jAtual.nome} construiu na propriedade ${casa.nome}.`);
+            fecharModalCompra();
+        } else {
+            alert(`Saldo insuficiente para construir! Custo: $${casa.custoConst}`);
+        }
     }
 
     function renderizarEscrituraHTML(elementId, casa) {
@@ -748,13 +831,13 @@
                 <table class="deed-table">
                     <tr><td>ALUGUEL • Terreno Simples</td><td>$${casa.t || 10}</td></tr>
                     <tr><td>Com Conjunto Completo do Grupo</td><td>$${casa.c || 20}</td></tr>
-                    <tr><td>Com 1 Casa</td><td>$${casa.c1 || 50}</td></tr>
-                    <tr><td>Com 2 Casas</td><td>$${casa.c2 || 150}</td></tr>
-                    <tr><td>Com 3 Casas</td><td>$${casa.c3 || 450}</td></tr>
-                    <tr><td>Com 4 Casas</td><td>$${casa.c4 || 600}</td></tr>
-                    <tr><td>Com HOTEL</td><td>$${casa.h || 800}</td></tr>
+                    <tr><td>Com 1 Casa 🏠</td><td>$${casa.c1 || 50}</td></tr>
+                    <tr><td>Com 2 Casas 🏠🏠</td><td>$${casa.c2 || 150}</td></tr>
+                    <tr><td>Com 3 Casas 🏠🏠🏠</td><td>$${casa.c3 || 450}</td></tr>
+                    <tr><td>Com 4 Casas 🏠🏠🏠🏠</td><td>$${casa.c4 || 600}</td></tr>
+                    <tr><td>Com HOTEL 🏨</td><td>$${casa.h || 800}</td></tr>
                 </table>
-                <div class="deed-footer">Preço de Compra do Imóvel: $${casa.preco}</div>
+                <div class="deed-footer">Preço de Compra: $${casa.preco} | Custo da Casa/Hotel: $${casa.custoConst || 100}</div>
             </div>
         `;
     }
@@ -782,14 +865,13 @@
         trocarTurno();
     }
 
-    // GERENCIADOR DE CARTÕES E NEGOCIAÇÃO DE DÍVIDAS
+    // ABRIR PROPRIEDADES E OFERTA DE COMPRA
     function abrirMinhasProps(playerIdx) {
         const player = jogadores.find(x => x.id === playerIdx);
         document.getElementById('props-player-title').innerText = `Imóveis de ${player.peao} ${player.nome}`;
         
         const container = document.getElementById('props-gallery-container');
         container.innerHTML = '';
-        imoveisSelecionadosTroca = [];
 
         let comprouAlgo = false;
         casas.forEach(c => {
@@ -797,93 +879,66 @@
                 comprouAlgo = true;
                 const cardDiv = document.createElement('div');
                 cardDiv.innerHTML = `
-                    <div class="title-deed-card" style="margin-bottom:0; cursor:pointer;" id="prop-select-${c.id}" onclick="toggleSelecaoTroca(${c.id})">
+                    <div class="title-deed-card" style="margin-bottom:0;">
                         <div class="deed-header" style="background: ${c.cor}; color: #fff; padding:4px;">
                             <div class="deed-header-title" style="font-size:11px;">${c.nome}</div>
                         </div>
                         <div style="font-size:9px; font-weight:800; text-align:center; margin-top:4px; color:#000;">
-                            Aluguel: $${c.t || 10} | Valor: $${c.preco}
+                            Aluguel: $${calcularAluguelAtual(c)} | Valor: $${c.preco}
                         </div>
-                        <button class="btn-modal btn-sell" style="width:100%; margin-top:4px; font-size:9px; padding:4px;" onclick="venderAoBanco(${c.id}, ${player.id})">Vender ao Banco (80%)</button>
+                        ${player.id !== jogadores[turno].id ? 
+                            `<button class="btn-modal btn-offer" style="width:100%; margin-top:4px; font-size:9px; padding:4px;" onclick="abrirModalOferta(${c.id})">💰 Fazer Oferta de Compra</button>` 
+                            : ''}
                     </div>
                 `;
                 container.appendChild(cardDiv);
             }
         });
 
-        const tradeSection = document.getElementById('trade-section');
-        if (comprouAlgo) {
-            tradeSection.style.display = 'block';
-            const selectTarget = document.getElementById('trade-target-player');
-            selectTarget.innerHTML = '';
-            jogadores.filter(x => x.id !== player.id).forEach(pOther => {
-                selectTarget.innerHTML += `<option value="${pOther.id}">${pOther.peao} ${pOther.nome}</option>`;
-            });
-        } else {
-            tradeSection.style.display = 'none';
+        if (!comprouAlgo) {
             container.innerHTML = `<div style="grid-column: span 2; font-size: 11px; color: var(--text-muted); text-align:center; padding: 15px;">Nenhum imóvel comprado ainda.</div>`;
         }
 
         document.getElementById('modal-minhas-props').style.display = 'flex';
     }
 
-    function toggleSelecaoTroca(casaId) {
-        const idx = imoveisSelecionadosTroca.indexOf(casaId);
-        const el = document.getElementById(`prop-select-${casaId}`);
-        
-        if (idx > -1) {
-            imoveisSelecionadosTroca.splice(idx, 1);
-            if (el) el.style.border = "3px solid #000";
-        } else {
-            if (imoveisSelecionadosTroca.length < 3) {
-                imoveisSelecionadosTroca.push(casaId);
-                if (el) el.style.border = "3px solid var(--primary-orange)";
-            } else {
-                alert("Você só pode transferir no máximo 3 imóveis por negociação!");
-            }
-        }
+    function abrirModalOferta(casaId) {
+        ofertaCasaAtual = casas[casaId];
+        document.getElementById('oferta-prop-nome').innerText = `${ofertaCasaAtual.nome} (Preço Original: $${ofertaCasaAtual.preco})`;
+        document.getElementById('oferta-valor').value = Math.floor(ofertaCasaAtual.preco * 1.2);
+        document.getElementById('modal-oferta').style.display = 'flex';
     }
 
-    function executarTransferenciaPropriedades() {
-        if (imoveisSelecionadosTroca.length === 0) {
-            alert("Selecione pelo menos 1 imóvel clicando na carta para transferir!");
+    function fecharModalOferta() { document.getElementById('modal-oferta').style.display = 'none'; }
+
+    function enviarPropostaCompra() {
+        const valorProp = parseInt(document.getElementById('oferta-valor').value);
+        const jComprador = jogadores[turno];
+        const donoId = donos[ofertaCasaAtual.id];
+        const jDono = jogadores.find(x => x.id === donoId);
+
+        if (jComprador.dinheiro < valorProp) {
+            alert("Você não tem saldo suficiente para fazer essa oferta!");
             return;
         }
 
-        const targetId = parseInt(document.getElementById('trade-target-player').value);
-        const targetPlayer = jogadores.find(x => x.id === targetId);
+        const aceitou = confirm(`${jDono.peao} ${jDono.nome}, o jogador ${jComprador.peao} ${jComprador.nome} ofereceu $${valorProp} para comprar ${ofertaCasaAtual.nome}.\n\nVocê aceita vender?`);
 
-        imoveisSelecionadosTroca.forEach(casaId => {
-            donos[casaId] = targetId;
-            const tileEl = document.getElementById(`tile-${casaId}`);
-            if (tileEl) {
-                tileEl.querySelector('.owner-badge').innerText = targetPlayer.peao;
-            }
-        });
+        if (aceitou) {
+            jComprador.dinheiro -= valorProp;
+            jDono.dinheiro += valorProp;
+            donos[ofertaCasaAtual.id] = jComprador.id;
 
-        tocarSom('moeda');
-        log(`> 🤝 REPASSE! ${imoveisSelecionadosTroca.length} imóvel(is) repassado(s) para ${targetPlayer.nome}.`);
-        fecharModalProps();
-    }
+            const tileEl = document.getElementById(`tile-${ofertaCasaAtual.id}`);
+            if (tileEl) tileEl.querySelector('.owner-badge').innerText = jComprador.peao;
 
-    function venderAoBanco(casaId, playerIdx) {
-        const casa = casas[casaId];
-        const valorVenda = Math.floor(casa.preco * 0.8);
-        const player = jogadores.find(x => x.id === playerIdx);
-
-        player.dinheiro += valorVenda;
-        delete donos[casaId];
-
-        const tileEl = document.getElementById(`tile-${casaId}`);
-        if (tileEl) {
-            tileEl.classList.remove('owned');
-            const badge = tileEl.querySelector('.owner-badge');
-            if (badge) badge.remove();
+            tocarSom('moeda');
+            log(`> 🤝 OFERTA ACEITA! ${jComprador.nome} comprou ${ofertaCasaAtual.nome} de ${jDono.nome} por $${valorProp}.`);
+            fecharModalOferta();
+            fecharModalProps();
+        } else {
+            alert("A oferta foi recusada pelo proprietário!");
         }
-
-        tocarSom('moeda');
-        log(`> 🏦 VENDA AO BANCO! ${player.nome} vendeu ${casa.nome} por $${valorVenda}.`);
-        abrirMinhasProps(playerIdx);
     }
 
     function fecharModalProps() { document.getElementById('modal-minhas-props').style.display = 'none'; }
@@ -892,7 +947,8 @@
         const casa = casas[index];
         if (casa.preco > 0) {
             renderizarEscrituraHTML('deed-container', casa);
-            document.getElementById('m-buttons').style.display = 'none';
+            document.getElementById('btn-modal-buy').style.display = 'none';
+            document.getElementById('btn-modal-build').style.display = 'none';
             document.getElementById('modal-compra').style.display = 'flex';
         }
     }
