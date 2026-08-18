@@ -11,7 +11,7 @@
 
     <style>
         :root {
-            --panel-bg: rgba(255, 255, 255, 0.95);
+            --panel-bg: rgba(255, 255, 255, 0.96);
             --card-border: rgba(2, 132, 199, 0.3);
             --primary-blue: #0284c7;
             --primary-orange: #ff6600;
@@ -27,16 +27,29 @@
             background: linear-gradient(135deg, #e0f2fe 0%, #f1f5f9 50%, #cbd5e1 100%);
             color: var(--text-dark); height: 100vh; width: 100vw;
             display: flex; justify-content: center; align-items: center;
-            padding: 10px; overflow: hidden;
+            padding: 10px; overflow: hidden; position: relative;
         }
 
-        /* EFEITO GIROFLEX DA POLÍCIA */
+        /* EFEITO GIROFLEX POLICIAL */
         @keyframes giroflex {
             0% { background-color: rgba(239, 68, 68, 0.3); }
             50% { background-color: rgba(2, 132, 199, 0.3); }
             100% { background-color: rgba(239, 68, 68, 0.3); }
         }
         body.police-alert { animation: giroflex 0.2s infinite; }
+
+        /* ANIMAÇÃO DE NOTA DE DINHEIRO TRAMITANDO */
+        @keyframes flyingMoney {
+            0% { transform: scale(0.3) translateY(100px); opacity: 0; }
+            50% { transform: scale(1.2) translateY(-20px); opacity: 1; }
+            100% { transform: scale(1) translateY(0); opacity: 0; }
+        }
+        .flying-money-anim {
+            position: fixed; top: 40%; left: 45%; z-index: 500;
+            font-size: 50px; font-weight: 900; color: #10b981;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            pointer-events: none; animation: flyingMoney 1.2s ease-out forwards;
+        }
 
         /* OVERLAY SETUP INICIAL */
         .setup-overlay {
@@ -74,7 +87,7 @@
             cursor: pointer; box-shadow: 0 6px 20px rgba(255, 102, 0, 0.3); text-transform: uppercase;
         }
 
-        /* PAINEL LATERAL E LAYOUT AJUSTADO */
+        /* LAYOUT PRINCIPAL */
         .main-wrapper {
             display: grid; grid-template-columns: 310px 1fr;
             gap: 12px; width: 100%; max-width: 1750px; height: 98vh;
@@ -91,20 +104,25 @@
         .brand-header h1 { font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: 900; color: var(--primary-blue); }
         .brand-header p { font-size: 10px; font-weight: 800; color: var(--primary-orange); text-transform: uppercase; letter-spacing: 1.5px; }
 
-        .timer-hud { margin: 6px 0; background: #ffffff; border: 1px solid var(--primary-blue); border-radius: 12px; padding: 6px 10px; text-align: center; }
-        .timer-row { display: flex; justify-content: space-between; align-items: center; }
-        .timer-title { font-size: 10px; font-weight: 800; color: var(--primary-blue); text-transform: uppercase; }
-        .timer-val { font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 900; color: var(--neon-green); }
-        .btn-pause { background: var(--primary-blue); color: #fff; border: none; border-radius: 6px; padding: 2px 8px; font-size: 10px; font-weight: 800; cursor: pointer; }
-        .timer-bar-container { background: #e2e8f0; height: 6px; border-radius: 3px; overflow: hidden; margin-top: 4px; }
-        .timer-bar { background: var(--neon-green); height: 100%; width: 100%; transition: width 1s linear; }
+        /* BANCO E CÉDULAS NA LISTA */
+        .bank-hud-card {
+            background: linear-gradient(135deg, #1e293b, #0f172a); color: #fff;
+            border-radius: 12px; padding: 8px 12px; margin: 8px 0; display: flex;
+            align-items: center; justify-content: space-between; border: 1px solid #334155;
+        }
+        .bank-title { font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 800; color: #38bdf8; }
 
-        .players-list { margin: 4px 0; display: flex; flex-direction: column; gap: 6px; max-height: 240px; overflow-y: auto; }
+        .players-list { margin: 4px 0; display: flex; flex-direction: column; gap: 6px; max-height: 280px; overflow-y: auto; }
         .player-box { background: #ffffff; border: 2px solid #cbd5e1; border-radius: 12px; padding: 8px; display: flex; flex-direction: column; gap: 4px; transition: all 0.3s; }
         .player-box.active { border-color: var(--primary-orange); box-shadow: 0 0 15px rgba(255, 102, 0, 0.2); background: #fff7ed; }
         .player-row-top { display: flex; justify-content: space-between; align-items: center; }
         .player-info-name { font-weight: 800; font-size: 12px; display: flex; align-items: center; gap: 6px; }
-        .player-info-money { font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 900; color: var(--neon-green); }
+        
+        .cash-badge {
+            background: #dcfce7; color: #166534; border: 1px solid #86efac;
+            padding: 3px 8px; border-radius: 6px; font-family: 'Orbitron', sans-serif;
+            font-size: 13px; font-weight: 900; display: flex; align-items: center; gap: 4px;
+        }
 
         .btn-view-props {
             background: rgba(2, 132, 199, 0.1); border: 1px solid var(--primary-blue);
@@ -124,7 +142,7 @@
 
         .log-terminal { background: #0f172a; color: #38bdf8; font-family: monospace; font-size: 10px; padding: 8px; border-radius: 10px; height: 80px; overflow-y: auto; }
 
-        /* TABULEIRO ENQUADRADO PERFEITO SEM CORTES NA PARTE INFERIOR */
+        /* TABULEIRO ENQUADRADO TOTALMENTE VISÍVEL */
         .board-stage {
             display: flex; justify-content: center; align-items: center;
             width: 100%; height: 100%; height: calc(100vh - 20px);
@@ -158,12 +176,20 @@
             font-weight: 900; font-size: 7px; color: var(--primary-blue);
         }
 
+        /* CASA DA PRISÃO DUPLA */
+        .jail-split-box {
+            display: grid; grid-template-columns: 1fr 1fr; height: 100%; width: 100%;
+            font-size: 6px; font-weight: 900; text-align: center;
+        }
+        .jail-visita { background: #e2e8f0; color: #334155; padding: 2px; border-right: 1px solid #94a3b8; display: flex; align-items: center; justify-content: center; }
+        .jail-detido { background: #fee2e2; color: #991b1b; padding: 2px; display: flex; align-items: center; justify-content: center; }
+
         /* CONSTRUÇÕES EM ALTO RELEVO */
         .buildings-container { position: absolute; top: 1px; left: 1px; display: flex; gap: 1px; z-index: 4; }
         .building-house { font-size: 9px; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3)); }
         .building-hotel { font-size: 11px; filter: drop-shadow(0 2px 3px rgba(239, 68, 68, 0.5)); }
 
-        /* PEÕES 3D REALISTAS COM BASE DE PLÁSTICO CIRCULAR */
+        /* PEÕES REALISTAS COM BASE CIRCULAR */
         .pawn-container { position: absolute; bottom: 2px; left: 2px; display: flex; flex-wrap: wrap; gap: 2px; z-index: 10; }
         .pawn-3d-base {
             width: 20px; height: 20px; border-radius: 50%;
@@ -174,7 +200,7 @@
             font-size: 12px; transform: scale(1.1); transition: all 0.3s ease;
         }
 
-        /* CENTRO LIMPO DO TABULEIRO */
+        /* DADOS 3D ANIMADOS COM PONTOS */
         .board-center-area {
             grid-column: 2 / 11; grid-row: 2 / 11;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(240, 244, 249, 0.98));
@@ -186,13 +212,20 @@
         .city-logo-center { font-family: 'Orbitron', sans-serif; font-size: 28px; font-weight: 900; color: var(--primary-blue); }
         .city-sub-center { font-size: 10px; font-weight: 800; color: var(--primary-orange); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
 
-        .dice-wrapper { display: flex; gap: 10px; margin-bottom: 10px; }
-        .dice-box {
-            width: 48px; height: 48px; background: #ffffff;
-            border: 2px solid var(--primary-blue); border-radius: 10px;
-            font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: 900;
+        .dice-wrapper { display: flex; gap: 15px; margin-bottom: 12px; }
+        .dice-box-3d {
+            width: 52px; height: 52px; background: #ffffff;
+            border: 2px solid var(--primary-blue); border-radius: 12px;
+            font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 900;
             color: var(--text-dark); display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15), inset 0 2px 4px rgba(255,255,255,0.8);
+            transition: transform 0.4s ease;
+        }
+        .dice-box-3d.rolling { animation: rollDice 0.4s ease-in-out infinite; }
+        @keyframes rollDice {
+            0% { transform: rotate(0deg) scale(0.9); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(0.9); }
         }
 
         /* MODAIS COM BOTÃO "X" */
@@ -217,21 +250,6 @@
             transition: all 0.2s; z-index: 20;
         }
         .btn-close-x:hover { background: #ef4444; color: #fff; transform: scale(1.1); }
-
-        /* ANIMAÇÃO 3D DO BARALHO SORTE OU REVÉS */
-        .card-shuffle-wrapper {
-            perspective: 800px; display: flex; justify-content: center; margin: 15px 0;
-        }
-        .card-3d-animated {
-            width: 180px; height: 250px; background: linear-gradient(135deg, #8b5cf6, #6d28d9);
-            border: 3px solid #fff; border-radius: 14px; color: #fff;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 12px; text-align: center; box-shadow: 0 10px 25px rgba(109, 40, 217, 0.4);
-            animation: flipCard 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        @keyframes flipCard {
-            0% { transform: rotateY(180deg) scale(0.5); opacity: 0; }
-            100% { transform: rotateY(0deg) scale(1); opacity: 1; } }
 
         .title-deed-card {
             background: #ffffff; color: #000; border-radius: 12px; padding: 12px; border: 3px solid #000;
@@ -288,19 +306,17 @@
                 <p>Capital da Semijoia & Citros</p>
             </div>
 
-            <!-- CRONÔMETRO -->
-            <div class="timer-hud">
-                <div class="timer-row">
-                    <span class="timer-title">Tempo do Turno</span>
-                    <button class="btn-pause" id="btn-pause-timer" onclick="togglePausaTimer()">⏸️ Pausar</button>
+            <div class="bank-hud-card">
+                <div>
+                    <div class="bank-title">🏦 BANCO CENTRAL</div>
+                    <div style="font-size: 9px; color: #94a3b8;">Gestão Financeira do Jogo</div>
                 </div>
-                <div class="timer-val" id="timer-sec">90s</div>
-                <div class="timer-bar-container"><div class="timer-bar" id="timer-bar"></div></div>
+                <span style="font-size: 20px;">💵</span>
             </div>
 
             <div class="players-list" id="sidebar-players-list"></div>
 
-            <button class="btn-action btn-orange" id="btn-roll" onclick="jogarDados()">🎲 Rolar 2 Dados</button>
+            <button class="btn-action btn-orange" id="btn-roll" onclick="jogarDados()">🎲 Rolar 2 Dados 3D</button>
             <button class="btn-action btn-rules" onclick="abrirRegras()">📜 Manual & Regras</button>
         </div>
 
@@ -320,8 +336,8 @@
                 <div class="city-sub-center">Capital da Semijoia & Citros</div>
                 
                 <div class="dice-wrapper">
-                    <div class="dice-box" id="d1">1</div>
-                    <div class="dice-box" id="d2">1</div>
+                    <div class="dice-box-3d" id="d1">🎲</div>
+                    <div class="dice-box-3d" id="d2">🎲</div>
                 </div>
                 
                 <div id="turn-status" style="font-weight: 800; color: var(--primary-blue); font-size: 13px;">Aguardando jogada...</div>
@@ -330,33 +346,13 @@
     </div>
 </div>
 
-<!-- MODAL ANIMAÇÃO BARALHO SORTE OU REVÉS -->
-<div class="modal-overlay" id="modal-sorte-reves">
-    <div class="modal-content" style="text-align: center;">
-        <button class="btn-close-x" onclick="fecharModalSorteReves()">✖</button>
-        <div style="color: var(--primary-blue); font-family:'Orbitron',sans-serif; font-size:16px; font-weight:900;" id="sr-title">🎴 SORTE OU REVÉS</div>
-        
-        <div class="card-shuffle-wrapper">
-            <div class="card-3d-animated" id="sr-card-box">
-                <div style="font-size: 24px; margin-bottom: 8px;" id="sr-icon">🎴</div>
-                <div style="font-size: 11px; font-weight: 800; line-height: 1.4;" id="sr-desc">Embaralhando...</div>
-            </div>
-        </div>
-
-        <button class="btn-modal btn-buy" style="width: 100%;" onclick="fecharModalSorteReves()">Entendido</button>
-    </div>
-</div>
-
-<!-- MODAL COMPRA E CONSTRUÇÃO -->
-<div class="modal-overlay" id="modal-compra">
+<!-- MODAL INFORMAÇÕES DE CASAS ESPECIAIS (PRISÃO, INÍCIO, PRAÇA) -->
+<div class="modal-overlay" id="modal-info-casa">
     <div class="modal-content">
-        <button class="btn-close-x" onclick="fecharModalCompra()">✖</button>
-        <div id="deed-container"></div>
-        <div class="modal-actions" id="m-buttons">
-            <button class="btn-modal btn-buy" id="btn-modal-buy" onclick="confirmarCompra()">Comprar Propriedade</button>
-            <button class="btn-modal btn-offer" id="btn-modal-build" style="display:none;" onclick="construirImovel()">🏠 Construir Casa/Hotel</button>
-            <button class="btn-modal btn-pass" onclick="fecharModalCompra()">Fechar</button>
-        </div>
+        <button class="btn-close-x" onclick="fecharModalInfoCasa()">✖</button>
+        <div style="color: var(--primary-blue); font-family:'Orbitron',sans-serif; font-size:16px; font-weight:900;" id="info-casa-title">INFORMAÇÃO</div>
+        <div style="font-size: 12px; line-height: 1.5; color: var(--text-dark); margin: 12px 0;" id="info-casa-desc">Descrição</div>
+        <button class="btn-modal btn-pass" style="width:100%;" onclick="fecharModalInfoCasa()">Entendido</button>
     </div>
 </div>
 
@@ -366,7 +362,20 @@
         <button class="btn-close-x" onclick="fecharModalEvento()">✖</button>
         <div style="color: var(--primary-blue); font-family:'Orbitron',sans-serif; font-size:18px; font-weight:900;" id="ev-title">EVENTO DA RODADA</div>
         <div style="font-size: 12px; line-height: 1.5; color: var(--text-dark); margin: 12px 0;" id="ev-desc">Descrição</div>
-        <button class="btn-modal btn-buy" style="width: 100%;" onclick="fecharModalEvento()">Continuar Jogo</button>
+        <button class="btn-modal btn-buy" style="width: 100%;" id="btn-confirm-evento" onclick="fecharModalEvento()">Confirmar Transação 💵</button>
+    </div>
+</div>
+
+<!-- MODAL COMPRA E CONSTRUÇÃO -->
+<div class="modal-overlay" id="modal-compra">
+    <div class="modal-content">
+        <button class="btn-close-x" onclick="fecharModalCompra()">✖</button>
+        <div id="deed-container"></div>
+        <div class="modal-actions" id="m-buttons">
+            <button class="btn-modal btn-buy" id="btn-modal-buy" onclick="confirmarCompra()">Comprar Propriedade 💵</button>
+            <button class="btn-modal btn-offer" id="btn-modal-build" style="display:none;" onclick="construirImovel()">🏠 Construir Casa/Hotel</button>
+            <button class="btn-modal btn-pass" onclick="fecharModalCompra()">Fechar</button>
+        </div>
     </div>
 </div>
 
@@ -379,33 +388,16 @@
     </div>
 </div>
 
-<!-- MODAL OFERTA DE COMPRA -->
-<div class="modal-overlay" id="modal-oferta">
-    <div class="modal-content">
-        <button class="btn-close-x" onclick="fecharModalOferta()">✖</button>
-        <div style="color: var(--primary-orange); font-family:'Orbitron',sans-serif; font-size:16px; font-weight:900;">💰 FAZER OFERTA DE COMPRA</div>
-        <div style="font-size: 11px; color: var(--text-muted); margin: 8px 0;" id="oferta-prop-nome">Propriedade</div>
-        
-        <label style="font-size: 11px; font-weight: 800;">Valor da Proposta ($):</label>
-        <input type="number" id="oferta-valor" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid var(--card-border); font-weight: 700; margin: 4px 0 12px 0;">
-
-        <div class="modal-actions">
-            <button class="btn-modal btn-buy" onclick="enviarPropostaCompra()">Enviar Proposta</button>
-            <button class="btn-modal btn-pass" onclick="fecharModalOferta()">Cancelar</button>
-        </div>
-    </div>
-</div>
-
 <!-- MODAL REGRAS -->
 <div class="modal-overlay" id="modal-regras">
     <div class="modal-content">
         <button class="btn-close-x" onclick="fecharRegras()">✖</button>
         <div style="color: var(--primary-blue); font-family:'Orbitron',sans-serif; font-size:18px; font-weight:900; margin-bottom:10px;">📜 REGRAS DE LIMEIRÓPOLIS</div>
         <div style="font-size: 11px; line-height: 1.5; color: var(--text-dark);">
-            <p>1. <strong>Dois Dados:</strong> A soma dos dois dados movimenta seu peão pelo tabuleiro.</p>
-            <p>2. <strong>Cartas Especiais:</strong> Elektro, Águas de Limeira e Transportes são serviços de utilidade pública com regras específicas de taxa.</p>
-            <p>3. <strong>Sorte ou Revés:</strong> Ao parar na casa, o baralho é embaralhado em 3D e aplica a penalidade/recompensa.</p>
-            <p>4. <strong>Construção 3D:</strong> Monte casas 🏠 e hotéis 🏨 em alto relevo para aumentar o aluguel.</p>
+            <p>1. <strong>Prisão Dividida:</strong> Quem cai na 'Visita' está livre de passagem. Quem cai no 'Detido' fica 1 rodada sem jogar.</p>
+            <p>2. <strong>Vá para a Cadeia:</strong> O guarda 👮 envia você direto para a cela.</p>
+            <p>3. <strong>Praça Toledo e Gruta:</strong> Área de descanso totalmente grátis.</p>
+            <p>4. <strong>Transações com Notas 💵:</strong> Saldo e transações com animação visual de notas.</p>
         </div>
         <button class="btn-modal btn-pass" style="width: 100%; margin-top:12px; background: var(--primary-blue); color: #fff; font-weight:900;" onclick="fecharRegras()">Voltar ao Jogo</button>
     </div>
@@ -438,6 +430,14 @@
         }
     }
 
+    function dispararAnimacaoDinheiro(texto) {
+        const anim = document.createElement('div');
+        anim.className = 'flying-money-anim';
+        anim.innerText = texto || '💵 -$100';
+        document.body.appendChild(anim);
+        setTimeout(() => anim.remove(), 1200);
+    }
+
     const peoesLimeira = [
         { id: "citros", nome: "Laranja Citros 🍋", icone: "🍋" },
         { id: "joia", nome: "Ouro Semijoia 💎", icone: "💎" },
@@ -452,26 +452,12 @@
         { tipo: 'Revés', desc: "Semáforo Av. Campinas: Multa no sinal vermelho. Pague $50.", valor: -50 },
         { tipo: 'Sorte', desc: "Restituição IPTU: Recálculo de iluminação pública. Receba $40.", valor: 40 },
         { tipo: 'Revés', desc: "Vazamento de Água: Problema no encanamento. Pague $100.", valor: -100 },
-        { tipo: 'Sorte', desc: "Horto Florestal: Encontrou carteira perdida e recebeu recompensa. Receba $20.", valor: 20 },
-        { tipo: 'Revés', desc: "Reforma na Trajano: Manutenção de fachada. Pague $40.", valor: -40 },
-        { tipo: 'Sorte', desc: "Prêmio Parque Cidade: Empreendedor do Ano. Receba $150.", valor: 150 },
-        { tipo: 'Revés', desc: "Conta Elektro: Fatura de energia atrasada com juros. Pague $80.", valor: -80 },
-        { tipo: 'Sorte', desc: "Saída Livre Prisão: Habeas corpus na Rua Boa Morte. Receba $50 de bônus.", valor: 50 },
-        { tipo: 'Revés', desc: "Pneu Furado: Buraco na Av. Fabrício Vampré. Pague $60.", valor: -60 },
-        { tipo: 'Sorte', desc: "Cashback Carlos Gomes: Programa de pontos do comércio. Receba $50.", valor: 50 },
-        { tipo: 'Revés', desc: "IPVA do Carro: Licenciamento anual. Pague $150.", valor: -150 },
-        { tipo: 'Sorte', desc: "Fazenda Itapema: Dividendos e lucros distribuídos. Receba $200.", valor: 200 },
-        { tipo: 'Revés', desc: "Fiscalização Prada: Irregularidade na obra. Pague $100.", valor: -100 },
-        { tipo: 'Sorte', desc: "Feira do Rolo: Venda de móveis antigos usados. Receba $30.", valor: 30 },
-        { tipo: 'Revés', desc: "Viação Limeirense: Aumento na tarifa de transporte. Pague $30.", valor: -30 },
-        { tipo: 'Sorte', desc: "Bolsa Unicamp/FT: Desconto por mérito acadêmico. Receba $60.", valor: 60 },
-        { tipo: 'Revés', desc: "Danos de Tempestade: Conserto emergencial no telhado. Pague $70.", valor: -70 },
-        { tipo: 'Sorte', desc: "Festa na Vampré: Amigos pagaram a conta do jantar. Receba $80.", valor: 80 },
-        { tipo: 'Revés', desc: "Perdeu a Carteira: Perda de dinheiro no Centro. Pague $50.", valor: -50 }
+        { tipo: 'Sorte', desc: "Horto Florestal: Encontrou carteira perdida. Receba $20.", valor: 20 },
+        { tipo: 'Revés', desc: "Reforma na Trajano: Manutenção de fachada. Pague $40.", valor: -40 }
     ];
 
     const casas = [
-        { id: 0, nome: "INÍCIO / Recepção", preco: 0, cor: "#10b981", tipo: "canto" },
+        { id: 0, nome: "INÍCIO / Recepção 🏁", preco: 0, cor: "#10b981", tipo: "canto" },
         { id: 1, nome: "Degan", preco: 60, cor: "#8b4513", tipo: "prop", t: 2, c: 4, c1: 10, c2: 30, c3: 90, c4: 160, h: 250, custoConst: 50 },
         { id: 2, nome: "SORTE OU REVÉS", preco: 0, cor: "#8b5cf6", tipo: "carta" },
         { id: 3, nome: "Ernesto Kuhl", preco: 80, cor: "#8b4513", tipo: "prop", t: 4, c: 8, c1: 20, c2: 40, c3: 120, c4: 200, h: 300, custoConst: 50 },
@@ -480,7 +466,7 @@
         { id: 6, nome: "Nossa Senhora das Dores", preco: 110, cor: "#38bdf8", tipo: "prop", t: 10, c: 20, c1: 50, c2: 120, c3: 320, c4: 480, h: 630, custoConst: 50 },
         { id: 7, nome: "SORTE OU REVÉS", preco: 0, cor: "#8b5cf6", tipo: "carta" },
         { id: 8, nome: "Chácara Antonieta", preco: 130, cor: "#38bdf8", tipo: "prop", t: 12, c: 24, c1: 60, c2: 140, c3: 350, c4: 500, h: 680, custoConst: 50 },
-        { id: 9, nome: "VISITA À PRISÃO", preco: 0, cor: "#ef4444", tipo: "canto" },
+        { id: 9, nome: "PRISÃO DA LAURO CORRÊA", preco: 0, cor: "#ef4444", tipo: "prisao_dupla" },
 
         { id: 10, nome: "Av. Maj. José Levy Sobrinho", preco: 140, cor: "#ec4899", tipo: "prop", t: 16, c: 32, c1: 80, c2: 220, c3: 600, c4: 800, h: 1000, custoConst: 100 },
         { id: 11, nome: "Elektro ⚡", preco: 150, cor: "#0284c7", tipo: "servico" },
@@ -491,7 +477,7 @@
         { id: 16, nome: "Parronque", preco: 180, cor: "#ff6600", tipo: "prop", t: 14, c: 28, c1: 70, c2: 200, c3: 550, c4: 750, h: 950, custoConst: 100 },
         { id: 17, nome: "Loyola", preco: 200, cor: "#ff6600", tipo: "prop", t: 16, c: 32, c1: 80, c2: 220, c3: 600, c4: 800, h: 1000, custoConst: 100 },
         { id: 18, nome: "Viação Limeirense 🚌", preco: 150, cor: "#0284c7", tipo: "servico" },
-        { id: 19, nome: "PARADA LIVRE / Praça Toledo", preco: 0, cor: "#10b981", tipo: "canto" },
+        { id: 19, nome: "PRAÇA TOLEDO BARROS & GRUTA 🌳", preco: 0, cor: "#10b981", tipo: "praca" },
 
         { id: 20, nome: "Rua Dr. Trajano de Barros", preco: 220, cor: "#ef4444", tipo: "prop", t: 18, c: 36, c1: 90, c2: 250, c3: 700, c4: 875, h: 1050, custoConst: 150 },
         { id: 21, nome: "Rápido Sudeste 🚍", preco: 150, cor: "#0284c7", tipo: "servico" },
@@ -504,7 +490,7 @@
         { id: 28, nome: "Av. Costa e Silva (Semijoias 💎)", preco: 380, cor: "#eab308", tipo: "prop", t: 35, c: 70, c1: 180, c2: 520, c3: 1150, c4: 1350, h: 1600, custoConst: 200 },
         { id: 29, nome: "Taxa de Manutenção Urbana", preco: 0, cor: "#64748b", tipo: "imposto" },
 
-        { id: 30, nome: "VÁ PARA A PRISÃO", preco: 0, cor: "#ef4444", tipo: "canto" },
+        { id: 30, nome: "VÁ PARA A CADEIA 👮", preco: 0, cor: "#ef4444", tipo: "va_prisao" },
         { id: 31, nome: "Horto Florestal", preco: 260, cor: "#10b981", tipo: "prop", t: 22, c: 44, c1: 110, c2: 330, c3: 800, c4: 975, h: 1150, custoConst: 150 },
         { id: 32, nome: "Hípica", preco: 260, cor: "#10b981", tipo: "prop", t: 22, c: 44, c1: 110, c2: 330, c3: 800, c4: 975, h: 1150, custoConst: 150 },
         { id: 33, nome: "SORTE OU REVÉS", preco: 0, cor: "#8b5cf6", tipo: "carta" },
@@ -522,10 +508,6 @@
     let donos = {};
     let construcoes = {};
     let casaAtualModal = null;
-    let ofertaCasaAtual = null;
-    let tempoRestante = 90;
-    let timerInterval = null;
-    let timerPausado = false;
 
     function definirQtdJogadores(qtd) {
         qtdJogadores = qtd;
@@ -559,46 +541,13 @@
         for (let i = 0; i < qtdJogadores; i++) {
             let nome = document.getElementById(`pname-${i}`).value || `Jogador ${i + 1}`;
             let peao = document.getElementById(`ppeao-${i}`).value;
-            jogadores.push({ id: i + 1, nome: nome, peao: peao, dinheiro: 1500, pos: 0 });
+            jogadores.push({ id: i + 1, nome: nome, peao: peao, dinheiro: 1500, pos: 0, preso: false });
         }
 
         document.getElementById('setup-screen').style.display = 'none';
         renderizarSidebarJogadores();
         renderizarTabuleiro();
-        iniciarTimerTurno();
         atualizarTurnoUI();
-    }
-
-    function iniciarTimerTurno() {
-        clearInterval(timerInterval);
-        tempoRestante = 90;
-        timerPausado = false;
-        document.getElementById('btn-pause-timer').innerText = '⏸️ Pausar';
-        atualizarBarraTimer();
-
-        timerInterval = setInterval(() => {
-            if (!timerPausado) {
-                tempoRestante--;
-                atualizarBarraTimer();
-                if (tempoRestante <= 0) {
-                    log(`> ⏳ Tempo esgotado para o ${jogadores[turno].nome}. Troca de turno!`);
-                    trocarTurno();
-                }
-            }
-        }, 1000);
-    }
-
-    function togglePausaTimer() {
-        timerPausado = !timerPausado;
-        document.getElementById('btn-pause-timer').innerText = timerPausado ? '▶️ Retomar' : '⏸️ Pausar';
-    }
-
-    function atualizarBarraTimer() {
-        document.getElementById('timer-sec').innerText = `${tempoRestante}s`;
-        const pct = (tempoRestante / 90) * 100;
-        const bar = document.getElementById('timer-bar');
-        bar.style.width = `${pct}%`;
-        bar.style.background = tempoRestante < 20 ? '#ef4444' : '#10b981';
     }
 
     function renderizarSidebarJogadores() {
@@ -610,7 +559,7 @@
                 <div class="player-box" id="pbox-${idx}">
                     <div class="player-row-top">
                         <div class="player-info-name"><span>${p.peao}</span> <span>${p.nome}</span></div>
-                        <div class="player-info-money" id="pmoney-${idx}">$ ${p.dinheiro}</div>
+                        <div class="cash-badge" id="pmoney-${idx}">💵 $${p.dinheiro}</div>
                     </div>
                     <button class="btn-view-props" onclick="abrirMinhasProps(${p.id})">💎 Cartões de Imóveis</button>
                 </div>
@@ -629,20 +578,27 @@
 
         casas.forEach((casa, index) => {
             const tile = document.createElement('div');
-            tile.className = `tile ${casa.tipo === 'canto' ? 'tile-corner' : ''}`;
+            tile.className = `tile ${casa.tipo.includes('canto') || casa.tipo.includes('prisao') ? 'tile-corner' : ''}`;
             tile.id = `tile-${index}`;
             tile.style.gridRow = posicoesGrid[index][0];
             tile.style.gridColumn = posicoesGrid[index][1];
-            tile.onclick = () => verEscrituraCasa(index);
+            tile.onclick = () => interagirCasaTabuleiro(index);
 
-            if (casa.tipo !== 'canto') {
+            if (casa.tipo === 'prisao_dupla') {
+                tile.innerHTML = `
+                    <div class="jail-split-box">
+                        <div class="jail-visita">VISITA</div>
+                        <div class="jail-detido">PRESO</div>
+                    </div>
+                `;
+            } else if (casa.tipo !== 'canto' && casa.tipo !== 'va_prisao' && casa.tipo !== 'praca') {
                 tile.innerHTML = `
                     <div class="tile-color-bar" style="background: ${casa.cor};"></div>
                     <div class="tile-title">${casa.nome}</div>
                     <div class="tile-price">${casa.preco ? '$ ' + casa.preco : ''}</div>
                 `;
             } else {
-                tile.innerHTML = `<div style="font-weight:900;">${casa.nome}</div>`;
+                tile.innerHTML = `<div style="font-weight:900; font-size:7px;">${casa.nome}</div>`;
             }
 
             const bContainer = document.createElement('div');
@@ -661,6 +617,29 @@
         atualizarPeoes();
     }
 
+    function interagirCasaTabuleiro(index) {
+        const casa = casas[index];
+        if (index === 0) {
+            exibirModalInfo('INÍCIO DA CIDADE 🏁', 'Toda vez que você completa uma volta no tabuleiro de Limeira e passa pelo Início, o Banco Central deposita um salário de $200 em dinheiro na sua conta.');
+        } else if (index === 9) {
+            exibirModalInfo('CADEIA LAURO CORRÊA 🔒', 'Lado Esquerdo: VISITA DA PRISÃO (Você está apenas passando de visita sem penalidades).\n\nLado Direito: PRESO NA CELA (O jogador detido fica 1 rodada inteira sem jogar).');
+        } else if (index === 19) {
+            exibirModalInfo('PRAÇA TOLEDO BARROS & GRUTA 🌳', 'Espaço público de descanso da cidade de Limeira. Parar nesta casa é totalmente de graça!');
+        } else if (index === 30) {
+            exibirModalInfo('VÁ PARA A CADEIA 👮', 'O guarda municipal de trânsito interceptou seu veículo! Ao cair aqui, você é enviado direto para a Cela da Lauro Corrêa.');
+        } else {
+            verEscrituraCasa(index);
+        }
+    }
+
+    function exibirModalInfo(titulo, desc) {
+        document.getElementById('info-casa-title').innerText = titulo;
+        document.getElementById('info-casa-desc').innerText = desc;
+        document.getElementById('modal-info-casa').style.display = 'flex';
+    }
+
+    function fecharModalInfoCasa() { document.getElementById('modal-info-casa').style.display = 'none'; }
+
     function atualizarPeoes() {
         casas.forEach((_, index) => {
             const box = document.getElementById(`pawn-box-${index}`);
@@ -676,74 +655,62 @@
                 box.appendChild(pawn);
             }
             const moneyEl = document.getElementById(`pmoney-${p.id - 1}`);
-            if (moneyEl) moneyEl.innerText = `$ ${p.dinheiro}`;
+            if (moneyEl) moneyEl.innerText = `💵 $${p.dinheiro}`;
         });
     }
 
-    function atualizarConstrucoesUI(casaId) {
-        const box = document.getElementById(`build-box-${casaId}`);
-        if (!box) return;
-        box.innerHTML = '';
-        
-        const nivel = construcoes[casaId] || 0;
-        if (nivel >= 1 && nivel <= 4) {
-            for (let i = 0; i < nivel; i++) {
-                box.innerHTML += `<span class="building-house">🏠</span>`;
-            }
-        } else if (nivel === 5) {
-            box.innerHTML = `<span class="building-hotel">🏨</span>`;
-        }
-    }
-
     function jogarDados() {
-        document.getElementById('btn-roll').disabled = true;
-        tocarSom('dado');
-        const d1 = Math.floor(Math.random() * 6) + 1;
-        const d2 = Math.floor(Math.random() * 6) + 1;
-        
-        document.getElementById('d1').innerText = d1;
-        document.getElementById('d2').innerText = d2;
-        
-        const passos = d1 + d2;
         const jAtual = jogadores[turno];
         
-        log(`> ${jAtual.peao} ${jAtual.nome} tirou [${d1}] + [${d2}] = Total de ${passos} passos.`);
+        if (jAtual.preso) {
+            jAtual.preso = false;
+            log(`> 🔒 ${jAtual.nome} cumpriu sua pena na Prisão e está livre para jogar na próxima rodada!`);
+            exibirModalEvento('LIVRE DA CADEIA 🔓', `${jAtual.nome} cumpriu seu turno de detenção e está liberado!`);
+            return;
+        }
 
-        let passosRestantes = passos;
-        const interval = setInterval(() => {
-            jAtual.pos = (jAtual.pos + 1) % 40;
-            
-            if (jAtual.pos === 0) {
-                jAtual.dinheiro += 200;
-                tocarSom('moeda');
-                log(`> ${jAtual.nome} passou pelo Início e recebeu $200!`);
-            }
-            
-            atualizarPeoes();
-            passosRestantes--;
+        const d1El = document.getElementById('d1');
+        const d2El = document.getElementById('d2');
+        d1El.classList.add('rolling'); d2El.classList.add('rolling');
+        document.getElementById('btn-roll').disabled = true;
 
-            if (passosRestantes === 0) {
-                clearInterval(interval);
-                avaliarCasaAtual(passos);
-            }
-        }, 150);
+        setTimeout(() => {
+            d1El.classList.remove('rolling'); d2El.classList.remove('rolling');
+            
+            const d1 = Math.floor(Math.random() * 6) + 1;
+            const d2 = Math.floor(Math.random() * 6) + 1;
+            
+            d1El.innerText = d1; d2El.innerText = d2;
+            tocarSom('dado');
+
+            const passos = d1 + d2;
+            log(`> ${jAtual.peao} ${jAtual.nome} tirou [${d1}] + [${d2}] = ${passos} casas.`);
+
+            let passosRestantes = passos;
+            const interval = setInterval(() => {
+                jAtual.pos = (jAtual.pos + 1) % 40;
+                
+                if (jAtual.pos === 0) {
+                    jAtual.dinheiro += 200;
+                    dispararAnimacaoDinheiro('💵 +$200 BANCO');
+                    tocarSom('moeda');
+                    log(`> 🏦 BANCO: ${jAtual.nome} passou pelo Início e recebeu $200!`);
+                }
+                
+                atualizarPeoes();
+                passosRestantes--;
+
+                if (passosRestantes === 0) {
+                    clearInterval(interval);
+                    avaliarCasaAtual(passos);
+                }
+            }, 150);
+        }, 500);
     }
 
     function dispararGiroflexPolicia() {
         document.body.classList.add('police-alert');
         setTimeout(() => { document.body.classList.remove('police-alert'); }, 2000);
-    }
-
-    function abrirModalSorteReves(carta) {
-        document.getElementById('sr-title').innerText = `🎴 ${carta.tipo.toUpperCase()}`;
-        document.getElementById('sr-desc').innerText = carta.desc;
-        document.getElementById('sr-icon').innerText = carta.tipo === 'Sorte' ? '🎉' : '⚠️';
-        document.getElementById('modal-sorte-reves').style.display = 'flex';
-    }
-
-    function fecharModalSorteReves() {
-        document.getElementById('modal-sorte-reves').style.display = 'none';
-        trocarTurno();
     }
 
     function exibirModalEvento(titulo, texto) {
@@ -777,8 +744,9 @@
         if (casa.tipo === 'carta') {
             const carta = cartasSorteReves[Math.floor(Math.random() * cartasSorteReves.length)];
             jAtual.dinheiro += carta.valor;
+            dispararAnimacaoDinheiro(carta.valor > 0 ? `💵 +$${carta.valor}` : `💵 -$${Math.abs(carta.valor)}`);
             if (carta.valor > 0) tocarSom('moeda');
-            abrirModalSorteReves(carta);
+            exibirModalEvento(`🎴 CARTA: ${carta.tipo.toUpperCase()}`, carta.desc);
         } else if (casa.tipo === 'servico') {
             const donoId = donos[casa.id];
             if (!donoId) {
@@ -787,8 +755,11 @@
                 let qtdServs = Object.keys(donos).filter(k => donos[k] === donoId && casas[k].tipo === 'servico').length;
                 let mult = [0, 4, 10, 15, 20][qtdServs] || 4;
                 let valorAluguel = somaDados * mult;
+                
                 jAtual.dinheiro -= valorAluguel;
                 jogadores.find(x => x.id === donoId).dinheiro += valorAluguel;
+                
+                dispararAnimacaoDinheiro(`💵 -$${valorAluguel}`);
                 tocarSom('moeda');
                 exibirModalEvento('⚡ TAXA DE SERVIÇO PÚBLICO', `${jAtual.nome} pagou $${valorAluguel} (${mult}x os dados) para ${jogadores.find(x => x.id === donoId).nome}.`);
             } else {
@@ -802,16 +773,20 @@
                 let valorAluguel = calcularAluguelAtual(casa);
                 jAtual.dinheiro -= valorAluguel;
                 jogadores.find(x => x.id === donoId).dinheiro += valorAluguel;
+                
+                dispararAnimacaoDinheiro(`💵 -$${valorAluguel}`);
                 tocarSom('moeda');
                 exibirModalEvento('💸 ALUGUEL DE PROPRIEDADE', `${jAtual.nome} pagou $${valorAluguel} de aluguel para ${jogadores.find(x => x.id === donoId).nome}.`);
             } else {
-                abrirModalCompra(casa);
+                // Parou na própria propriedade -> Animação de construção
+                exibirModalEvento('🏠 PROPRIEDADE PRÓPRIA', `Você parou na sua propriedade ${casa.nome}! Clique em ver imóvel para expandir construções.`);
             }
         } else {
-            if (casa.nome.includes("PRISÃO")) {
+            if (casa.tipo === 'va_prisao') {
                 jAtual.pos = 9;
+                jAtual.preso = true;
                 dispararGiroflexPolicia();
-                exibirModalEvento('🚨 PRISÃO!', `${jAtual.nome} foi detido na Lauro Corrêa e enviado para a Prisão!`);
+                exibirModalEvento('🚨 GUARDA MUNICIPAL 👮', `${jAtual.nome} foi autuado e levado para a Cela da Prisão! Ficará 1 rodada sem jogar.`);
                 atualizarPeoes();
             } else {
                 trocarTurno();
@@ -853,6 +828,7 @@
             jAtual.dinheiro -= casa.custoConst;
             construcoes[casa.id] = nivelAtual + 1;
             atualizarConstrucoesUI(casa.id);
+            dispararAnimacaoDinheiro(`💵 -$${casa.custoConst}`);
             tocarSom('moeda');
             log(`> 🏠 CONSTRUÇÃO! ${jAtual.nome} construiu na propriedade ${casa.nome}.`);
             fecharModalCompra();
@@ -861,43 +837,41 @@
         }
     }
 
+    function atualizarConstrucoesUI(casaId) {
+        const box = document.getElementById(`build-box-${casaId}`);
+        if (!box) return;
+        box.innerHTML = '';
+        
+        const nivel = construcoes[casaId] || 0;
+        if (nivel >= 1 && nivel <= 4) {
+            for (let i = 0; i < nivel; i++) {
+                box.innerHTML += `<span class="building-house">🏠</span>`;
+            }
+        } else if (nivel === 5) {
+            box.innerHTML = `<span class="building-hotel">🏨</span>`;
+        }
+    }
+
     function renderizarEscrituraHTML(elementId, casa) {
         const container = document.getElementById(elementId);
-        
-        if (casa.tipo === 'servico') {
-            container.innerHTML = `
-                <div class="title-deed-card" style="border-color: var(--primary-blue);">
-                    <div class="deed-header" style="background: var(--primary-blue); color: #fff;">
-                        <div class="deed-header-type">CONCESSIONÁRIA DE SERVIÇO PÚBLICO</div>
-                        <div class="deed-header-title">${casa.nome}</div>
-                    </div>
-                    <div style="font-size: 11px; font-weight: 700; line-height: 1.5; text-align: center; margin: 10px 0;">
-                        Se o jogador possuir 1 Concessionária, a taxa será <strong>4 vezes</strong> o valor dos dados.<br><br>
-                        Se possuir 2 ou mais, a taxa será <strong>10x a 20x</strong> o valor dos dados tirados!
-                    </div>
-                    <div class="deed-footer">Preço de Concessão: $${casa.preco}</div>
+        container.innerHTML = `
+            <div class="title-deed-card">
+                <div class="deed-header" style="background: ${casa.cor}; color: #fff;">
+                    <div class="deed-header-type">TÍTULO DE PROPRIEDADE</div>
+                    <div class="deed-header-title">${casa.nome}</div>
                 </div>
-            `;
-        } else {
-            container.innerHTML = `
-                <div class="title-deed-card">
-                    <div class="deed-header" style="background: ${casa.cor}; color: #fff;">
-                        <div class="deed-header-type">TÍTULO DE PROPRIEDADE</div>
-                        <div class="deed-header-title">${casa.nome}</div>
-                    </div>
-                    <table class="deed-table">
-                        <tr><td>ALUGUEL • Terreno Simples</td><td>$${casa.t || 10}</td></tr>
-                        <tr><td>Com Conjunto Completo do Grupo</td><td>$${casa.c || 20}</td></tr>
-                        <tr><td>Com 1 Casa 🏠</td><td>$${casa.c1 || 50}</td></tr>
-                        <tr><td>Com 2 Casas 🏠🏠</td><td>$${casa.c2 || 150}</td></tr>
-                        <tr><td>Com 3 Casas 🏠🏠🏠</td><td>$${casa.c3 || 450}</td></tr>
-                        <tr><td>Com 4 Casas 🏠🏠🏠🏠</td><td>$${casa.c4 || 600}</td></tr>
-                        <tr><td>Com HOTEL 🏨</td><td>$${casa.h || 800}</td></tr>
-                    </table>
-                    <div class="deed-footer">Preço de Compra: $${casa.preco} | Custo da Casa/Hotel: $${casa.custoConst || 100}</div>
-                </div>
-            `;
-        }
+                <table class="deed-table">
+                    <tr><td>ALUGUEL • Terreno Simples</td><td>$${casa.t || 10}</td></tr>
+                    <tr><td>Com Conjunto Completo do Grupo</td><td>$${casa.c || 20}</td></tr>
+                    <tr><td>Com 1 Casa 🏠</td><td>$${casa.c1 || 50}</td></tr>
+                    <tr><td>Com 2 Casas 🏠🏠</td><td>$${casa.c2 || 150}</td></tr>
+                    <tr><td>Com 3 Casas 🏠🏠🏠</td><td>$${casa.c3 || 450}</td></tr>
+                    <tr><td>Com 4 Casas 🏠🏠🏠🏠</td><td>$${casa.c4 || 600}</td></tr>
+                    <tr><td>Com HOTEL 🏨</td><td>$${casa.h || 800}</td></tr>
+                </table>
+                <div class="deed-footer">Preço de Compra: $${casa.preco} | Custo da Casa/Hotel: $${casa.custoConst || 100}</div>
+            </div>
+        `;
     }
 
     function confirmarCompra() {
@@ -910,11 +884,12 @@
             tileEl.classList.add('owned');
             tileEl.innerHTML += `<span class="owner-badge">${jAtual.peao}</span>`;
 
+            dispararAnimacaoDinheiro(`💵 -$${casaAtualModal.preco}`);
             tocarSom('moeda');
             log(`> 🏢 COMPRA! ${jAtual.nome} adquiriu ${casaAtualModal.nome} por $${casaAtualModal.preco}!`);
             fecharModalCompra();
         } else {
-            alert("Saldo insuficiente para realizar esta compra!");
+            alert("Saldo insuficiente em cédulas para realizar esta compra!");
         }
     }
 
@@ -943,9 +918,6 @@
                         <div style="font-size:9px; font-weight:800; text-align:center; margin-top:4px; color:#000;">
                             Aluguel/Taxa: $${calcularAluguelAtual(c)} | Valor: $${c.preco}
                         </div>
-                        ${player.id !== jogadores[turno].id ? 
-                            `<button class="btn-modal btn-offer" style="width:100%; margin-top:4px; font-size:9px; padding:4px;" onclick="abrirModalOferta(${c.id})">💰 Fazer Oferta de Compra</button>` 
-                            : ''}
                     </div>
                 `;
                 container.appendChild(cardDiv);
@@ -957,45 +929,6 @@
         }
 
         document.getElementById('modal-minhas-props').style.display = 'flex';
-    }
-
-    function abrirModalOferta(casaId) {
-        ofertaCasaAtual = casas[casaId];
-        document.getElementById('oferta-prop-nome').innerText = `${ofertaCasaAtual.nome} (Preço Original: $${ofertaCasaAtual.preco})`;
-        document.getElementById('oferta-valor').value = Math.floor(ofertaCasaAtual.preco * 1.2);
-        document.getElementById('modal-oferta').style.display = 'flex';
-    }
-
-    function fecharModalOferta() { document.getElementById('modal-oferta').style.display = 'none'; }
-
-    function enviarPropostaCompra() {
-        const valorProp = parseInt(document.getElementById('oferta-valor').value);
-        const jComprador = jogadores[turno];
-        const donoId = donos[ofertaCasaAtual.id];
-        const jDono = jogadores.find(x => x.id === donoId);
-
-        if (jComprador.dinheiro < valorProp) {
-            alert("Você não tem saldo suficiente para fazer essa oferta!");
-            return;
-        }
-
-        const aceitou = confirm(`${jDono.peao} ${jDono.nome}, o jogador ${jComprador.peao} ${jComprador.nome} ofereceu $${valorProp} para comprar ${ofertaCasaAtual.nome}.\n\nVocê aceita vender?`);
-
-        if (aceitou) {
-            jComprador.dinheiro -= valorProp;
-            jDono.dinheiro += valorProp;
-            donos[ofertaCasaAtual.id] = jComprador.id;
-
-            const tileEl = document.getElementById(`tile-${ofertaCasaAtual.id}`);
-            if (tileEl) tileEl.querySelector('.owner-badge').innerText = jComprador.peao;
-
-            tocarSom('moeda');
-            log(`> 🤝 OFERTA ACEITA! ${jComprador.nome} comprou ${ofertaCasaAtual.nome} de ${jDono.nome} por $${valorProp}.`);
-            fecharModalOferta();
-            fecharModalProps();
-        } else {
-            alert("A oferta foi recusada pelo proprietário!");
-        }
     }
 
     function fecharModalProps() { document.getElementById('modal-minhas-props').style.display = 'none'; }
@@ -1013,7 +946,6 @@
     function trocarTurno() {
         turno = (turno + 1) % jogadores.length;
         document.getElementById('btn-roll').disabled = false;
-        iniciarTimerTurno();
         atualizarTurnoUI();
     }
 
