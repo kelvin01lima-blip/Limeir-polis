@@ -38,7 +38,7 @@
         }
         body.police-alert { animation: giroflex 0.2s infinite; }
 
-        /* ANIMAÇÃO DE NOTA DE DINHEIRO TRAMITANDO */
+        /* ANIMAÇÃO DE DINHEIRO */
         @keyframes flyingMoney {
             0% { transform: scale(0.3) translateY(100px); opacity: 0; }
             50% { transform: scale(1.2) translateY(-20px); opacity: 1; }
@@ -51,60 +51,80 @@
             pointer-events: none; animation: flyingMoney 1.2s ease-out forwards;
         }
 
-        /* OVERLAY SETUP INICIAL */
+        /* SETUP INICIAL */
         .setup-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(10px);
             z-index: 300; display: flex; justify-content: center; align-items: center;
         }
         .setup-card {
-            background: #ffffff; border: 2px solid var(--primary-blue);
-            border-radius: 24px; width: 90%; max-width: 650px; padding: 30px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15); text-align: center;
+            background: #ffffff; border: 2.5px solid var(--primary-blue);
+            border-radius: 32px; width: 92%; max-width: 850px; padding: 45px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2); text-align: center;
         }
-        .setup-title { font-family: 'Orbitron', sans-serif; font-size: 34px; font-weight: 900; color: var(--primary-blue); }
-        .setup-sub { font-size: 13px; font-weight: 800; color: var(--primary-orange); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+        .setup-title { font-family: 'Orbitron', sans-serif; font-size: 46px; font-weight: 900; color: var(--primary-blue); }
+        .setup-sub { font-size: 16px; font-weight: 800; color: var(--primary-orange); text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 28px; }
 
-        .player-count-selector { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+        .player-count-selector { display: flex; justify-content: center; gap: 14px; margin-bottom: 28px; }
         .btn-count {
-            width: 45px; height: 45px; border-radius: 12px; border: 2px solid var(--card-border);
-            background: #ffffff; color: var(--text-dark); font-size: 18px; font-weight: 800; cursor: pointer; transition: all 0.2s;
+            width: 60px; height: 60px; border-radius: 16px; border: 2px solid var(--card-border);
+            background: #ffffff; color: var(--text-dark); font-size: 22px; font-weight: 800; cursor: pointer; transition: all 0.2s;
         }
         .btn-count.active { background: var(--primary-blue); color: #fff; border-color: var(--primary-blue); transform: scale(1.1); }
 
         .players-inputs-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 12px; max-height: 260px; overflow-y: auto; margin-bottom: 20px; padding: 5px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 18px; max-height: 360px; overflow-y: auto; margin-bottom: 28px; padding: 8px;
         }
-        .p-input-card { background: #f8fafc; border: 1px solid var(--card-border); border-radius: 12px; padding: 10px; text-align: left; }
-        .p-input-card label { font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
-        .p-input-card input, .p-input-card select { width: 100%; padding: 8px; border-radius: 8px; border: 1px solid var(--card-border); background: #ffffff; color: var(--text-dark); font-weight: 700; margin-top: 2px; }
+        .p-input-card { background: #f8fafc; border: 1.5px solid var(--card-border); border-radius: 16px; padding: 16px; text-align: left; }
+        .p-input-card label { font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
+        .p-input-card input, .p-input-card select { width: 100%; padding: 12px; border-radius: 10px; border: 1.5px solid var(--card-border); background: #ffffff; color: var(--text-dark); font-weight: 700; font-size: 15px; margin-top: 5px; }
 
         .btn-start-game {
             background: linear-gradient(135deg, var(--primary-orange), #ea580c);
-            color: #fff; border: none; padding: 14px 35px; border-radius: 14px;
-            font-family: 'Orbitron', sans-serif; font-size: 15px; font-weight: 900;
-            cursor: pointer; box-shadow: 0 6px 20px rgba(255, 102, 0, 0.3); text-transform: uppercase;
+            color: #fff; border: none; padding: 18px 45px; border-radius: 18px;
+            font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 900;
+            cursor: pointer; box-shadow: 0 8px 25px rgba(255, 102, 0, 0.35); text-transform: uppercase;
         }
 
-        /* LAYOUT PRINCIPAL */
+        /* LAYOUT PRINCIPAL E BOTÃO DE RECOLHER MENU */
         .main-wrapper {
-            display: grid; grid-template-columns: 310px 1fr;
-            gap: 12px; width: 100%; max-width: 1750px; height: 98vh;
+            display: flex; gap: 12px; width: 100%; max-width: 1750px; height: 98vh;
+            position: relative; transition: all 0.3s ease;
         }
 
         .sidebar {
+            width: 310px; min-width: 310px;
             background: var(--panel-bg); backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 20px;
             padding: 14px; box-shadow: var(--shadow-glass);
             display: flex; flex-direction: column; justify-content: space-between;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            z-index: 50;
         }
+        .sidebar.collapsed {
+            transform: translateX(-330px);
+            opacity: 0;
+            position: absolute;
+            pointer-events: none;
+        }
+
+        /* BOTÃO PARA ESCONDER/MOSTRAR MENU */
+        .btn-toggle-sidebar {
+            position: absolute; top: 15px; left: 322px; z-index: 60;
+            background: var(--primary-blue); color: #fff; border: none;
+            width: 36px; height: 36px; border-radius: 50%; font-weight: 900;
+            cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            display: flex; align-items: center; justify-content: center;
+            transition: left 0.3s ease, transform 0.2s;
+        }
+        .sidebar.collapsed ~ .btn-toggle-sidebar { left: 15px; }
+        .btn-toggle-sidebar:hover { transform: scale(1.1); }
 
         .brand-header { text-align: center; border-bottom: 2px solid var(--primary-orange); padding-bottom: 6px; }
         .brand-header h1 { font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: 900; color: var(--primary-blue); }
         .brand-header p { font-size: 10px; font-weight: 800; color: var(--primary-orange); text-transform: uppercase; letter-spacing: 1.5px; }
 
-        /* BANCO E CÉDULAS NA LISTA */
         .bank-hud-card {
             background: linear-gradient(135deg, #1e293b, #0f172a); color: #fff;
             border-radius: 12px; padding: 8px 12px; margin: 8px 0; display: flex;
@@ -142,10 +162,12 @@
 
         .log-terminal { background: #0f172a; color: #38bdf8; font-family: monospace; font-size: 10px; padding: 8px; border-radius: 10px; height: 80px; overflow-y: auto; }
 
-        /* TABULEIRO ENQUADRADO TOTALMENTE VISÍVEL */
+        /* TABULEIRO COM SCROLL PARA PASSEAR PELA TELA */
         .board-stage {
-            display: flex; justify-content: center; align-items: center;
-            width: 100%; height: 100%; height: calc(100vh - 20px);
+            flex: 1; display: flex; justify-content: center; align-items: center;
+            width: 100%; height: calc(100vh - 20px);
+            overflow: auto;
+            position: relative; padding: 20px;
         }
 
         .board-viewport {
@@ -153,7 +175,7 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             display: grid; grid-template-columns: repeat(11, 1fr); grid-template-rows: repeat(11, 1fr);
             gap: 2px; position: relative;
-            height: 98%; aspect-ratio: 1 / 1; max-width: calc(100vh - 30px);
+            min-width: 650px; min-height: 650px; width: 92vh; height: 92vh; aspect-ratio: 1 / 1;
         }
 
         .tile {
@@ -176,7 +198,6 @@
             font-weight: 900; font-size: 7px; color: var(--primary-blue);
         }
 
-        /* CASA DA PRISÃO DUPLA */
         .jail-split-box {
             display: grid; grid-template-columns: 1fr 1fr; height: 100%; width: 100%;
             font-size: 6px; font-weight: 900; text-align: center;
@@ -184,12 +205,10 @@
         .jail-visita { background: #e2e8f0; color: #334155; padding: 2px; border-right: 1px solid #94a3b8; display: flex; align-items: center; justify-content: center; }
         .jail-detido { background: #fee2e2; color: #991b1b; padding: 2px; display: flex; align-items: center; justify-content: center; }
 
-        /* CONSTRUÇÕES EM ALTO RELEVO */
         .buildings-container { position: absolute; top: 1px; left: 1px; display: flex; gap: 1px; z-index: 4; }
         .building-house { font-size: 9px; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3)); }
         .building-hotel { font-size: 11px; filter: drop-shadow(0 2px 3px rgba(239, 68, 68, 0.5)); }
 
-        /* PEÕES REALISTAS COM BASE CIRCULAR */
         .pawn-container { position: absolute; bottom: 2px; left: 2px; display: flex; flex-wrap: wrap; gap: 2px; z-index: 10; }
         .pawn-3d-base {
             width: 20px; height: 20px; border-radius: 50%;
@@ -200,7 +219,7 @@
             font-size: 12px; transform: scale(1.1); transition: all 0.3s ease;
         }
 
-        /* DADOS 3D ANIMADOS COM PONTOS */
+        /* ÁREA CENTRAL E DADOS 3D */
         .board-center-area {
             grid-column: 2 / 11; grid-row: 2 / 11;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(240, 244, 249, 0.98));
@@ -212,23 +231,20 @@
         .city-logo-center { font-family: 'Orbitron', sans-serif; font-size: 28px; font-weight: 900; color: var(--primary-blue); }
         .city-sub-center { font-size: 10px; font-weight: 800; color: var(--primary-orange); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
 
-        .dice-wrapper { display: flex; gap: 15px; margin-bottom: 12px; }
-        .dice-box-3d {
-            width: 52px; height: 52px; background: #ffffff;
-            border: 2px solid var(--primary-blue); border-radius: 12px;
-            font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 900;
-            color: var(--text-dark); display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15), inset 0 2px 4px rgba(255,255,255,0.8);
-            transition: transform 0.4s ease;
+        .dice-3d-stage { perspective: 600px; display: flex; gap: 20px; margin-bottom: 15px; }
+        .cube-dice {
+            width: 50px; height: 50px; position: relative; transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .dice-box-3d.rolling { animation: rollDice 0.4s ease-in-out infinite; }
-        @keyframes rollDice {
-            0% { transform: rotate(0deg) scale(0.9); }
-            50% { transform: rotate(180deg) scale(1.1); }
-            100% { transform: rotate(360deg) scale(0.9); }
+        .cube-face {
+            position: absolute; width: 50px; height: 50px; background: #ffffff;
+            border: 2px solid var(--primary-blue); border-radius: 8px;
+            display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr);
+            padding: 5px; box-shadow: inset 0 0 10px rgba(2,132,199,0.2);
         }
+        .dot { background: var(--primary-blue); border-radius: 50%; width: 7px; height: 7px; margin: auto; box-shadow: 0 0 4px var(--primary-blue); }
 
-        /* MODAIS COM BOTÃO "X" */
+        /* MODAIS GERAIS */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(8px); z-index: 250;
@@ -239,6 +255,13 @@
             width: 90%; max-width: 480px; padding: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
             animation: popIn 0.25s ease; max-height: 90vh; overflow-y: auto; position: relative;
         }
+
+        /* MODAL ESPECÍFICO DO TÍTULO DE PROPRIEDADE (MAIOR E COM LETRAS Maiores PARA PC) */
+        .modal-content-deed {
+            max-width: 650px !important;
+            padding: 30px !important;
+        }
+
         @keyframes popIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         .btn-close-x {
@@ -251,24 +274,25 @@
         }
         .btn-close-x:hover { background: #ef4444; color: #fff; transform: scale(1.1); }
 
+        /* CARD DE TÍTULO DE PROPRIEDADE AMPLIADO */
         .title-deed-card {
-            background: #ffffff; color: #000; border-radius: 12px; padding: 12px; border: 3px solid #000;
-            font-family: 'Plus Jakarta Sans', sans-serif; margin-bottom: 10px; box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            background: #ffffff; color: #000; border-radius: 14px; padding: 20px; border: 3.5px solid #000;
+            font-family: 'Plus Jakarta Sans', sans-serif; margin-bottom: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
-        .deed-header { text-align: center; padding: 8px; border: 2px solid #000; margin-bottom: 8px; border-radius: 4px; }
-        .deed-header-title { font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 900; text-transform: uppercase; }
-        .deed-header-type { font-size: 9px; font-weight: 800; letter-spacing: 1px; }
+        .deed-header { text-align: center; padding: 12px; border: 2.5px solid #000; margin-bottom: 15px; border-radius: 6px; }
+        .deed-header-title { font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 900; text-transform: uppercase; }
+        .deed-header-type { font-size: 11px; font-weight: 800; letter-spacing: 1.5px; margin-bottom: 3px; }
 
-        .deed-table { width: 100%; font-size: 10px; border-collapse: collapse; margin-bottom: 8px; }
-        .deed-table td { padding: 3px 0; border-bottom: 1px dashed #ccc; font-weight: 700; }
+        .deed-table { width: 100%; font-size: 14px; border-collapse: collapse; margin-bottom: 15px; }
+        .deed-table td { padding: 8px 0; border-bottom: 1.5px dashed #cbd5e1; font-weight: 700; }
         .deed-table td:last-child { text-align: right; font-weight: 900; }
 
-        .deed-footer { text-align: center; font-size: 9px; font-weight: 800; border-top: 2px solid #000; padding-top: 4px; }
+        .deed-footer { text-align: center; font-size: 12px; font-weight: 800; border-top: 2.5px solid #000; padding-top: 10px; }
 
         .props-gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
 
-        .modal-actions { display: flex; gap: 8px; margin-top: 10px; }
-        .btn-modal { flex: 1; padding: 10px; border-radius: 10px; border: none; font-weight: 800; font-size: 11px; cursor: pointer; text-transform: uppercase; }
+        .modal-actions { display: flex; gap: 10px; margin-top: 15px; }
+        .btn-modal { flex: 1; padding: 14px; border-radius: 12px; border: none; font-weight: 800; font-size: 13px; cursor: pointer; text-transform: uppercase; }
         .btn-buy { background: var(--neon-green); color: #fff; font-weight: 900; }
         .btn-pass { background: #e2e8f0; color: var(--text-dark); }
         .btn-offer { background: var(--primary-orange); color: #fff; }
@@ -282,7 +306,7 @@
         <div class="setup-title">LIMEIRÓPOLIS</div>
         <div class="setup-sub">Edição 40 Casas • Banco Imobiliário</div>
 
-        <div style="font-weight: 800; font-size: 11px; color: var(--text-muted); margin-bottom: 6px;">QUANTIDADE DE JOGADORES (2 A 6):</div>
+        <div style="font-weight: 800; font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">QUANTIDADE DE JOGADORES (2 A 6):</div>
         <div class="player-count-selector">
             <button class="btn-count active" onclick="definirQtdJogadores(2)">2</button>
             <button class="btn-count" onclick="definirQtdJogadores(3)">3</button>
@@ -298,8 +322,10 @@
 </div>
 
 <!-- LAYOUT PRINCIPAL -->
-<div class="main-wrapper">
-    <div class="sidebar">
+<div class="main-wrapper" id="main-wrapper">
+    <button class="btn-toggle-sidebar" id="btn-toggle" onclick="toggleSidebar()" title="Expandir/Recolher Menu">☰</button>
+
+    <div class="sidebar" id="sidebar-menu">
         <div>
             <div class="brand-header">
                 <h1>LIMEIRÓPOLIS</h1>
@@ -328,16 +354,20 @@
         </div>
     </div>
 
-    <!-- TABULEIRO ENQUADRADO TOTALMENTE VISÍVEL -->
+    <!-- TABULEIRO COM SCROLL LIVRE -->
     <div class="board-stage">
         <div class="board-viewport" id="board">
             <div class="board-center-area">
                 <div class="city-logo-center">LIMEIRÓPOLIS</div>
                 <div class="city-sub-center">Capital da Semijoia & Citros</div>
                 
-                <div class="dice-wrapper">
-                    <div class="dice-box-3d" id="d1">🎲</div>
-                    <div class="dice-box-3d" id="d2">🎲</div>
+                <div class="dice-3d-stage">
+                    <div class="cube-dice" id="cube1">
+                        <div class="cube-face" style="transform: translateZ(25px);"><div class="dot" style="grid-area:2/2;"></div></div>
+                    </div>
+                    <div class="cube-dice" id="cube2">
+                        <div class="cube-face" style="transform: translateZ(25px);"><div class="dot" style="grid-area:2/2;"></div></div>
+                    </div>
                 </div>
                 
                 <div id="turn-status" style="font-weight: 800; color: var(--primary-blue); font-size: 13px;">Aguardando jogada...</div>
@@ -346,7 +376,16 @@
     </div>
 </div>
 
-<!-- MODAL INFORMAÇÕES DE CASAS ESPECIAIS (PRISÃO, INÍCIO, PRAÇA) -->
+<!-- MODAL DE MOVIMENTO DO JOGADOR -->
+<div class="modal-overlay" id="modal-movimento">
+    <div class="modal-content" style="text-align: center;">
+        <div style="color: var(--primary-blue); font-family:'Orbitron',sans-serif; font-size:18px; font-weight:900;" id="mov-title">JOGADA DE DADOS</div>
+        <div style="font-size: 14px; font-weight: 700; color: var(--text-dark); margin: 18px 0;" id="mov-desc">O Jogador X tirou Y e deve andar Z casas.</div>
+        <button class="btn-modal btn-buy" style="width: 100%; padding: 12px; font-size: 13px;" onclick="executarMovimentoAutomatico()">OK, Avançar 🚀</button>
+    </div>
+</div>
+
+<!-- MODAL INFORMAÇÕES DE CASAS -->
 <div class="modal-overlay" id="modal-info-casa">
     <div class="modal-content">
         <button class="btn-close-x" onclick="fecharModalInfoCasa()">✖</button>
@@ -356,19 +395,19 @@
     </div>
 </div>
 
-<!-- MODAL EVENTO FLUTUANTE DA RODADA -->
+<!-- MODAL EVENTO DA RODADA -->
 <div class="modal-overlay" id="modal-evento">
     <div class="modal-content">
         <button class="btn-close-x" onclick="fecharModalEvento()">✖</button>
         <div style="color: var(--primary-blue); font-family:'Orbitron',sans-serif; font-size:18px; font-weight:900;" id="ev-title">EVENTO DA RODADA</div>
         <div style="font-size: 12px; line-height: 1.5; color: var(--text-dark); margin: 12px 0;" id="ev-desc">Descrição</div>
-        <button class="btn-modal btn-buy" style="width: 100%;" id="btn-confirm-evento" onclick="fecharModalEvento()">Confirmar Transação 💵</button>
+        <button class="btn-modal btn-buy" style="width: 100%;" onclick="fecharModalEvento()">Confirmar Transação 💵</button>
     </div>
 </div>
 
-<!-- MODAL COMPRA E CONSTRUÇÃO -->
+<!-- MODAL COMPRA E CONSTRUÇÃO (AMPLIADO) -->
 <div class="modal-overlay" id="modal-compra">
-    <div class="modal-content">
+    <div class="modal-content modal-content-deed">
         <button class="btn-close-x" onclick="fecharModalCompra()">✖</button>
         <div id="deed-container"></div>
         <div class="modal-actions" id="m-buttons">
@@ -394,10 +433,9 @@
         <button class="btn-close-x" onclick="fecharRegras()">✖</button>
         <div style="color: var(--primary-blue); font-family:'Orbitron',sans-serif; font-size:18px; font-weight:900; margin-bottom:10px;">📜 REGRAS DE LIMEIRÓPOLIS</div>
         <div style="font-size: 11px; line-height: 1.5; color: var(--text-dark);">
-            <p>1. <strong>Prisão Dividida:</strong> Quem cai na 'Visita' está livre de passagem. Quem cai no 'Detido' fica 1 rodada sem jogar.</p>
-            <p>2. <strong>Vá para a Cadeia:</strong> O guarda 👮 envia você direto para a cela.</p>
-            <p>3. <strong>Praça Toledo e Gruta:</strong> Área de descanso totalmente grátis.</p>
-            <p>4. <strong>Transações com Notas 💵:</strong> Saldo e transações com animação visual de notas.</p>
+            <p>1. <strong>Menu Ocultável:</strong> Use o botão lateral para recolher o painel e navegar livremente pelo tabuleiro.</p>
+            <p>2. <strong>Movimento Automático:</strong> Role os dados, veja quantas casas deve andar no aviso e clique em OK para mover.</p>
+            <p>3. <strong>Prisão Dividida:</strong> Lado 'Visita' livre e lado 'Preso' perde 1 rodada.</p>
         </div>
         <button class="btn-modal btn-pass" style="width: 100%; margin-top:12px; background: var(--primary-blue); color: #fff; font-weight:900;" onclick="fecharRegras()">Voltar ao Jogo</button>
     </div>
@@ -405,6 +443,7 @@
 
 <script>
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    let passosPendentes = 0;
     
     function tocarSom(tipo) {
         if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -413,13 +452,19 @@
         osc.connect(gain);
         gain.connect(audioCtx.destination);
 
-        if (tipo === 'dado') {
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(120, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.1);
-            gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
-            osc.start(); osc.stop(audioCtx.currentTime + 0.15);
+        if (tipo === 'dados_chacoalhando') {
+            let tempo = audioCtx.currentTime;
+            for (let i = 0; i < 6; i++) {
+                let o = audioCtx.createOscillator();
+                let g = audioCtx.createGain();
+                o.type = 'square';
+                o.frequency.setValueAtTime(80 + Math.random() * 250, tempo + (i * 0.05));
+                g.gain.setValueAtTime(0.15, tempo + (i * 0.05));
+                g.gain.exponentialRampToValueAtTime(0.01, tempo + (i * 0.05) + 0.04);
+                o.connect(g); g.connect(audioCtx.destination);
+                o.start(tempo + (i * 0.05));
+                o.stop(tempo + (i * 0.05) + 0.04);
+            }
         } else if (tipo === 'moeda') {
             osc.type = 'sine';
             osc.frequency.setValueAtTime(987, audioCtx.currentTime);
@@ -436,6 +481,11 @@
         anim.innerText = texto || '💵 -$100';
         document.body.appendChild(anim);
         setTimeout(() => anim.remove(), 1200);
+    }
+
+    function toggleSidebar() {
+        const menu = document.getElementById('sidebar-menu');
+        menu.classList.toggle('collapsed');
     }
 
     const peoesLimeira = [
@@ -669,43 +719,61 @@
             return;
         }
 
-        const d1El = document.getElementById('d1');
-        const d2El = document.getElementById('d2');
-        d1El.classList.add('rolling'); d2El.classList.add('rolling');
+        const c1 = document.getElementById('cube1');
+        const c2 = document.getElementById('cube2');
         document.getElementById('btn-roll').disabled = true;
 
-        setTimeout(() => {
-            d1El.classList.remove('rolling'); d2El.classList.remove('rolling');
-            
-            const d1 = Math.floor(Math.random() * 6) + 1;
-            const d2 = Math.floor(Math.random() * 6) + 1;
-            
-            d1El.innerText = d1; d2El.innerText = d2;
-            tocarSom('dado');
+        let giros = 0;
+        tocarSom('dados_chacoalhando');
 
-            const passos = d1 + d2;
-            log(`> ${jAtual.peao} ${jAtual.nome} tirou [${d1}] + [${d2}] = ${passos} casas.`);
-
-            let passosRestantes = passos;
-            const interval = setInterval(() => {
-                jAtual.pos = (jAtual.pos + 1) % 40;
+        const intervalRoll = setInterval(() => {
+            c1.style.transform = `rotateX(${Math.random()*360}deg) rotateY(${Math.random()*360}deg)`;
+            c2.style.transform = `rotateX(${Math.random()*360}deg) rotateY(${Math.random()*360}deg)`;
+            giros++;
+            if (giros > 8) {
+                clearInterval(intervalRoll);
                 
-                if (jAtual.pos === 0) {
-                    jAtual.dinheiro += 200;
-                    dispararAnimacaoDinheiro('💵 +$200 BANCO');
-                    tocarSom('moeda');
-                    log(`> 🏦 BANCO: ${jAtual.nome} passou pelo Início e recebeu $200!`);
-                }
+                const d1 = Math.floor(Math.random() * 6) + 1;
+                const d2 = Math.floor(Math.random() * 6) + 1;
+                passosPendentes = d1 + d2;
                 
-                atualizarPeoes();
-                passosRestantes--;
+                c1.style.transform = `rotateX(0deg) rotateY(0deg)`;
+                c2.style.transform = `rotateX(0deg) rotateY(0deg)`;
+                c1.querySelector('.cube-face').innerHTML = `<div style="grid-area:2/2; font-family:'Orbitron'; font-size:20px; font-weight:900; color:var(--primary-blue); text-align:center;">${d1}</div>`;
+                c2.querySelector('.cube-face').innerHTML = `<div style="grid-area:2/2; font-family:'Orbitron'; font-size:20px; font-weight:900; color:var(--primary-blue); text-align:center;">${d2}</div>`;
 
-                if (passosRestantes === 0) {
-                    clearInterval(interval);
-                    avaliarCasaAtual(passos);
-                }
-            }, 150);
-        }, 500);
+                log(`> ${jAtual.peao} ${jAtual.nome} tirou [${d1}] + [${d2}] = Total: ${passosPendentes} casas.`);
+
+                document.getElementById('mov-title').innerText = `${jAtual.peao} ${jAtual.nome}`;
+                document.getElementById('mov-desc').innerText = `Tirou nos dados [${d1}] e [${d2}]. Deve andar ${passosPendentes} casas!`;
+                document.getElementById('modal-movimento').style.display = 'flex';
+            }
+        }, 70);
+    }
+
+    function executarMovimentoAutomatico() {
+        document.getElementById('modal-movimento').style.display = 'none';
+        const jAtual = jogadores[turno];
+
+        let passosRestantes = passosPendentes;
+        const intervalPassos = setInterval(() => {
+            jAtual.pos = (jAtual.pos + 1) % 40;
+            
+            if (jAtual.pos === 0) {
+                jAtual.dinheiro += 200;
+                dispararAnimacaoDinheiro('💵 +$200 BANCO');
+                tocarSom('moeda');
+                log(`> 🏦 BANCO: ${jAtual.nome} passou pelo Início e recebeu $200!`);
+            }
+            
+            atualizarPeoes();
+            passosRestantes--;
+
+            if (passosRestantes === 0) {
+                clearInterval(intervalPassos);
+                avaliarCasaAtual(passosPendentes);
+            }
+        }, 150);
     }
 
     function dispararGiroflexPolicia() {
@@ -778,7 +846,6 @@
                 tocarSom('moeda');
                 exibirModalEvento('💸 ALUGUEL DE PROPRIEDADE', `${jAtual.nome} pagou $${valorAluguel} de aluguel para ${jogadores.find(x => x.id === donoId).nome}.`);
             } else {
-                // Parou na própria propriedade -> Animação de construção
                 exibirModalEvento('🏠 PROPRIEDADE PRÓPRIA', `Você parou na sua propriedade ${casa.nome}! Clique em ver imóvel para expandir construções.`);
             }
         } else {
@@ -912,10 +979,10 @@
                 const cardDiv = document.createElement('div');
                 cardDiv.innerHTML = `
                     <div class="title-deed-card" style="margin-bottom:0;">
-                        <div class="deed-header" style="background: ${c.cor}; color: #fff; padding:4px;">
-                            <div class="deed-header-title" style="font-size:11px;">${c.nome}</div>
+                        <div class="deed-header" style="background: ${c.cor}; color: #fff; padding:6px;">
+                            <div class="deed-header-title" style="font-size:12px;">${c.nome}</div>
                         </div>
-                        <div style="font-size:9px; font-weight:800; text-align:center; margin-top:4px; color:#000;">
+                        <div style="font-size:11px; font-weight:800; text-align:center; margin-top:6px; color:#000;">
                             Aluguel/Taxa: $${calcularAluguelAtual(c)} | Valor: $${c.preco}
                         </div>
                     </div>
@@ -925,7 +992,7 @@
         });
 
         if (!comprouAlgo) {
-            container.innerHTML = `<div style="grid-column: span 2; font-size: 11px; color: var(--text-muted); text-align:center; padding: 15px;">Nenhum imóvel comprado ainda.</div>`;
+            container.innerHTML = `<div style="grid-column: span 2; font-size: 12px; color: var(--text-muted); text-align:center; padding: 20px;">Nenhum imóvel comprado ainda.</div>`;
         }
 
         document.getElementById('modal-minhas-props').style.display = 'flex';
