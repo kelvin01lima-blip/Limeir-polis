@@ -87,7 +87,7 @@
             cursor: pointer; box-shadow: 0 8px 25px rgba(255, 102, 0, 0.35); text-transform: uppercase;
         }
 
-        /* LAYOUT PRINCIPAL E BOTÃO DE RECOLHER MENU */
+        /* LAYOUT PRINCIPAL E MENU LATERAL OCULTÁVEL */
         .main-wrapper {
             display: flex; gap: 12px; width: 100%; max-width: 1750px; height: 98vh;
             position: relative; transition: all 0.3s ease;
@@ -109,7 +109,6 @@
             pointer-events: none;
         }
 
-        /* BOTÃO PARA ESCONDER/MOSTRAR MENU */
         .btn-toggle-sidebar {
             position: absolute; top: 15px; left: 322px; z-index: 60;
             background: var(--primary-blue); color: #fff; border: none;
@@ -162,12 +161,10 @@
 
         .log-terminal { background: #0f172a; color: #38bdf8; font-family: monospace; font-size: 10px; padding: 8px; border-radius: 10px; height: 80px; overflow-y: auto; }
 
-        /* TABULEIRO COM SCROLL PARA PASSEAR PELA TELA */
+        /* TABULEIRO 100% ENQUADRADO DENTRO DA TELA (SEM SOBRAS) */
         .board-stage {
             flex: 1; display: flex; justify-content: center; align-items: center;
-            width: 100%; height: calc(100vh - 20px);
-            overflow: auto;
-            position: relative; padding: 20px;
+            width: 100%; height: 100vh; overflow: hidden; position: relative; padding: 5px;
         }
 
         .board-viewport {
@@ -175,7 +172,7 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             display: grid; grid-template-columns: repeat(11, 1fr); grid-template-rows: repeat(11, 1fr);
             gap: 2px; position: relative;
-            min-width: 650px; min-height: 650px; width: 92vh; height: 92vh; aspect-ratio: 1 / 1;
+            width: 100%; height: 100%; max-width: calc(100vh - 20px); max-height: calc(100vh - 20px); aspect-ratio: 1 / 1;
         }
 
         .tile {
@@ -188,38 +185,38 @@
         .tile.owned { border: 2px solid var(--primary-orange) !important; background: #fffdfa; }
 
         .tile-color-bar { height: 4px; border-radius: 2px; margin-bottom: 2px; width: 100%; }
-        .tile-title { font-size: 6px; font-weight: 800; line-height: 1; color: var(--text-dark); text-transform: uppercase; word-break: break-word; }
-        .tile-price { font-size: 6px; font-weight: 800; color: var(--primary-blue); margin-top: auto; text-align: right; }
-        .owner-badge { position: absolute; top: 1px; right: 1px; font-size: 8px; }
+        .tile-title { font-size: 5.5px; font-weight: 800; line-height: 1; color: var(--text-dark); text-transform: uppercase; word-break: break-word; }
+        .tile-price { font-size: 5.5px; font-weight: 800; color: var(--primary-blue); margin-top: auto; text-align: right; }
+        .owner-badge { position: absolute; top: 1px; right: 1px; font-size: 7px; }
 
         .tile-corner {
             background: linear-gradient(135deg, #f8fafc, #e2e8f0); border: 1.5px solid var(--primary-blue);
             text-align: center; justify-content: center; align-items: center;
-            font-weight: 900; font-size: 7px; color: var(--primary-blue);
+            font-weight: 900; font-size: 6px; color: var(--primary-blue);
         }
 
         .jail-split-box {
             display: grid; grid-template-columns: 1fr 1fr; height: 100%; width: 100%;
-            font-size: 6px; font-weight: 900; text-align: center;
+            font-size: 5.5px; font-weight: 900; text-align: center;
         }
         .jail-visita { background: #e2e8f0; color: #334155; padding: 2px; border-right: 1px solid #94a3b8; display: flex; align-items: center; justify-content: center; }
         .jail-detido { background: #fee2e2; color: #991b1b; padding: 2px; display: flex; align-items: center; justify-content: center; }
 
         .buildings-container { position: absolute; top: 1px; left: 1px; display: flex; gap: 1px; z-index: 4; }
-        .building-house { font-size: 9px; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3)); }
-        .building-hotel { font-size: 11px; filter: drop-shadow(0 2px 3px rgba(239, 68, 68, 0.5)); }
+        .building-house { font-size: 8px; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3)); }
+        .building-hotel { font-size: 10px; filter: drop-shadow(0 2px 3px rgba(239, 68, 68, 0.5)); }
 
         .pawn-container { position: absolute; bottom: 2px; left: 2px; display: flex; flex-wrap: wrap; gap: 2px; z-index: 10; }
         .pawn-3d-base {
-            width: 20px; height: 20px; border-radius: 50%;
+            width: 18px; height: 18px; border-radius: 50%;
             background: radial-gradient(circle at 30% 30%, #ffffff 0%, #cbd5e1 70%, #64748b 100%);
             border: 1.5px solid var(--primary-blue);
             box-shadow: 0 4px 6px rgba(0,0,0,0.3), inset 0 -2px 4px rgba(0,0,0,0.2);
             display: flex; align-items: center; justify-content: center;
-            font-size: 12px; transform: scale(1.1); transition: all 0.3s ease;
+            font-size: 10px; transform: scale(1.1); transition: all 0.3s ease;
         }
 
-        /* ÁREA CENTRAL E DADOS 3D */
+        /* ÁREA CENTRAL COM DADOS 3D EM ALTO RELEVO QUASE REAL */
         .board-center-area {
             grid-column: 2 / 11; grid-row: 2 / 11;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(240, 244, 249, 0.98));
@@ -228,21 +225,27 @@
             padding: 10px; text-align: center; position: relative; overflow: hidden;
         }
 
-        .city-logo-center { font-family: 'Orbitron', sans-serif; font-size: 28px; font-weight: 900; color: var(--primary-blue); }
-        .city-sub-center { font-size: 10px; font-weight: 800; color: var(--primary-orange); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+        .city-logo-center { font-family: 'Orbitron', sans-serif; font-size: 26px; font-weight: 900; color: var(--primary-blue); }
+        .city-sub-center { font-size: 9px; font-weight: 800; color: var(--primary-orange); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; }
 
-        .dice-3d-stage { perspective: 600px; display: flex; gap: 20px; margin-bottom: 15px; }
-        .cube-dice {
-            width: 50px; height: 50px; position: relative; transform-style: preserve-3d;
-            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .cube-face {
-            position: absolute; width: 50px; height: 50px; background: #ffffff;
-            border: 2px solid var(--primary-blue); border-radius: 8px;
+        .dice-3d-stage { perspective: 800px; display: flex; gap: 20px; margin-bottom: 12px; }
+        .real-dice-3d {
+            width: 56px; height: 56px; background: radial-gradient(circle at 30% 30%, #ffffff 0%, #f1f5f9 60%, #cbd5e1 100%);
+            border: 2px solid #cbd5e1; border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2), inset 0 4px 8px rgba(255,255,255,0.9), inset 0 -4px 8px rgba(0,0,0,0.15);
             display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr);
-            padding: 5px; box-shadow: inset 0 0 10px rgba(2,132,199,0.2);
+            padding: 8px; transition: transform 0.5s ease;
         }
-        .dot { background: var(--primary-blue); border-radius: 50%; width: 7px; height: 7px; margin: auto; box-shadow: 0 0 4px var(--primary-blue); }
+        .real-dice-3d.rolling { animation: diceShake 0.4s ease-in-out infinite; }
+        @keyframes diceShake {
+            0% { transform: rotate(0deg) scale(0.92); }
+            50% { transform: rotate(15deg) scale(1.08); }
+            100% { transform: rotate(-15deg) scale(0.92); }
+        }
+        .dice-dot {
+            background: var(--text-dark); border-radius: 50%; width: 8px; height: 8px; margin: auto;
+            box-shadow: inset 0 2px 3px rgba(0,0,0,0.5), 0 1px 2px rgba(255,255,255,0.8);
+        }
 
         /* MODAIS GERAIS */
         .modal-overlay {
@@ -255,13 +258,7 @@
             width: 90%; max-width: 480px; padding: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
             animation: popIn 0.25s ease; max-height: 90vh; overflow-y: auto; position: relative;
         }
-
-        /* MODAL ESPECÍFICO DO TÍTULO DE PROPRIEDADE (MAIOR E COM LETRAS Maiores PARA PC) */
-        .modal-content-deed {
-            max-width: 650px !important;
-            padding: 30px !important;
-        }
-
+        .modal-content-deed { max-width: 650px !important; padding: 30px !important; }
         @keyframes popIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         .btn-close-x {
@@ -278,7 +275,9 @@
         .title-deed-card {
             background: #ffffff; color: #000; border-radius: 14px; padding: 20px; border: 3.5px solid #000;
             font-family: 'Plus Jakarta Sans', sans-serif; margin-bottom: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            cursor: pointer; transition: transform 0.2s;
         }
+        .title-deed-card:hover { transform: scale(1.02); }
         .deed-header { text-align: center; padding: 12px; border: 2.5px solid #000; margin-bottom: 15px; border-radius: 6px; }
         .deed-header-title { font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 900; text-transform: uppercase; }
         .deed-header-type { font-size: 11px; font-weight: 800; letter-spacing: 1.5px; margin-bottom: 3px; }
@@ -289,7 +288,7 @@
 
         .deed-footer { text-align: center; font-size: 12px; font-weight: 800; border-top: 2.5px solid #000; padding-top: 10px; }
 
-        .props-gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
+        .props-gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; max-height: 400px; overflow-y: auto; padding: 5px; }
 
         .modal-actions { display: flex; gap: 10px; margin-top: 15px; }
         .btn-modal { flex: 1; padding: 14px; border-radius: 12px; border: none; font-weight: 800; font-size: 13px; cursor: pointer; text-transform: uppercase; }
@@ -354,19 +353,20 @@
         </div>
     </div>
 
-    <!-- TABULEIRO COM SCROLL LIVRE -->
+    <!-- TABULEIRO ENQUADRADO NA TELA -->
     <div class="board-stage">
         <div class="board-viewport" id="board">
             <div class="board-center-area">
                 <div class="city-logo-center">LIMEIRÓPOLIS</div>
                 <div class="city-sub-center">Capital da Semijoia & Citros</div>
                 
+                <!-- DADOS 3D EM ALTO RELEVO QUASE REAL -->
                 <div class="dice-3d-stage">
-                    <div class="cube-dice" id="cube1">
-                        <div class="cube-face" style="transform: translateZ(25px);"><div class="dot" style="grid-area:2/2;"></div></div>
+                    <div class="real-dice-3d" id="dado1">
+                        <div class="dice-dot" style="grid-area: 2/2;"></div>
                     </div>
-                    <div class="cube-dice" id="cube2">
-                        <div class="cube-face" style="transform: translateZ(25px);"><div class="dot" style="grid-area:2/2;"></div></div>
+                    <div class="real-dice-3d" id="dado2">
+                        <div class="dice-dot" style="grid-area: 2/2;"></div>
                     </div>
                 </div>
                 
@@ -376,12 +376,12 @@
     </div>
 </div>
 
-<!-- MODAL DE MOVIMENTO DO JOGADOR -->
+<!-- MODAL DE MOVIMENTO DO JOGADOR (GRANDE E COM O LAYOUT OFICIAL) -->
 <div class="modal-overlay" id="modal-movimento">
-    <div class="modal-content" style="text-align: center;">
-        <div style="color: var(--primary-blue); font-family:'Orbitron',sans-serif; font-size:18px; font-weight:900;" id="mov-title">JOGADA DE DADOS</div>
-        <div style="font-size: 14px; font-weight: 700; color: var(--text-dark); margin: 18px 0;" id="mov-desc">O Jogador X tirou Y e deve andar Z casas.</div>
-        <button class="btn-modal btn-buy" style="width: 100%; padding: 12px; font-size: 13px;" onclick="executarMovimentoAutomatico()">OK, Avançar 🚀</button>
+    <div class="modal-content" style="text-align: center; max-width: 520px; padding: 30px;">
+        <div style="color: var(--primary-blue); font-family:'Orbitron',sans-serif; font-size:22px; font-weight:900; margin-bottom:12px;" id="mov-title">JOGADA DE DADOS</div>
+        <div style="font-size: 16px; font-weight: 700; color: var(--text-dark); margin: 20px 0; line-height: 1.5;" id="mov-desc">O Jogador X tirou Y e deve andar Z casas.</div>
+        <button class="btn-modal btn-buy" style="width: 100%; padding: 14px; font-size: 15px;" onclick="executarMovimentoAutomatico()">OK, Avançar 🚀</button>
     </div>
 </div>
 
@@ -405,7 +405,7 @@
     </div>
 </div>
 
-<!-- MODAL COMPRA E CONSTRUÇÃO (AMPLIADO) -->
+<!-- MODAL COMPRA E CONSTRUÇÃO -->
 <div class="modal-overlay" id="modal-compra">
     <div class="modal-content modal-content-deed">
         <button class="btn-close-x" onclick="fecharModalCompra()">✖</button>
@@ -420,7 +420,7 @@
 
 <!-- MODAL CARTÕES DE IMÓVEIS -->
 <div class="modal-overlay" id="modal-minhas-props">
-    <div class="modal-content">
+    <div class="modal-content modal-content-deed">
         <button class="btn-close-x" onclick="fecharModalProps()">✖</button>
         <div class="modal-title" id="props-player-title" style="color: var(--primary-blue); font-family:'Orbitron',sans-serif; font-size:18px; font-weight:900;">Cartões de Imóveis</div>
         <div class="props-gallery-grid" id="props-gallery-container"></div>
@@ -433,9 +433,9 @@
         <button class="btn-close-x" onclick="fecharRegras()">✖</button>
         <div style="color: var(--primary-blue); font-family:'Orbitron',sans-serif; font-size:18px; font-weight:900; margin-bottom:10px;">📜 REGRAS DE LIMEIRÓPOLIS</div>
         <div style="font-size: 11px; line-height: 1.5; color: var(--text-dark);">
-            <p>1. <strong>Menu Ocultável:</strong> Use o botão lateral para recolher o painel e navegar livremente pelo tabuleiro.</p>
-            <p>2. <strong>Movimento Automático:</strong> Role os dados, veja quantas casas deve andar no aviso e clique em OK para mover.</p>
-            <p>3. <strong>Prisão Dividida:</strong> Lado 'Visita' livre e lado 'Preso' perde 1 rodada.</p>
+            <p>1. <strong>Menu Ocultável:</strong> Use o botão lateral para recolher o painel e ver o tabuleiro por completo.</p>
+            <p>2. <strong>Cartões Clicáveis:</strong> Clique em qualquer card de imóvel na sua galeria para ver os detalhes da casa.</p>
+            <p>3. <strong>Dados Realistas:</strong> Dados em 3D com alto relevo e aviso centralizado de movimento.</p>
         </div>
         <button class="btn-modal btn-pass" style="width: 100%; margin-top:12px; background: var(--primary-blue); color: #fff; font-weight:900;" onclick="fecharRegras()">Voltar ao Jogo</button>
     </div>
@@ -648,7 +648,7 @@
                     <div class="tile-price">${casa.preco ? '$ ' + casa.preco : ''}</div>
                 `;
             } else {
-                tile.innerHTML = `<div style="font-weight:900; font-size:7px;">${casa.nome}</div>`;
+                tile.innerHTML = `<div style="font-weight:900; font-size:6px;">${casa.nome}</div>`;
             }
 
             const bContainer = document.createElement('div');
@@ -709,6 +709,25 @@
         });
     }
 
+    // GERAR PONTOS DO DADO EM ALTO RELEVO
+    function renderizarPontosDado(elDado, numero) {
+        elDado.innerHTML = '';
+        let posicoes = [];
+        if (numero === 1) posicoes = ['2/2'];
+        else if (numero === 2) posicoes = ['1/1', '3/3'];
+        else if (numero === 3) posicoes = ['1/1', '2/2', '3/3'];
+        else if (numero === 4) posicoes = ['1/1', '1/3', '3/1', '3/3'];
+        else if (numero === 5) posicoes = ['1/1', '1/3', '2/2', '3/1', '3/3'];
+        else if (numero === 6) posicoes = ['1/1', '1/3', '2/1', '2/3', '3/1', '3/3'];
+
+        posicoes.forEach(pos => {
+            const dot = document.createElement('div');
+            dot.className = 'dice-dot';
+            dot.style.gridArea = pos;
+            elDado.appendChild(dot);
+        });
+    }
+
     function jogarDados() {
         const jAtual = jogadores[turno];
         
@@ -719,36 +738,29 @@
             return;
         }
 
-        const c1 = document.getElementById('cube1');
-        const c2 = document.getElementById('cube2');
+        const d1El = document.getElementById('dado1');
+        const d2El = document.getElementById('dado2');
+        d1El.classList.add('rolling'); d2El.classList.add('rolling');
         document.getElementById('btn-roll').disabled = true;
 
-        let giros = 0;
         tocarSom('dados_chacoalhando');
 
-        const intervalRoll = setInterval(() => {
-            c1.style.transform = `rotateX(${Math.random()*360}deg) rotateY(${Math.random()*360}deg)`;
-            c2.style.transform = `rotateX(${Math.random()*360}deg) rotateY(${Math.random()*360}deg)`;
-            giros++;
-            if (giros > 8) {
-                clearInterval(intervalRoll);
-                
-                const d1 = Math.floor(Math.random() * 6) + 1;
-                const d2 = Math.floor(Math.random() * 6) + 1;
-                passosPendentes = d1 + d2;
-                
-                c1.style.transform = `rotateX(0deg) rotateY(0deg)`;
-                c2.style.transform = `rotateX(0deg) rotateY(0deg)`;
-                c1.querySelector('.cube-face').innerHTML = `<div style="grid-area:2/2; font-family:'Orbitron'; font-size:20px; font-weight:900; color:var(--primary-blue); text-align:center;">${d1}</div>`;
-                c2.querySelector('.cube-face').innerHTML = `<div style="grid-area:2/2; font-family:'Orbitron'; font-size:20px; font-weight:900; color:var(--primary-blue); text-align:center;">${d2}</div>`;
+        setTimeout(() => {
+            d1El.classList.remove('rolling'); d2El.classList.remove('rolling');
+            
+            const d1 = Math.floor(Math.random() * 6) + 1;
+            const d2 = Math.floor(Math.random() * 6) + 1;
+            passosPendentes = d1 + d2;
+            
+            renderizarPontosDado(d1El, d1);
+            renderizarPontosDado(d2El, d2);
 
-                log(`> ${jAtual.peao} ${jAtual.nome} tirou [${d1}] + [${d2}] = Total: ${passosPendentes} casas.`);
+            log(`> ${jAtual.peao} ${jAtual.nome} tirou [${d1}] + [${d2}] = Total: ${passosPendentes} casas.`);
 
-                document.getElementById('mov-title').innerText = `${jAtual.peao} ${jAtual.nome}`;
-                document.getElementById('mov-desc').innerText = `Tirou nos dados [${d1}] e [${d2}]. Deve andar ${passosPendentes} casas!`;
-                document.getElementById('modal-movimento').style.display = 'flex';
-            }
-        }, 70);
+            document.getElementById('mov-title').innerText = `${jAtual.peao} ${jAtual.nome}`;
+            document.getElementById('mov-desc').innerText = `Tirou nos dados [${d1}] e [${d2}].\nDeve andar ${passosPendentes} casas!`;
+            document.getElementById('modal-movimento').style.display = 'flex';
+        }, 500);
     }
 
     function executarMovimentoAutomatico() {
@@ -922,7 +934,7 @@
     function renderizarEscrituraHTML(elementId, casa) {
         const container = document.getElementById(elementId);
         container.innerHTML = `
-            <div class="title-deed-card">
+            <div class="title-deed-card" style="cursor:default;">
                 <div class="deed-header" style="background: ${casa.cor}; color: #fff;">
                     <div class="deed-header-type">TÍTULO DE PROPRIEDADE</div>
                     <div class="deed-header-title">${casa.nome}</div>
@@ -965,6 +977,7 @@
         trocarTurno();
     }
 
+    // CLICAR NOS CARDS DA GALERIA ABRE AS INFORMAÇÕES DA CASINHA
     function abrirMinhasProps(playerIdx) {
         const player = jogadores.find(x => x.id === playerIdx);
         document.getElementById('props-player-title').innerText = `Imóveis de ${player.peao} ${player.nome}`;
@@ -978,7 +991,7 @@
                 comprouAlgo = true;
                 const cardDiv = document.createElement('div');
                 cardDiv.innerHTML = `
-                    <div class="title-deed-card" style="margin-bottom:0;">
+                    <div class="title-deed-card" onclick="verEscrituraCasa(${c.id})" title="Clique para ver detalhes">
                         <div class="deed-header" style="background: ${c.cor}; color: #fff; padding:6px;">
                             <div class="deed-header-title" style="font-size:12px;">${c.nome}</div>
                         </div>
